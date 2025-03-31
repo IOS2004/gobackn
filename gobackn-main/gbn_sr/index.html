@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
+	<title>Go-back-N Protocol</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="../global/css/style.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="../global/css/jqui-lightness/jquery-ui-1.8.18.custom.css" />
+	<style type="text/css">
+		#svg{
+			cursor: crosshair;
+			position: relative;
+			width: 800px;
+			height: 400px;
+			border: 1px solid black;
+			overflow: hidden;
+			
+			
+		}
+		div.dscPkg{
+			border: solid 1px black;
+			width: 350px;
+			height: 25px;
+			text-align: center;
+			font-size: 12px;
+			padding: 0px;
+			margin: 0px;
+			border: 1px solid gray;
+		}
+		
+		#root{
+			position: absolute;
+		}
+		
+		#svg > #root div, #svg canvas{
+			position: absolute;
+
+		}
+		
+		#svg canvas.window-timer{
+			height: 40px;
+			width: 40px;
+			z-index: 45;
+			margin-left: -20px;
+		}
+		
+		#svg div.desc{
+			font-size: 30px;
+			
+			height: 400px;
+			width: 800px;
+			z-index: 10;
+			
+			margin: 10px;
+		}
+		div.desc > div.bottom{
+			bottom: 10px;
+		}
+
+		.window{
+			border: 1px solid black;
+			background: #a7a5a6;
+			z-index: 41;
+		}
+		
+		.pkg{
+			font-size: 13px;
+			font-variant-numeric: tabular-nums;
+			writing-mode: vertical-lr; 
+			transform: rotate(180deg);
+			background: #00adef;
+			border: 1px solid black;
+			width: 16px;
+			height: 30px;
+			z-index: 42;
+			padding: 0px;
+			margin: 0px;
+			
+			
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+
+		}
+		.pkg > canvas{
+		}
+		.pkg.delivered{
+			font-size: 13px;
+			color : black;
+			background: pink;
+		}
+		.pkg.confirmed{
+			background: yellow;
+		}
+		.pkg.ack{
+			font-size: 13px;
+			color : black;
+			background: green;
+		}
+		.pkg.nack{
+			font-size: 13px;
+			color : black;
+			background: red;
+		}
+		.pkg.empty{
+			font-size: 13px;
+			color : white;
+			background: #fff;
+		}
+	</style>
+	<script type="text/javascript" src="../global/js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="../global/js/jquery.pause.min.js"></script>
+	<script type="text/javascript" src="../global/js/modernizr.js"></script>
+	<script type="text/javascript" src="../global/js/global.js"></script>
+	<script type="text/javascript" src="../global/js/jquery-ui-1.8.18.custom.min.js"></script>
+	<script type="text/javascript">
+/* globals */
+var running = false;
+var display;
+var contr;
+var sender;
+var receiver;
+var typewriter = true;
+var endToEndDelay;
+var TimeoutMin;
+var capacity;
+var length;
+var propagation;
+var dataSize;
+var unitSize;
+var ackSize;
+var ackTT;
+var paper;
+var ctotal = 0;
+var autostop = 1;
+var PDspeedFactor = 0;
+var unitc = 0;
+var numberUI;
+var start;
+var sizecheck;
+var sizecheck1;
+var totaltimef;
+var NACKFlag = false;
+var autoscale = false;
+var overall_time;
+var unlock = false;
+
+const reloadtButton = document.querySelector("#reload");
+// Reload everything:
+function reload() {
+    reload = location.reload();
+}
+
+
+function logger() {
+  var x = document.getElementById("log");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+window.console = {
+			  log: function(str){
+			    var node = document.createElement("div");
+			    node.appendChild(document.createTextNode(str));
+			    document.getElementById("myLog").appendChild(node);
+			  }
+}
+
+function speedWarning(){
+	
+	if(contr.timeBetweenPkgs > 1000000 || contr.timeBetweenPkgs < 0.000001 || endToEndDelay > 1000000 || endToEndDelay < 0.000001 || ackTT > 1000000 || ackTT < 0.000001)
+		HideSpeed(true);
+	else
+		HideSpeed(false);
+
+}
+
+function convertRange( value, r1, r2 ) { 
+    return ( value - r1[ 0 ] ) * ( r2[ 1 ] - r2[ 0 ] ) / ( r1[ 1 ] - r1[ 0 ] ) + r2[ 0 ];
+}
+
+function timedCount() {
+	start = Date.now();
+}
+
+function HideSpeed(hide) {
+  var x = document.getElementById("speedfault");
+  var y = document.getElementById("speedwarning");
+  if (hide) {
+    x.style.display = "none";
+	y.style.display = "block";
+  } else {
+    x.style.display = "block";
+	y.style.display = "none";
+  }
+} 
+
+
+$(document).ready(function(){
+	checkFeatures({
+		inlinesvg: false,
+		canvas: true
+	});
+	
+	rangeInputCompability();
+});
+
+function Controller(){
+
+	this.resetConfig = function(){
+		this.SetDefaultC(1, 1000);
+		this.SetDefaultL(1, 1000);
+		this.SetDefaultP(200000, 1000);
+		this.SetDefaultD(10, 1000);
+		this.SetDefaultU(500, 1);
+		this.SetDefaultA(20, 1);
+		display.setNsender(5, sender.base);
+		sender.N = 5;
+		document.getElementById('receiverN').value = 1;
+		display.setNreceiver(1, receiver.base);
+		receiver.N = 1;
+		sender.timeout = 40;
+		document.getElementById('senderN').value = 5;
+		document.getElementById('timeout').value = 60;
+		document.getElementById('timeout').min = TimeoutMin;
+		document.getElementById('TotalTime').value = "";
+		document.getElementById('unitTimeout').value = 1;
+		document.getElementById('autospeed').disabled = false;
+		initAnimation(contr.getMethod());
+	
+	}
+
+	this.getMethod = function(){
+		var e = 'gbn';
+		return e;
+		//return $('input[name=method]:checked').val();
+	}
+	
+	this.setMethod = function(){
+	//	console.log('switch method to '+this.getMethod());
+		initAnimation(this.getMethod());
+		this.resetConfig()
+	}
+	
+	this.getSenderN = function(){
+		return parseInt(document.getElementById('senderN').value);
+	}
+	
+	this.getReceiverN = function(){ 
+		return parseInt(document.getElementById('receiverN').value);
+	}
+	
+	this.setSenderN = function(){
+		var n = this.getSenderN();
+		display.setNsender(n, sender.base);
+		sender.N = n;
+	}
+		
+	this.setReceiverN = function(){ 
+		var n = this.getReceiverN();
+		display.setNreceiver(n, receiver.base);
+		receiver.N = n;
+	}
+	
+	this.updateEndToEndDelay = function(){
+		endToEndDelay = (length/propagation) * 1000;
+		TimeoutMin = (2 * endToEndDelay) + ackTT;
+		var PPD;
+		var TM;
+		speedWarning();
+		if (endToEndDelay >= 1000){
+			PPD = endToEndDelay/1000;
+			document.getElementById('unitPD').value = 1;
+		}
+		if (endToEndDelay >= 1 && endToEndDelay < 1000){
+			PPD = endToEndDelay;
+			document.getElementById('unitPD').value = 1000;
+		}
+		if (endToEndDelay >= 0 && endToEndDelay < 1){
+			PPD = endToEndDelay* 1000;
+			document.getElementById('unitPD').value = 1000000;
+		}
+		if(PPD % parseInt(PPD) != 0){
+		 PPD = Number.parseFloat(PPD).toFixed(4);
+		}
+		document.getElementById('endToEndDelay2').value = PPD;
+		
+		if (TimeoutMin >= 1000){
+			TM = TimeoutMin/1000;
+			document.getElementById('unitMT').value = 1;
+		}
+		if (TimeoutMin >= 1 && TimeoutMin < 1000){
+			TM = TimeoutMin;
+			document.getElementById('unitMT').value = 1000;
+		}
+		if (TimeoutMin >= 0 && TimeoutMin < 1){
+			TM = TimeoutMin * 1000;
+			document.getElementById('unitMT').value = 1000000;
+		}
+		if(TM % parseInt(TM) != 0){
+		 TM = Number.parseFloat(TM).toFixed(4);
+		}
+		document.getElementById('TimeoutMin').value = TM;
+		document.getElementById('timeout').min = TimeoutMin;
+	}
+	
+	this.updateNumberUI = function(){
+		numberUI = Math.floor(dataSize/unitSize);
+		if (dataSize % unitSize > 0)
+			numberUI += 1;
+		document.getElementById('NumberUI').value = numberUI;
+	}
+	
+	this.updateAckTT = function(){
+		ackTT = (ackSize/capacity)*1000;
+		TimeoutMin = (2 * endToEndDelay) + ackTT;
+		var ATT;
+		var TM;
+		speedWarning();	
+		if (ackTT >= 1000){
+			ATT = ackTT/1000;
+			document.getElementById('unitAT').value = 1;
+		}
+		if (ackTT >= 1 && ackTT < 1000){
+			ATT = ackTT;
+			document.getElementById('unitAT').value = 1000;
+		}
+		if (ackTT >= 0 && ackTT < 1){
+			ATT = ackTT * 1000;
+			document.getElementById('unitAT').value = 1000000;
+		}
+		if(ATT % parseInt(ATT) != 0){
+		 ATT = Number.parseFloat(ATT).toFixed(4);
+		}
+		document.getElementById('AckTT').value = ATT;
+		
+		if (TimeoutMin >= 1000){
+			TM = TimeoutMin/1000;
+			document.getElementById('unitMT').value = 1;
+		}
+		if (TimeoutMin >= 1 && TimeoutMin < 1000){
+			TM = TimeoutMin;
+			document.getElementById('unitMT').value = 1000;
+		}
+		if (TimeoutMin >= 0 && TimeoutMin < 1){
+			TM = TimeoutMin * 1000;
+			document.getElementById('unitMT').value = 1000000;
+		}
+		if(TM % parseInt(TM) != 0){
+		 TM = Number.parseFloat(TM).toFixed(4);
+		}
+		document.getElementById('TimeoutMin').value = TM;
+		document.getElementById('timeout').min = TimeoutMin;
+	}
+	
+	this.autoSpeedControl = function(){
+		autoscale = document.getElementById('autospeed').checked;
+		if(autoscale){
+			document.getElementById('PDspeed').disabled = false;
+		}
+		else{
+			document.getElementById('PDspeed').disabled = true;
+		}
+	}
+	
+	this.getTimeout = function(){
+		return parseFloat(document.getElementById('timeout').value);
+	}
+	
+	this.setTimeout = function(){
+		sender.timeout = this.getTimeout() * parseInt(document.getElementById('unitTimeout').value);
+
+	}
+	
+	this.getCapacity = function(){
+		return parseFloat(document.getElementById('Capacity').value);
+	}
+	
+	this.setCapacity = function(){
+		capacity = this.getCapacity() * parseInt(document.getElementById('unitc').value);
+		this.updatePkgPerMin();
+		this.updateAckTT();
+	}
+	
+	this.SetDefaultC = function(value, u){
+		document.getElementById('Capacity').value = value;
+		document.getElementById('unitc').value = u;
+		this.setCapacity();
+	}
+	
+	this.getLength = function(){
+		return parseFloat(document.getElementById('Length').value);
+	}
+	
+	this.setLength = function(){
+		length = this.getLength() * parseInt(document.getElementById('unitl').value);
+		this.updateEndToEndDelay();
+	}
+	
+	this.SetDefaultL = function(value, u){
+		document.getElementById('Length').value = value;
+		document.getElementById('unitl').value = u;
+		this.setLength();
+	}
+	
+	this.getPropagation = function(){
+		return parseFloat(document.getElementById('Propagation').value);
+	}
+	
+	this.setPropagation = function(){
+		propagation = this.getPropagation() * parseInt(document.getElementById('unitp').value);
+		this.updateEndToEndDelay();
+	}
+	
+	this.SetDefaultP = function(value, u){
+		document.getElementById('Propagation').value = value;
+		document.getElementById('unitp').value = u;
+		this.setPropagation();
+	}
+	
+	this.getDataSize = function(){
+		return parseFloat(document.getElementById('DataSize').value);
+	}
+	
+	this.setDataSize = function(){
+		dataSize = this.getDataSize() * parseInt(document.getElementById('unitd').value);
+		this.updateNumberUI()
+		initAnimation(contr.getMethod());
+	}
+	
+	this.SetDefaultD = function(value, u){
+		document.getElementById('DataSize').value = value;
+		document.getElementById('unitd').value = u;
+		this.setDataSize();
+	}
+	
+	this.getUnitSize = function(){
+		return parseInt(document.getElementById('UnitSize').value);
+	}
+	
+	this.setUnitSize = function(){
+		unitSize = this.getUnitSize() * parseInt(document.getElementById('unitu').value);
+		this.updateNumberUI();
+		this.updatePkgPerMin();
+		initAnimation(contr.getMethod());
+	}
+	
+	this.SetDefaultU = function(value, u){
+		document.getElementById('UnitSize').value = value;
+		document.getElementById('unitu').value = u;
+		this.setUnitSize();
+	}
+	
+	this.getAckSize = function(){
+		return parseInt(document.getElementById('AckSize').value);
+	}
+	
+	this.setAckSize = function(){
+		ackSize = this.getAckSize() * parseInt(document.getElementById('unita').value);
+		this.updateAckTT();
+		this.updateEndToEndDelay();
+		initAnimation(contr.getMethod());
+	}
+	
+	this.SetDefaultA = function(value, u){
+		document.getElementById('AckSize').value = value;
+		document.getElementById('unita').value = u;
+		this.setAckSize();
+	}
+	
+	
+	this.getPDsimulationSpeed = function(){
+		var e = document.getElementById('PDspeed');
+		return parseInt(e.value);
+	}
+	
+	this.setPDsimulationSpeed = function(){
+		PDspeedFactor = this.getPDsimulationSpeed();
+	}
+	
+	this.speedscale = function(){
+			
+		if (autoscale){	
+			if(this.timeBetweenPkgs >= 0.000001 && this.timeBetweenPkgs <= 1000000 && endToEndDelay >= 0.000001 && endToEndDelay <= 1000000){
+				mintx = 2*endToEndDelay + ackTT;
+				if(sender.N * this.timeBetweenPkgs > 2 * endToEndDelay + ackTT){
+					sizecheck = 1;
+					totaltimef1 = (this.timeBetweenPkgs * numberUI) + ackTT + 2* endToEndDelay;
+				}
+				else{
+					sizecheck = 2;
+					totaltimef1 = (Math.floor(numberUI/sender.N)) * ((sender.N * this.timeBetweenPkgs) + ackTT + 2* endToEndDelay) + (numberUI%sender.N) * this.timeBetweenPkgs + ackTT + 2* endToEndDelay;
+				}
+				ackTT = convertRange(ackTT, [0.000001, 1000000], [1000 + PDspeedFactor, 5000 + PDspeedFactor]);
+				this.timeBetweenPkgs = convertRange(this.timeBetweenPkgs, [0.000001, 1000000], [1000 + PDspeedFactor, 5000 + PDspeedFactor]);
+				endToEndDelay = convertRange(endToEndDelay, [0.000001, 1000000], [1000 + PDspeedFactor, 5000 + PDspeedFactor]);
+				sender.timeout *= ((2*endToEndDelay + ackTT)/mintx);
+				if(sizecheck == 1)
+					totaltimef = totaltimef1/((this.timeBetweenPkgs * numberUI) + ackTT + 2* endToEndDelay);
+				if(sizecheck == 2)
+					totaltimef = totaltimef1/((Math.floor(numberUI/sender.N)) * ((sender.N * this.timeBetweenPkgs) + ackTT + 2* endToEndDelay) + (numberUI%sender.N) * this.timeBetweenPkgs + ackTT + 2* endToEndDelay);
+			}
+			else{	
+				  
+			}
+
+		}
+		else{
+			sizecheck = 0;
+			sizecheck = 0;
+			ackTT = (ackSize/capacity)*1000;
+			this.timeBetweenPkgs = (unitSize/capacity)*1000;
+			endToEndDelay = (length/propagation) * 1000;
+			sender.timeout = 60;
+		}
+	}
+	
+	
+	this.isPaused = false;
+	this.pause = function(){
+		if(this.isPaused === false){
+			if(this.running)
+				window.clearInterval(this.interval);
+			
+			$('.pkg').pause();
+			$.each(runningTimers, function(index, element){
+				element.pause();
+			});
+			$('.pkg').each(function(){
+				var t = $(this).children('canvas').data('timer');
+				if(typeof t != 'undefined')
+					t.pause();
+			});
+			if(typeof display.windowTimer != 'undefined' && typeof display.windowTimer.data('timer') != 'undefined')
+				display.windowTimer.data('timer').pause();
+			
+			this.isPaused = true;
+		}
+		else{
+			this.setPkgPerMin();
+			this.isPaused = false;
+			
+			$('.pkg').resume();
+			$.each(runningTimers, function(index, element){
+				element.start();
+			});
+			$('.pkg').each(function(){
+				var t = $(this).children('canvas').data('timer');
+				if(typeof t != 'undefined')
+					t.resume();
+			});
+			if(typeof display.windowTimer != 'undefined' && typeof display.windowTimer.data('timer') != 'undefined')
+				display.windowTimer.data('timer').resume();
+		}
+		document.getElementById('pause').value = (this.isPaused ? 'resume' : 'pause');
+	}
+	
+	this.updatePkgPerMin = function(){
+		this.timeBetweenPkgs = (unitSize/capacity)*1000;
+		speedWarning();
+		var TTT;
+		if (this.timeBetweenPkgs >= 1000){
+			TTT = this.timeBetweenPkgs/1000;
+			document.getElementById('unitTT').value = 1;
+		}
+		if (this.timeBetweenPkgs >= 1 && this.timeBetweenPkgs < 1000){
+			TTT = this.timeBetweenPkgs;
+			document.getElementById('unitTT').value = 1000;
+		}
+		if (this.timeBetweenPkgs >= 0 && this.timeBetweenPkgs < 1){
+			TTT = this.timeBetweenPkgs* 1000;
+			document.getElementById('unitTT').value = 1000000;
+		}
+		if(TTT % parseInt(TTT) != 0){
+		 TTT = Number.parseFloat(TTT).toFixed(4);
+		}
+		document.getElementById('TransmissionTime').value = TTT;
+		
+	}
+	
+	this.running = false;
+	this.interval;
+	this.timeBetweenPkgs = (unitSize/capacity)*1000;
+	this.emit = function(){
+		sender.send(1);
+	}
+	
+	this.startStop = function(){
+		if(this.running){
+			window.clearInterval(this.interval);
+			contr.speedscale();
+			//	document.getElementById('reset').disabled = false;
+			document.getElementById('senderN').disabled = false;
+			document.getElementById('autospeed').disabled = false;
+			if(document.getElementById('autospeed').checked == true){
+				document.getElementById('PDspeed').disabled = false;
+			}
+		}
+		else{ // start
+			if(autostop == 1){
+				autostop = 0;
+				sizecheck = 0;
+				sizecheck1 = 0;
+				document.getElementById('TotalTime').value = "";
+				initAnimation(contr.getMethod());
+				contr.setCapacity();
+				contr.setLength();
+				contr.setPropagation();
+				contr.setDataSize();
+				contr.setUnitSize();
+				contr.setAckSize();
+				contr.setTimeout();
+				contr.speedscale();
+				
+			}
+			overall_time = (numberUI * (unitSize/capacity)) + (ackSize/capacity) + (2 * (length/propagation));
+			console.log("Total time without error is "+overall_time+" s");
+			document.getElementById('receiverN').disabled = true;
+			document.getElementById('senderN').disabled = true;
+		//	document.getElementById('reset').disabled = true;
+			document.getElementById('autospeed').disabled = true;
+			document.getElementById('PDspeed').disabled = true;
+			timedCount();
+			contr.speedscale();
+			sender.send(1);
+			window.clearInterval(this.interval);
+			this.interval = window.setInterval('sender.send(1)', this.timeBetweenPkgs);
+			disableFormItems(true);
+		}
+		this.running = !this.running;
+		
+		document.getElementById('start').value = (this.running ? 'Stop' : 'Start');
+	}
+	
+	this.allPacketsReceived = function(){
+
+			var CTT;
+			ctotal1 = (Date.now() - start) * totaltimef;
+			
+			if (ctotal1 >= 1000){
+				CTT = ctotal1/1000;
+				document.getElementById('unitTotal').value = 1;
+			}
+			if (ctotal1 >= 1 && ctotal1 < 1000){
+				CTT = ctotal1;
+				document.getElementById('unitTotal').value = 1000;
+			}
+			if (ctotal1 >= 0 && ctotal1 < 1){
+				CTT = ctotal1 * 1000;
+				document.getElementById('unitTotal').value = 1000000;
+			}
+			if(CTT % parseInt(CTT) != 0){
+				CTT = Number.parseFloat(CTT).toFixed(6);
+		    }
+			document.getElementById('TotalTime').value = CTT;	
+			ctotal = 0;
+		if(this.running)
+			return;
+			
+		disableFormItems(false);
+	}
+}
+
+
+/**
+ * a Packet
+ * @param seqnum the sequence number of the packet
+ */
+function Packet(seqnum, data){
+	this.seqnum = seqnum;
+	this.data = data;
+	this.timer = null;
+	
+	this.send = function(dst, timeout){
+		var self = this;
+		this.timer = new Timer(function(){
+			dst.receive(self);
+		}, (dst == sender ? timeout : timeout));
+	}
+	this.received = function(){
+		this.timer.stop();
+	}
+	this.kill = function(){
+		this.timer.stop();
+	}
+}
+
+/**
+ * this sender can send with the go back n protocol
+ */
+function SenderGBN(N){
+	this.partner; // the end point the packets go to
+	this.base = 1;
+	this.nextseqnum = 1;
+	this.N = N;
+	this.pkt = new Array();
+	this.timeout = 60; // time until the timeout is fired
+	this.timers = new Array();	// an array of timers one for each packet
+	this.timerscheck = new Array();
+	
+
+
+	// this method is called when a timeout occurs
+	this.timeoutHandler = function(seqnum){
+		console.log("Timeout of packet "+ (seqnum-1));	
+		this.timerscheck.push(seqnum);
+		unlock = true;
+	}
+
+
+	// sends a new packet to the partner
+	this.send = function send(data){
+		if(this.nextseqnum < this.base+this.N || unlock){
+			if(this.nextseqnum <= numberUI || unlock){
+				if(unlock){
+					console.log("Send packet "+(this.timerscheck[0]-1));
+					this.pkt[this.timerscheck[0]].send(this.partner, endToEndDelay + contr.timeBetweenPkgs);
+					display.send(true, this.pkt[this.timerscheck[0]]);
+					var self = this;
+					var seqnum = this.timerscheck[0];
+					this.timers[seqnum] = new Timer(
+						function(){
+							self.timeoutHandler(seqnum);
+							
+						},this.timeout + contr.timeBetweenPkgs
+					);
+					display.startPkgTimer(seqnum, this.timeout);
+					this.timerscheck.shift();
+					if(this.timerscheck.length == 0){
+						unlock = false;
+					}
+				}else{
+					this.pkt[this.nextseqnum] = new Packet(this.nextseqnum, data);
+					this.pkt[this.nextseqnum].confirmed = false;
+					for(i = 1 ; i < this.base; i++){
+						// stop timer
+						this.timers[i].stop();
+						display.stopPkgTimer(i);
+					}
+					console.log("Send packet "+(this.nextseqnum-1));
+					this.pkt[this.nextseqnum].send(this.partner, endToEndDelay + contr.timeBetweenPkgs);
+					display.send(true, this.pkt[this.nextseqnum]);
+					
+					// start timer for every packet
+					var self = this;
+					var seqnum = self.nextseqnum;
+					this.timers[this.nextseqnum] = new Timer(
+						function(){
+							self.timeoutHandler(seqnum);
+							
+						},this.timeout + contr.timeBetweenPkgs
+					);
+					display.startPkgTimer(this.nextseqnum, this.timeout);
+					this.nextseqnum++;
+					return true;
+				}
+			}
+			else if(this.base == this.nextseqnum){
+					autostop = 1;
+					this.nextseqnum = 1;
+					contr.startStop();
+			}
+		}
+		else{
+		//	console.log("refuse packet "+ this.nextseqnum-1);
+			return false;
+		}
+	}
+	
+	// receive an Ack
+	this.receive = function(ack){
+		var n = ack.seqnum;
+		for(i = 1 ; i < this.base; i++){
+			// stop timer
+			this.timers[i].stop();
+			display.stopPkgTimer(i);
+		}
+		if(ack.data == 'NACK'){	// handles NACKs that is retransmitting the packet and reseting its timer
+			console.log("NACK of packet "+(ack.seqnum-1)+" received");
+			for(i = this.base ; i < this.base+this.N && this.timers[i] != 'undefined' ; i++){
+				if(this.timers[i] == undefined) {
+					break;
+				}
+				// stop timer
+				this.timers[i].stop();
+				display.stopPkgTimer(i);
+			}
+			this.timerscheck = new Array();
+			this.nextseqnum = this.base;
+			unlock = false;
+		}else if(n >= this.base){	// handles ACKs that is when receives a cumulative ACK, stops past timers and moves the window
+			console.log("ACK of packet "+(ack.seqnum-1)+" received");
+			if(n > this.base || this.timerscheck.length != 0){
+				var spli = this.timerscheck.indexOf(n);
+				if(spli != -1){
+					spli++;
+					this.timerscheck.splice(0,spli);
+					unlock = false;
+				}
+			}
+			for(i = this.base ; i <= n; i++){
+
+				// stop timer
+				this.timers[i].stop();
+				display.stopPkgTimer(i);
+				
+				// mark packet as confirmed
+				this.pkt[i].confirmed = true;
+				display.confirmSender(i);
+			}
+			display.setSenderBase(n+1-this.base, n+1);	// moves the window to last ACK received
+			this.base = n + 1;
+		}
+	}
+}
+
+function ReceiverGBN(){
+	this.partner; // the end point the packets come from
+	this.expectedseqnum = 1;
+	this.sndpkt = new Packet(0, 'ACK');
+
+	// receive a packet
+	this.receive = function(packet){
+		if(packet.seqnum == this.expectedseqnum){	// if the packet is what expected it sends back the ack
+			console.log("Packet "+(packet.seqnum-1)+" received: send ack");
+			this.sndpkt = new Packet(this.expectedseqnum, 'ACK');
+			display.confirmReceiver(this.sndpkt.seqnum);
+			display.deliverPkg(this.sndpkt.seqnum);
+			NACKFlag = false;
+			this.expectedseqnum++;
+			this.sndpkt.send(this.partner, endToEndDelay + ackTT);
+			display.send(false, this.sndpkt);
+			display.setReceiverBase(1, this.expectedseqnum);
+		}
+		else{
+			console.log("Packet "+(packet.seqnum-1)+" received is UNEXPECTED: send the first time NACK then for the next times old ACK");
+
+			if(packet.seqnum > this.expectedseqnum && NACKFlag == false){	// cheks if NACK has been sent before
+				NACKFlag = true;
+				this.sndpkt = new Packet(this.expectedseqnum, 'NACK');
+				this.sndpkt.send(this.partner, endToEndDelay + ackTT);
+				display.send(false, this.sndpkt);
+			}
+			else if(this.expectedseqnum != 1){		//Sends the old ACK for each out of sequence packet
+				this.sndpkt = new Packet(this.expectedseqnum - 1, 'ACK');
+				this.sndpkt.send(this.partner, endToEndDelay + ackTT);
+				display.send(false, this.sndpkt);
+			}
+		}
+	}
+}
+
+function init(){
+	contr = new Controller();
+	contr.SetDefaultC(1, 1000);
+	contr.SetDefaultL(1, 1000);
+	contr.SetDefaultP(200000, 1000);
+	contr.SetDefaultD(10, 1000);
+	contr.SetDefaultU(500, 1);
+	contr.SetDefaultA(20, 1);
+	display.setNsender(5, sender.base);
+	sender.N = 5;
+	document.getElementById('receiverN').value = 1;
+	display.setNreceiver(1, receiver.base);
+	receiver.N = 1;
+	sender.timeout = 40;
+	document.getElementById('senderN').value = 5;
+	document.getElementById('timeout').value = 60;
+	document.getElementById('timeout').min = TimeoutMin;
+	document.getElementById('TotalTime').value = "";
+	document.getElementById('autospeed').checked = true;
+	document.getElementById('PDspeed').value = 0;
+	document.getElementById("speedwarning").style.display = "none";
+	document.getElementById('PDspeed').disabled = false;
+	autoscale = true;
+	PDspeedFactor = 0;
+	document.getElementById('unitTimeout').value = 1;
+	initAnimation(contr.getMethod());
+}
+
+function initAnimation(method){
+	display = null;
+	sender = null;
+	receiver = null;
+	for(var t in runningTimers)
+		runningTimers[t].stop();
+	
+	var senderN = contr.getSenderN();
+	var receiverN = contr.getReceiverN();
+	
+	
+	switch(method){
+		case 'gbn':
+			display = new Display(senderN, receiverN, true);
+			sender = new SenderGBN(senderN);
+			receiver = new ReceiverGBN(receiverN);
+			document.getElementById('receiverN').value = "1";
+			document.getElementById('receiverN').disabled = true;
+			break;
+	}
+	
+	sender.partner = receiver;
+	receiver.partner = sender;
+	
+	contr.updateEndToEndDelay();
+	contr.setTimeout();
+
+}
+
+function Display(windowNsender, windowNreceiver, hasWindowReceiver){
+	this.paper = $('#root');
+	this.paper.children(':not(div.desc)').remove();
+	this.paper.css({'left':  '0px'});
+	
+	this.windowNsender = windowNsender;
+	this.windowNreceiver = windowNreceiver; 
+	this.windowOffset = 5;
+	this.seqnumToPkg = new Object();
+	this.windowSender;
+	this.windowReceiver;
+	this.xOffset = 0;
+	this.nextFreeSeqNum = 1-this.windowOffset;
+	this.nextFreePkgIndex = 0;
+	this.nextSeqNumToRemove = 0;
+	this.windowTimer;
+	this.packetsAlive = 0;
+	
+	this.packetsAliveDec = function(seqnum){
+		this.packetsAlive--;
+		//console.log(this.packetsAlive + ' ' + seqnum);
+		this.alive();
+	};
+	
+	this.alive = function(){
+		if(this.packetsAlive == 0 && Object.keys(this.pkgTimers).length == 0 && this.windowTimerStarted == false){
+			contr.allPacketsReceived();
+		}
+	}
+	
+	// senderWindow
+	this.setNsender = function(windowNsender, base){
+		this.windowNsender = windowNsender;
+		this.windowNreceiver = windowNreceiver; 
+		
+		if(typeof this.windowSender == 'undefined'){
+			var marginLeft = 100;
+			var x = 10+27*(base+this.windowOffset-1)-2;
+			var y = 8
+			var widthSender = 4+this.windowNsender*16+(this.windowNsender-1)*11;
+			var height = 34;
+			
+			this.windowSender = $('<div>&nbsp;</div>').css({
+				left: x+'px', 
+				top: y+'px', 
+				width: widthSender+'px', 
+				height: height+'px'
+			}).attr('class', 'window').appendTo(this.paper);
+			
+			// create Window timer
+			if(!hasWindowReceiver){
+				this.windowTimer = $('<canvas height="40" width="40">&nbsp;</canvas>').css({
+					left: x+'px'
+				}).attr('class', 'window-timer').appendTo(this.paper);
+			}
+			
+		}
+		else{
+			// only correct width
+			
+			var widthSender = 4+this.windowNsender*16+(this.windowNsender-1)*11;
+			
+			this.windowSender.css('width', widthSender+'px');
+			
+			}
+		}
+		
+	// receiverWindow
+	this.setNreceiver = function(windowNreceiver, base){
+		this.windowNreceiver = windowNreceiver; 
+		
+		if(typeof this.windowReceiver == 'undefined'){
+			var marginLeft = 100;
+			var x = 10+27*(base+this.windowOffset-1)-2;
+			var y = 358
+			var widthReceiver = 4+this.windowNreceiver*16+(this.windowNreceiver-1)*11;
+			var height = 34;
+			
+			
+			// create Window timer
+			if(!hasWindowReceiver){
+				this.windowTimer = $('<canvas height="40" width="40">&nbsp;</canvas>').css({
+					left: x+'px'
+				}).attr('class', 'window-timer').appendTo(this.paper);
+			}
+			
+			if(hasWindowReceiver){
+				this.windowReceiver = $('<div>&nbsp;</div>').css({
+					left: x+'px', 
+					top: y+'px', 
+					width: widthReceiver+'px', 
+					height: height+'px'
+				}).attr('class', 'window').appendTo(this.paper);
+			}
+		}
+		else{
+			// only correct width
+			
+			var widthReceiver = 4+this.windowNreceiver*16+(this.windowNreceiver-1)*11;
+	
+			if(hasWindowReceiver){
+				this.windowReceiver.css('width', widthReceiver+'px');
+			}
+		}
+	}
+	
+	// this method creates a new rectangle representing a empty packet for the sender and the receiver
+	this.createPackets = function(){
+		
+		var width = 16, height = 30, size = 25, x = (this.nextFreeSeqNum > 0 & this.nextFreeSeqNum <= numberUI) ? (this.nextFreeSeqNum - 1) : ('');
+		var s = $('<div><canvas width="'+size+'" height="'+size+'"></canvas><center><b>'+x+'</b></center></div>').css({ // Adding number to Data Units
+			left: 10+this.nextFreePkgIndex*27+'px', 
+			top: 10+'px'
+		}).attr('class', 'pkg').data('index', this.nextFreePkgIndex).appendTo(this.paper).appendTo(this.paper);;
+		
+		
+		
+		var r = $('<div><center><b>'+x+'</b></center></div>').css({// Adding Number to Acks
+			left: 10+this.nextFreePkgIndex*27+'px', 
+			top: 360+'px'
+		}).attr('class', 'pkg empty').data('index', this.nextFreePkgIndex).appendTo(this.paper);
+		
+		this.seqnumToPkg[this.nextFreeSeqNum] = {'sender': s, 'receiver': r};
+		
+		this.nextFreeSeqNum++;
+		this.nextFreePkgIndex++;
+	}
+	
+
+	// draw sender and receiver
+	for(var i = 0; i < 30; i++){
+		this.createPackets();
+	}
+	this.setNsender(this.windowNsender, 1);
+	this.setNreceiver(this.windowNreceiver, 1);
+	
+	
+	this.confirmSender = function(seqnum){
+	//	console.log('sender confirm '+(seqnum-1));
+		$(this.seqnumToPkg[seqnum].sender).attr('class', 'pkg confirmed');
+	}
+	this.confirmReceiver = function(seqnum){
+	//	console.log('receiver confirm '+(seqnum-1));
+		$(this.seqnumToPkg[seqnum].receiver).attr('class', 'pkg');
+	}
+	this.deliverPkg = function(seqnum){
+		$(this.seqnumToPkg[seqnum].receiver).attr('class', 'pkg delivered');
+	}
+	
+	var xOffsetLast = this.xOffset;
+	this.setSenderBase = function(count, newBase){
+		if(count == 0)
+			return;
+		
+		var tmp = this.xOffset;
+		this.xOffset += count*27;
+		
+		// add new tailing packets
+		for(var i = 0; i < count; i++){
+			this.createPackets();
+		}
+		
+		// shift sender window right
+		var newX = 10+this.seqnumToPkg[newBase].sender.data('index')*27-2;
+		this.windowSender.animate({
+			'left': newX+'px'
+		}, 100);
+		if(this.windowTimer != null){
+			this.windowTimer.stop().animate({
+				'left': newX+'px'
+			}, 100);
+		}
+		
+		if(typeof this.windowSenderTimer != 'undefined'){
+			this.moveWindowTimer(newX);
+		}
+		
+		// shift all packets left
+		if(!typewriter || (newX + this.windowSender.width() - xOffsetLast >= 750)){
+			var tmp = this;
+			this.paper.stop().animate({
+				left: -this.xOffset+"px"
+			}, 400, function(){
+				for(var i = tmp.nextSeqNumToRemove; i < tmp.nextFreeSeqNum; i++){
+					if($(tmp.seqnumToPkg[i].sender).offset().left > -27)
+						break;
+					
+					// remove packet because its out of viewport
+					$(tmp.seqnumToPkg[i].sender).add(tmp.seqnumToPkg[i].receiver).remove();
+					delete tmp.seqnumToPkg[i];
+					
+					tmp.nextSeqNumToRemove++;
+					
+				//	console.log('remove packet ' + i);
+				}
+			});
+			
+			xOffsetLast = this.xOffset;
+		}
+	}
+	
+	
+	this.setReceiverBase = function(count, newBase){
+		//console.log('srb'+count);
+		if(count == 0 || !hasWindowReceiver)
+			return;
+		
+		// shift receiver window right
+		var newX = 10+this.seqnumToPkg[newBase].sender.data('index')*27-2;
+		this.windowReceiver.stop().animate({
+			left: newX+'px'
+		}, 200);
+	}
+	
+	
+	
+	this.send = function(toReceiver, pkg, value){
+		var seqnum = pkg.seqnum;
+		var NACK = pkg.data;
+		var time = endToEndDelay;
+		var TIU = contr.timeBetweenPkgs;
+		var TACK = ackTT;
+		var square;
+		var org, fromY, tClass;
+		
+		if(toReceiver){
+			org = this.seqnumToPkg[seqnum].sender;
+			fromY1 = 10;
+			tClass = 'pkg';
+		}
+		else{
+			if(NACK == 'NACK'){
+				org = this.seqnumToPkg[seqnum].receiver;
+				fromY1 = 360;
+				tClass = 'pkg nack';
+			}
+			else{
+				org = this.seqnumToPkg[seqnum].receiver;
+				fromY1 = 360;
+				tClass = 'pkg ack';
+			}
+		}
+		
+		square = $(org).clone().attr('class', tClass).appendTo(this.paper).css('top', fromY+'px');
+		this.packetsAlive++;
+		
+		var self = this;
+		
+		square.animate({top: ((toReceiver) ? 40 : 330)+'px'}, ((toReceiver) ? TIU : TACK) , 'linear', function(){});
+
+		square.animate({top: ((toReceiver) ? 360 : 10)+'px'}, time , 'linear', function(){
+			$(square).remove();
+			self.packetsAliveDec(seqnum);
+		});
+		
+		
+		square.mousedown(function(e){
+			pkg.kill();
+			self.packetsAliveDec(seqnum);
+			
+			square.stop().css({
+				background: '#ff0000'
+			}).delay(10).remove();
+			
+		//	console.log(((toReceiver) ? 'pkg': 'ack')+seqnum + ' killed');
+		});
+	}
+	
+	
+	this.pkgTimers = Object();
+	this.startPkgTimer = function(seqnum, time){
+		if(typeof this.seqnumToPkg[seqnum] == 'undefined')
+			return;
+		
+		var $c = $(this.seqnumToPkg[seqnum].sender).children('canvas');
+		if(typeof $c.data('timer') == 'undefined'){
+			$c.data('timer', new TimerCircle(25, $c, 'pkg'));
+		}
+		
+		setTimeout(function(){$c.data('timer').start(time)}, contr.timeBetweenPkgs);
+	}
+	this.stopPkgTimer = function(seqnum){
+		if(typeof this.seqnumToPkg[seqnum] == 'undefined')
+			return;
+		
+		var t = $(this.seqnumToPkg[seqnum].sender).children('canvas').data('timer');
+		if(typeof t != 'undefined')
+			t.stop();
+		
+		this.alive();
+	}
+	
+	this.windowTimerStarted = false;
+	
+	this.startWindowTimer = function(time){
+		if(typeof this.windowSenderTimer == 'undefined'){
+			this.windowTimer.data('timer', new TimerCircle(40, this.windowTimer, 'window'));
+		}
+		
+		this.windowTimer.data('timer').start(time);
+		this.windowTimerStarted = true;
+	}
+	this.restartWindowTimer = function(time){
+		if(this.windowTimer.data('timer'))
+			this.windowTimer.data('timer').stop();
+		
+		this.startWindowTimer(time);
+	}
+	this.stopWindowTimer = function(){
+		this.windowTimer.data('timer').stop();
+		this.windowTimerStarted = false;
+		
+		this.alive();
+	}
+	
+	
+	function TimerCircle(size, canvas, type){
+		var timer = $({percent:100}), lastValue = 200;
+		var canvas = $(canvas);
+		var context = canvas[0].getContext('2d');
+		if(type != 'window' && type != 'pkg')
+			throw "type "+type+' is not defined';
+			
+		function timeoutCircle(c, x, y, width, value, total, lineWidth){
+			if(value <= 0)
+				return;
+			
+			c.save();
+			var pad = lineWidth/2;
+			var r = width/2-pad, cx = x+r+pad, cy = y+r+pad;
+			c.strokeStyle = '#ff00ff';
+			c.lineWidth = lineWidth;
+			c.lineCap = 'butt';
+			
+			c.beginPath();
+			c.arc(cx, cy, r, Math.PI*3/2, 2*Math.PI*value/total+Math.PI*3/2, false);
+			c.stroke();
+			
+			c.restore();
+		}
+		
+		function timeoutCircleFilled(c, x, y, width, value, total){
+			if(value <= 0)
+				return;
+			
+			c.save();
+			
+			var r = width/2, cx = x+r, cy = y+r;
+			c.fillStyle = '#ff00ff';
+			
+			c.beginPath();
+			c.arc(cx, cy, r, Math.PI*3/2, 2*Math.PI*value/total+Math.PI*3/2, false);
+			c.lineTo(cx, cy);
+			c.closePath();
+			c.fill();
+			
+			c.restore();
+		}
+		
+		this.stop = function(){
+			timer.stop(true, true);
+			return this;
+		}
+		
+		this.start = function(time){
+			var self = this;
+			timer.stop(false, true);
+			timer[0].percent = 100; // reset
+			timer.animate(
+				{percent: 0}, 
+				{
+					step: function(now, fx) {
+						now = Math.ceil(now);
+						if(now == lastValue)
+							return;
+						
+						context.clearRect(0, 0, size, size);
+						if(type == 'window')
+							timeoutCircle(context, 0, 0, size, now, 100, 10);
+						else // pkg
+							timeoutCircleFilled(context, 0, 0, size, now, 100);
+						lastValue = now;
+					},
+					duration: time
+				}
+			);
+			return this;
+		}
+		
+		this.pause = function(){
+			timer.pause();
+			return this;
+		}
+		
+		this.resume = function(){
+			timer.resume();
+			return this;
+		}
+	}
+}
+
+	</script>  
+</head>
+
+<body onload="init();" class="mobile">
+	<h1 style="color:#00ADEF;">Go-back-N ARQ protocol</h1>
+	<form class="config">
+		<div class="form-item">
+		<h3><label for="protocol">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext">This section is related to simulation control. Selecting the protocol type, Selecting the animation window's style,
+							Controling the speed of the animation and control buttons such as start/stop and reset.</span>
+					</div>		
+		Simulation settings:</label></h3>
+
+		<h5><label for="scroll mode">
+			<div class="tooltip">&#10068;
+				<span class="tooltiptext">Select the scroll mode of the animation window.</span>
+			</div>		
+		
+			<select onchange="typewriter = (this.selectedIndex == 0);">
+				<option>Typewriter style</option>
+				<option>Fixed Window</option>
+			</select>
+		</label></h5>
+		
+		<h5><label for="">
+			<div class="tooltip">&#10068;
+				<span class="tooltiptext">By selecting this option the animation speed can be controled in such a way that you can easily see the animation and dropping an IU or an Ack.
+				 </span>
+			</div>	
+			Speed control:
+
+			</label></h5>
+			
+		<h5><label for="" id="speedwarning" hidden>
+			<div class="tooltip">&#10068;
+				<span class="tooltiptext">The speed control option can be only used if the values of IU transmission, Ack transmission and propagation delay are between 
+				1 nanoseconds and 1000 seconds.</span>
+			</div>	
+			Can not be used in this case!
+
+		</label></h5>
+	
+	
+			
+		<h5><label for="" id="speedfault">
+			<div class="tooltip">&#10068;
+				<span class="tooltiptext">After selecting the speed control option, it is also possible to change the speed mode. </span>
+			</div>			
+			<input type="checkbox" [disabled] = "false" id="autospeed" onchange="contr.autoSpeedControl();">
+			<select id="PDspeed" [disabled] = "false" onchange="contr.setPDsimulationSpeed(this);">
+				<option value="900">Very slow</option>
+				<option value="500">Slow</option>
+				<option value="0" selected="selected">Normal</option>
+				<option value="-500">Fast</option>
+				<option value="-900">Very fast</option>
+			</select>
+			</label></h5>
+			
+			
+		<h5><label for="">
+			<div class="tooltip">&#10068;
+				<span class="tooltiptext">Start, stop, reload, and log</span>
+			</div>			
+
+			<input type="button" id="start" onclick="contr.startStop();" value="Start" />
+			<!--input [disabled] = "false" type="button" id="reset" onclick="contr.resetConfig();" value="Reset" /-->
+			<input type="button" id="reload" onclick="window.location.reload();" value="Reload" />
+			<input type="button" onclick="logger()" value="Log" />
+			
+			</label></h5>
+		</div>
+		
+
+		
+		<div class="form-item">
+		<h3><label for="Window sizes">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext">This section is related to window sizes of the sender and the receiver and the Timeout value.</span>
+					</div>		
+		Protocol Parameters:</label></h3>
+			
+			
+			<div class="dropdown" id="dropdownSW">
+				<h3 class="dropbtn">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext">Enter the window size of the sender. </span>
+					</div>	
+				Sender Window
+				</h3>
+				<div class="dropdown-content">
+				</div>
+			</div>
+			<input type="number" [disabled]="false" value="5" min="1" max="10" step="1" id="senderN" onchange="contr.setSenderN(this);"/>
+			
+			
+			<div class="dropdown" id="dropdownRW">
+				<h3 class="dropbtn">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext">Enter the window size of the receiver.</span>
+					</div>
+				Receiver Window
+				</h3>
+				<div class="dropdown-content">
+				</div>
+			</div>
+			<input [disabled] = "false" type="number" value="5" min="1" max="10" step="1" id="receiverN" onchange="contr.setReceiverN(this);"/>
+
+
+			<div class="dropdown" id="dropdownTO">
+				<h3 class="dropbtn">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext">Enter the timeout value. Please pay attention to the suggested minimum timeout. Otherwise there will be a lot of retransmissions.</span>
+					</div>
+				Timeout
+				</h3>
+				<div class="dropdown-content">
+				</div>
+			</div>
+
+			<input type="number" value="60" min="2000" step="any" id="timeout" onchange="contr.setTimeout(this)"/><span id="unit">
+			<select class="units" id="unitTimeout" onchange="contr.setTimeout(this);">
+				<option value = "1000">s</option>
+				<option value = "1" selected="selected">ms</option>
+			</select>
+		</div>
+		
+		<div class="form-item">
+			<h3><label for="Link Parameters">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext">This section is related to the parameters of the link between the sender and the receiver.</span>
+					</div>			
+			Link Parameters:</label></h3>
+
+					<div class="dropdown" id="dropdownC">
+					<h3 class="dropbtn">
+						<div class="tooltip">&#10068;
+							<span class="tooltiptext">Enter the capacity of the link or select one of the default values.</span>
+						</div>
+						Capacity &#8628;
+						</h3>
+
+					    <div class="dropdown-content">
+							<a onClick="contr.SetDefaultC(1, 1000); return false;">1 kbit/s</a>
+							<a onClick="contr.SetDefaultC(2, 1000); return false;">2 kbit/s</a>
+							<a onClick="contr.SetDefaultC(5, 1000); return false;">5 kbit/s</a>
+							<a onClick="contr.SetDefaultC(10, 1000); return false;">10 kbit/s</a>
+							<a onClick="contr.SetDefaultC(20, 1000); return false;">20 kbit/s</a>
+							<a onClick="contr.SetDefaultC(50, 1000); return false;">50 kbit/s</a>
+							<a onClick="contr.SetDefaultC(100, 1000); return false;">100 kbit/s</a>
+							<a onClick="contr.SetDefaultC(200, 1000); return false;">200 kbit/s</a>
+							<a onClick="contr.SetDefaultC(500, 1000); return false;">500 kbit/s</a>
+							<a onClick="contr.SetDefaultC(1, 1000000); return false;">1 Mbit/s</a>
+							<a onClick="contr.SetDefaultC(2, 1000000); return false;">2  Mbit/s</a>
+							<a onClick="contr.SetDefaultC(5, 1000000); return false;">5  Mbit/s</a>
+							<a onClick="contr.SetDefaultC(10, 1000000); return false;">10 Mbit/s</a>
+							<a onClick="contr.SetDefaultC(20, 1000000); return false;">20 Mbit/s</a>
+							<a onClick="contr.SetDefaultC(50, 1000000); return false;">50 Mbit/s</a>
+							<a onClick="contr.SetDefaultC(100, 1000000); return false;">100 Mbit/s</a>
+							<a onClick="contr.SetDefaultC(200, 1000000); return false;">200 Mbit/s</a>
+							<a onClick="contr.SetDefaultC(500, 1000000); return false;">500 Mbit/s</a>
+							<a onClick="contr.SetDefaultC(1, 1000000000); return false;">1 Gbit/s</a>
+							<a onClick="contr.SetDefaultC(2, 1000000000); return false;">2 Gbit/s</a>
+							<a onClick="contr.SetDefaultC(5, 1000000000); return false;">5 Gbit/s</a>
+							<a onClick="contr.SetDefaultC(10, 1000000000); return false;">10 Gbit/s</a>
+						</div>
+					</div>
+				
+				<input type="number" value="1" min="0" step="any" id="Capacity" onchange="contr.setCapacity(this);"/><span id="unit">
+					<select class="units" id="unitc" onchange="contr.setCapacity(this);">
+					<option value = "1">bit/s</option>
+					<option value = "1000" selected="selected">kbit/s</option>
+					<option value = "1000000">Mbit/s</option>
+					<option value = "1000000000">Gbit/s</option>
+					</select>
+					</span>
+							
+					<div class="dropdown" id="dropdownL">
+						<h3 class="dropbtn">
+						<div class="tooltip">&#10068;
+							<span class="tooltiptext">Enter the length of the link or select one of the default values.</span>
+						</div>	
+						Length &#8628;</h3>
+					    <div class="dropdown-content">
+							<a onClick="contr.SetDefaultL(1, 1); return false;">1 m</a>
+							<a onClick="contr.SetDefaultL(2, 1); return false;">2 m</a>
+							<a onClick="contr.SetDefaultL(5, 1); return false;">5 m</a>
+							<a onClick="contr.SetDefaultL(10, 1); return false;">10 m</a>
+							<a onClick="contr.SetDefaultL(20, 1); return false;">20 m</a>
+							<a onClick="contr.SetDefaultL(50, 1); return false;">50 m</a>
+							<a onClick="contr.SetDefaultL(100, 1); return false;">100 m</a>
+							<a onClick="contr.SetDefaultL(200, 1); return false;">200 m</a>
+							<a onClick="contr.SetDefaultL(500, 1); return false;">500 m</a>
+							<a onClick="contr.SetDefaultL(1, 1000); return false;">1 km</a>
+							<a onClick="contr.SetDefaultL(2, 1000); return false;">2 km</a>
+							<a onClick="contr.SetDefaultL(5, 1000); return false;">5 km</a>
+							<a onClick="contr.SetDefaultL(10, 1000); return false;">10 km</a>
+							<a onClick="contr.SetDefaultL(20, 1000); return false;">20 km</a>
+							<a onClick="contr.SetDefaultL(50, 1000); return false;">50 km</a>
+							<a onClick="contr.SetDefaultL(100, 1000); return false;">100 km</a>
+							<a onClick="contr.SetDefaultL(200, 1000); return false;">200 km</a>
+							<a onClick="contr.SetDefaultL(500, 1000); return false;">500 km</a>
+							<a onClick="contr.SetDefaultL(1000, 1000); return false;">1000 km</a>
+						</div>
+					</div>
+
+				<input type="number" value="1" id="Length" min="0" step="any" onchange="contr.setLength(this);"/><span id="unit">
+				<select class="units" id="unitl" onchange="contr.setLength(this);">
+				<option value = "1">m</option>
+				<option value = "1000" selected="selected">km</option>
+				</select>
+				</span>
+
+					<div class="dropdown" id="dropdownP">
+						<h3 class="dropbtn">
+						<div class="tooltip">&#10068;
+							<span class="tooltiptext">Enter the propagation speed or select one of the default values.</span>
+						</div>	
+						Propagation speed &#8628;</h3>
+					    <div class="dropdown-content">
+							<a onClick="contr.SetDefaultP(200000, 1000); return false;">200,000 km/s</a>
+							<a onClick="contr.SetDefaultP(300000, 1000); return false;">300,000 km/s</a>
+						</div>
+					</div>
+
+				<input type="number" value="200000"  min="0" step="any" id="Propagation" onchange="contr.setPropagation(this);"/><span id="unit">
+				<select class="units" id="unitp" onchange="contr.setPropagation(this);">
+				<option value = "1">m/s</option>
+				<option value = "1000" selected="selected">km/s</option>
+				</select>
+			    </span>
+				
+				
+
+			<div class="description"></div>
+		</div>
+		
+		<div class="form-item">
+			<h3><label for="Data Parameters">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext">This section is related to the parameters of data to be transmitted.</span>
+					</div>			
+			Data Parameters:</label></h3>
+			
+
+				<div class="dropdown" id="dropdownD">
+					<h3 class="dropbtn">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext">Enter the total amount of data to be transmitted or select one of the default values.</span>
+					</div>	
+					Amount of Data &#8628;</h3>
+					<div class="dropdown-content">
+						<a onClick="contr.SetDefaultD(100, 1); return false;">100 bit</a>
+						<a onClick="contr.SetDefaultD(200, 1); return false;">200 bit</a>
+						<a onClick="contr.SetDefaultD(500, 1); return false;">500 bit</a>
+						<a onClick="contr.SetDefaultD(1, 1000); return false;">1 kbit</a>
+						<a onClick="contr.SetDefaultD(2, 1000); return false;">2 kbit</a>
+						<a onClick="contr.SetDefaultD(5, 1000); return false;">5 kbit</a>
+						<a onClick="contr.SetDefaultD(10, 1000); return false;">10 kbit</a>
+						<a onClick="contr.SetDefaultD(20, 1000); return false;">20 kbit</a>
+						<a onClick="contr.SetDefaultD(50, 1000); return false;">50 kbit</a>
+						<a onClick="contr.SetDefaultD(100, 1000); return false;">100 kbit</a>
+					</div>
+				</div>					
+				<input type="number" value="10" min="0" step="any" id="DataSize" onchange="contr.setDataSize(this);"/><span id="unit">
+				<select class="units" id="unitd" onchange="contr.setDataSize(this);">
+					<option value = "1">bit</option>
+					<option value = "1000" selected="selected">kbit</option>
+				</select>
+			    </span>
+				
+
+				<div class="dropdown" id="dropdownU">
+					<h3 class="dropbtn">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext">Enter the size of each information unit or select one of the default values.</span>
+					</div>	
+					IU Size &#8628;</h3>
+					<div class="dropdown-content">
+						<a onClick="contr.SetDefaultU(100, 1); return false;">100 bit</a>
+						<a onClick="contr.SetDefaultU(200, 1); return false;">200 bit</a>
+						<a onClick="contr.SetDefaultU(500, 1); return false;">500 bit</a>
+						<a onClick="contr.SetDefaultU(1, 1000); return false;">1 kbit</a>
+						<a onClick="contr.SetDefaultU(2, 1000); return false;">2 kbit</a>
+						<a onClick="contr.SetDefaultU(5, 1000); return false;">5 kbit</a>
+						<a onClick="contr.SetDefaultU(10, 1000); return false;">10 kbit</a>
+					</div>
+				</div>						
+
+				<input type="number" value="500" min="0" step="1" id="UnitSize" onchange="contr.setUnitSize(this);"/><span id="unit">
+				<select class="units" id="unitu" onchange="contr.setUnitSize(this);">
+					<option value = "1" selected="selected">bit</option>
+					<option value = "1000">kbit</option>
+				</select>
+			    </span>
+						
+				<div class="dropdown" id="dropdownA">
+					<h3 class="dropbtn">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext">Enter the size of each ack unit or select one of the default values.</span>
+					</div>	
+					Ack Size &#8628;</h3>
+					<div class="dropdown-content">
+						<a onClick="contr.SetDefaultA(10, 1); return false;">10 bit</a>
+						<a onClick="contr.SetDefaultA(20, 1); return false;">20 bit</a>
+						<a onClick="contr.SetDefaultA(50, 1); return false;">50 bit</a>
+						<a onClick="contr.SetDefaultA(100, 1); return false;">100 bit</a>
+					</div>
+				</div>	
+				
+				<input type="number" value="20" min="0" step="1" id="AckSize" onchange="contr.setAckSize(this);"/><span id="unit">
+				<select class="units" id="unita" onchange="contr.setAckSize(this);">
+					<option value = "1" selected="selected">bit</option>
+					<option value = "1000">kbit</option>
+				</select>
+			    </span>
+				
+			<div class="description"></div>
+		</div>
+		
+		<div class="form-item">
+			<h3><label for="Data Parameters">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext1">These parameters are calculated automaticly according to the inputs!</span>
+					</div>	
+			Calculated Parameters:
+			</label></h3>
+
+
+				<div class="dropdown" id="dropdownTT">
+					<h3 class="dropbtn">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext1">The transmission time of each information unit is calculated according to the IU size and the link capacity.</span>
+					</div>	
+					IU Transmission Time
+					</h3>
+					<div class="dropdown-content">
+					</div>
+				</div>					
+				<input type="number" value="500" step="any" id="TransmissionTime" disabled="disabled" /><span id="Consunit">
+				<select class="unitdisabled" disabled id="unitTT">
+					<option value = "1000000">μs</option>
+					<option value = "1000" selected="selected">ms</option>
+					<option value = "1">s</option>
+				</select></span>
+				
+
+
+				<div class="dropdown" id="dropdownPD">
+					<h3 class="dropbtn">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext1">The transmission time of each ack is calculated according to the ack size and the link capacity.</span>
+					</div>	
+					ACK Transmission Time
+					</h3>
+					<div class="dropdown-content">
+					</div>
+				</div>					
+				<input type="number" value="20" step="any" id="AckTT" disabled="disabled" /><span id="Consunit">
+				<select class="unitdisabled" disabled id="unitAT">
+					<option value = "1000000">μs</option>
+					<option value = "1000" selected="selected">ms</option>
+					<option value = "1">s</option>
+				</select></span>
+				
+				
+				<div class="dropdown" id="dropdownPD">
+					<h3 class="dropbtn">
+						<div class="tooltip">&#10068;
+							<span class="tooltiptext1">The propagation delay is calculated according to the link length and the propagation speed.</span>
+						</div>
+					Propagation delay
+					</h3>
+					<div class="dropdown-content">
+					</div>
+				</div>
+				<input type="number" value="5" id="endToEndDelay2" disabled="disabled" /><span id="Consunit">
+				<select class="unitdisabled" disabled id="unitPD">
+					<option value = "1000000" selected="selected">μs</option>
+					<option value = "1000">ms</option>
+					<option value = "1">s</option>
+				</select></span>
+				
+		
+
+				
+		</div>
+				<div class="form-item">
+			<h3><label for="Data Parameters">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext1">These parameters are calculated automaticly according to the inputs!</span>
+					</div>	
+			Calculated Parameters:
+			</label></h3>
+	
+				<div class="dropdown" id="dropdownPD">
+					<h3 class="dropbtn">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext1">The number of information units is calculated according to the IU size and the total amount of data.</span>
+					</div>
+					Number of IUs
+					</h3>
+					<div class="dropdown-content">
+					</div>
+				</div>						
+				<input type="number" value="20" min="0" step="1" id="NumberUI" disabled="disabled" />
+		
+
+				<div class="dropdown" id="dropdownPD">
+					<h3 class="dropbtn">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext1">The minimum timeout is suggested here according to the inputs. It depends on the propagation delay and the ack size.</span>
+					</div>	
+					Minumun Timeout
+					</h3>
+					<div class="dropdown-content">
+					</div>
+				</div>						
+			<input type="number" value="20.01" min="0" step="any" id="TimeoutMin" disabled="disabled" /><span id="Consunit">
+				<select class="unitdisabled" disabled id="unitMT">
+					<option value = "1000000">μs</option>
+					<option value = "1000" selected="selected">ms</option>
+					<option value = "1">s</option>
+				</select></span>
+			
+
+				<div class="dropdown" id="dropdownPD">
+					<h3 class="dropbtn">
+					<div class="tooltip">&#10068;
+						<span class="tooltiptext1">Total time will be calculated and showed here after the end of the animation. There might be a small variance in the order of microsecond because of the execution of the algorithm itself.</span>
+					</div>	
+					Total Time
+					</h3>
+					<div class="dropdown-content">
+					</div>
+				</div>	
+
+			<input type="number" value="" step="any" id="TotalTime" disabled="disabled" /><span id="Consunit">
+				<select class="unitdisabled" disabled id="unitTotal">
+					<option value = "1000000">μs</option>
+					<option value = "1000" selected="selected">ms</option>
+					<option value = "1">s</option>
+				</select></span>
+				
+		</div>
+		
+		
+		
+		<!--div class="form-item">
+			<h3><label for="">emit packet</label></h3>
+			<input type="button" id="emit" onclick="contr.emit();" value="emit" />
+			<div class="description">click to emit one packet (if possible)</div>
+		</div-->
+		
+		
+		<!--div class="form-item">
+			<h3><label for="">pause simulation</label></h3></h3>
+			<input type="button" id="pause" onclick="contr.pause();" value="pause" />
+			<div class="description"></div>
+		</div-->
+
+
+	</form>
+	
+	
+	<div class="legend">
+		<h2>Legend</h2>
+		<table>
+			<tr>
+				<td><div class="dscPkg" style="background-color: white;">No data received yet</div></td>
+			
+			</tr>
+			<tr>
+				<td><div class="dscPkg" style="background-color: #00adef;">Buffered data</div></td>
+				
+			</tr>
+			<tr>
+				<td><div class="dscPkg" style="background-color: green;">ACK</div></td>
+				
+			</tr>
+			<tr>
+				<td><div  id="nackleg" class="dscPkg" style="background-color: red;">NACK</div></td>
+				
+			</tr>
+			<tr>
+				<td><div class="dscPkg" style="background-color: yellow;">Transmission confirmed</div></td>
+				
+			</tr>
+			<tr>
+				<td><div class="dscPkg" style="background-color: pink;">Data has been delivered to upper network layer</div></td> 
+				
+			</tr>
+		</table>
+			
+	<p>Coded by Johannes Kessler 2012</p>
+	<p>Developed by Reza Mohajer</p>
+	<p>Politecnico di Milano 2020-2021</p>
+	
+	</div>
+	<div id="log" class="legend" style="position: relative; overflow: auto;width: 1050px;height: 100px;display:inline-block; display: none;">
+	<p id="myLog">Log: </p>
+	</div>
+
+	
+	
+	<div id="svg" class="simulation">
+	<hr class="lineSender" ></hr>
+	<hr class="lineReciever"></hr>
+	<div class="lineV"> __Propagation delay__</div>
+		<div id="root">
+		
+		</div>
+	</div>
+	
+</body>
+
+
+</html>
