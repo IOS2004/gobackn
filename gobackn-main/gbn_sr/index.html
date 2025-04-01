@@ -60,6 +60,7 @@
       border-right: 1px solid var(--border-color);
       transition: transform 0.3s ease;
       overflow-y: auto;
+      overflow-x: visible;
       position: fixed;
       top: 0;
       bottom: 0;
@@ -78,7 +79,7 @@
     #sidebar-toggle {
       position: fixed;
       left: var(--sidebar-width);
-      top: 80px;
+      top: 15px;
       z-index: 101;
       background: var(--primary-color);
       color: white;
@@ -350,21 +351,37 @@
 
     .tooltip .tooltiptext, .tooltip .tooltiptext1 {
       visibility: hidden;
-      width: 200px;
+      max-width: 200px;
+      width: max-content;
       background-color: #555;
       color: #fff;
-      text-align: center;
+      text-align: left;
       border-radius: 6px;
-      padding: 5px;
+      padding: 8px 12px;
       position: absolute;
-      z-index: 1;
-      bottom: 125%;
-      left: 50%;
-      margin-left: -100px;
+      z-index: 1000;
+      left: 26px;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-left: 0;
       opacity: 0;
       transition: opacity 0.3s;
       font-size: 12px;
       font-weight: normal;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      pointer-events: none;
+      word-wrap: break-word;
+    }
+
+    .tooltip .tooltiptext::after, .tooltip .tooltiptext1::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: 100%;
+      margin-top: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent #555 transparent transparent;
     }
 
     .tooltip:hover .tooltiptext, .tooltip:hover .tooltiptext1 {
@@ -372,18 +389,44 @@
       opacity: 1;
     }
 
+    /* Adjust tooltip position for elements near the bottom of the sidebar */
+    #sidebar .form-item:nth-last-child(-n+3) .tooltip .tooltiptext,
+    #sidebar .form-item:nth-last-child(-n+3) .tooltip .tooltiptext1 {
+      bottom: 0;
+      top: auto;
+      transform: none;
+    }
+
+    #sidebar .form-item:nth-last-child(-n+3) .tooltip .tooltiptext::after,
+    #sidebar .form-item:nth-last-child(-n+3) .tooltip .tooltiptext1::after {
+      top: 15px;
+    }
+
     /* Log styles */
     #log {
       position: relative;
       overflow: auto;
       width: 100%;
-      height: 100px;
-      display: none;
+      height: 250px;
+      display: block;
       border: 1px solid var(--border-color);
       border-radius: 4px;
       padding: 10px;
       margin-top: 10px;
       background: white;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    #myLog {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      margin: 0;
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 100%;
+      overflow-x: hidden;
     }
 
     /* Responsive adjustments */
@@ -394,6 +437,12 @@
       
       header h1 {
         font-size: 1.5rem;
+      }
+      
+      .tooltip .tooltiptext, .tooltip .tooltiptext1 {
+        width: 180px;
+        max-width: 180px;
+        font-size: 11px;
       }
     }
 
@@ -473,6 +522,9 @@ window.console = {
 			    var node = document.createElement("div");
 			    node.appendChild(document.createTextNode(str));
 			    document.getElementById("myLog").appendChild(node);
+                // Auto-scroll to the bottom of the log window
+                var logContainer = document.getElementById("log");
+                logContainer.scrollTop = logContainer.scrollHeight;
 			  }
 }
 
@@ -1669,8 +1721,7 @@ function Display(windowNsender, windowNreceiver, hasWindowReceiver){
 					<div class="form-item">
 						<h3><label for="protocol">
 							<div class="tooltip">&#10068;
-								<span class="tooltiptext">This section is related to simulation control. Selecting the protocol type, Selecting the animation window's style,
-									Controling the speed of the animation and control buttons such as start/stop and reset.</span>
+								<span class="tooltiptext">This section is related to simulation control. Selecting the protocol type, animation window's style, and controlling the speed of the animation.</span>
 							</div>		
 							Simulation settings:</label>
 						</h3>
@@ -1791,40 +1842,12 @@ function Display(windowNsender, windowNreceiver, hasWindowReceiver){
 							Link Parameters:</label>
 						</h3>
 
-						<div class="dropdown" id="dropdownC">
-							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
-									<span class="tooltiptext">Enter the capacity of the link or select one of the default values.</span>
-								</div>
-								Capacity &#8628;
-							</h3>
-
-							<div class="dropdown-content">
-								<a onClick="contr.SetDefaultC(1, 1000); return false;">1 kbit/s</a>
-								<a onClick="contr.SetDefaultC(2, 1000); return false;">2 kbit/s</a>
-								<a onClick="contr.SetDefaultC(5, 1000); return false;">5 kbit/s</a>
-								<a onClick="contr.SetDefaultC(10, 1000); return false;">10 kbit/s</a>
-								<a onClick="contr.SetDefaultC(20, 1000); return false;">20 kbit/s</a>
-								<a onClick="contr.SetDefaultC(50, 1000); return false;">50 kbit/s</a>
-								<a onClick="contr.SetDefaultC(100, 1000); return false;">100 kbit/s</a>
-								<a onClick="contr.SetDefaultC(200, 1000); return false;">200 kbit/s</a>
-								<a onClick="contr.SetDefaultC(500, 1000); return false;">500 kbit/s</a>
-								<a onClick="contr.SetDefaultC(1, 1000000); return false;">1 Mbit/s</a>
-								<a onClick="contr.SetDefaultC(2, 1000000); return false;">2  Mbit/s</a>
-								<a onClick="contr.SetDefaultC(5, 1000000); return false;">5  Mbit/s</a>
-								<a onClick="contr.SetDefaultC(10, 1000000); return false;">10 Mbit/s</a>
-								<a onClick="contr.SetDefaultC(20, 1000000); return false;">20 Mbit/s</a>
-								<a onClick="contr.SetDefaultC(50, 1000000); return false;">50 Mbit/s</a>
-								<a onClick="contr.SetDefaultC(100, 1000000); return false;">100 Mbit/s</a>
-								<a onClick="contr.SetDefaultC(200, 1000000); return false;">200 Mbit/s</a>
-								<a onClick="contr.SetDefaultC(500, 1000000); return false;">500 Mbit/s</a>
-								<a onClick="contr.SetDefaultC(1, 1000000000); return false;">1 Gbit/s</a>
-								<a onClick="contr.SetDefaultC(2, 1000000000); return false;">2 Gbit/s</a>
-								<a onClick="contr.SetDefaultC(5, 1000000000); return false;">5 Gbit/s</a>
-								<a onClick="contr.SetDefaultC(10, 1000000000); return false;">10 Gbit/s</a>
+						<h3>
+							<div class="tooltip">&#10068;
+								<span class="tooltiptext">Enter the capacity of the link.</span>
 							</div>
-						</div>
-						
+							Capacity
+						</h3>
 						<input type="number" value="1" min="0" step="any" id="Capacity" onchange="contr.setCapacity(this);"/><span id="unit">
 							<select class="units" id="unitc" onchange="contr.setCapacity(this);">
 								<option value = "1">bit/s</option>
@@ -1834,36 +1857,12 @@ function Display(windowNsender, windowNreceiver, hasWindowReceiver){
 							</select>
 						</span>
 									
-						<div class="dropdown" id="dropdownL">
-							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
-									<span class="tooltiptext">Enter the length of the link or select one of the default values.</span>
-								</div>	
-								Length &#8628;
-							</h3>
-							<div class="dropdown-content">
-								<a onClick="contr.SetDefaultL(1, 1); return false;">1 m</a>
-								<a onClick="contr.SetDefaultL(2, 1); return false;">2 m</a>
-								<a onClick="contr.SetDefaultL(5, 1); return false;">5 m</a>
-								<a onClick="contr.SetDefaultL(10, 1); return false;">10 m</a>
-								<a onClick="contr.SetDefaultL(20, 1); return false;">20 m</a>
-								<a onClick="contr.SetDefaultL(50, 1); return false;">50 m</a>
-								<a onClick="contr.SetDefaultL(100, 1); return false;">100 m</a>
-								<a onClick="contr.SetDefaultL(200, 1); return false;">200 m</a>
-								<a onClick="contr.SetDefaultL(500, 1); return false;">500 m</a>
-								<a onClick="contr.SetDefaultL(1, 1000); return false;">1 km</a>
-								<a onClick="contr.SetDefaultL(2, 1000); return false;">2 km</a>
-								<a onClick="contr.SetDefaultL(5, 1000); return false;">5 km</a>
-								<a onClick="contr.SetDefaultL(10, 1000); return false;">10 km</a>
-								<a onClick="contr.SetDefaultL(20, 1000); return false;">20 km</a>
-								<a onClick="contr.SetDefaultL(50, 1000); return false;">50 km</a>
-								<a onClick="contr.SetDefaultL(100, 1000); return false;">100 km</a>
-								<a onClick="contr.SetDefaultL(200, 1000); return false;">200 km</a>
-								<a onClick="contr.SetDefaultL(500, 1000); return false;">500 km</a>
-								<a onClick="contr.SetDefaultL(1000, 1000); return false;">1000 km</a>
-							</div>
-						</div>
-
+						<h3>
+							<div class="tooltip">&#10068;
+								<span class="tooltiptext">Enter the length of the link.</span>
+							</div>	
+							Length
+						</h3>
 						<input type="number" value="1" id="Length" min="0" step="any" onchange="contr.setLength(this);"/><span id="unit">
 							<select class="units" id="unitl" onchange="contr.setLength(this);">
 								<option value = "1">m</option>
@@ -1871,19 +1870,12 @@ function Display(windowNsender, windowNreceiver, hasWindowReceiver){
 							</select>
 						</span>
 
-						<div class="dropdown" id="dropdownP">
-							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
-									<span class="tooltiptext">Enter the propagation speed or select one of the default values.</span>
-								</div>	
-								Propagation speed &#8628;
-							</h3>
-							<div class="dropdown-content">
-								<a onClick="contr.SetDefaultP(200000, 1000); return false;">200,000 km/s</a>
-								<a onClick="contr.SetDefaultP(300000, 1000); return false;">300,000 km/s</a>
-							</div>
-						</div>
-
+						<h3>
+							<div class="tooltip">&#10068;
+								<span class="tooltiptext">Enter the propagation speed.</span>
+							</div>	
+							Propagation speed
+						</h3>
 						<input type="number" value="200000"  min="0" step="any" id="Propagation" onchange="contr.setPropagation(this);"/><span id="unit">
 							<select class="units" id="unitp" onchange="contr.setPropagation(this);">
 								<option value = "1">m/s</option>
@@ -1900,26 +1892,12 @@ function Display(windowNsender, windowNreceiver, hasWindowReceiver){
 							Data Parameters:</label>
 						</h3>
 			
-						<div class="dropdown" id="dropdownD">
-							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
-									<span class="tooltiptext">Enter the total amount of data to be transmitted or select one of the default values.</span>
-								</div>	
-								Amount of Data &#8628;
-							</h3>
-							<div class="dropdown-content">
-								<a onClick="contr.SetDefaultD(100, 1); return false;">100 bit</a>
-								<a onClick="contr.SetDefaultD(200, 1); return false;">200 bit</a>
-								<a onClick="contr.SetDefaultD(500, 1); return false;">500 bit</a>
-								<a onClick="contr.SetDefaultD(1, 1000); return false;">1 kbit</a>
-								<a onClick="contr.SetDefaultD(2, 1000); return false;">2 kbit</a>
-								<a onClick="contr.SetDefaultD(5, 1000); return false;">5 kbit</a>
-								<a onClick="contr.SetDefaultD(10, 1000); return false;">10 kbit</a>
-								<a onClick="contr.SetDefaultD(20, 1000); return false;">20 kbit</a>
-								<a onClick="contr.SetDefaultD(50, 1000); return false;">50 kbit</a>
-								<a onClick="contr.SetDefaultD(100, 1000); return false;">100 kbit</a>
-							</div>
-						</div>					
+						<h3>
+							<div class="tooltip">&#10068;
+								<span class="tooltiptext">Enter the total amount of data to be transmitted.</span>
+							</div>	
+							Amount of Data
+						</h3>
 						<input type="number" value="10" min="0" step="any" id="DataSize" onchange="contr.setDataSize(this);"/><span id="unit">
 							<select class="units" id="unitd" onchange="contr.setDataSize(this);">
 								<option value = "1">bit</option>
@@ -1927,24 +1905,12 @@ function Display(windowNsender, windowNreceiver, hasWindowReceiver){
 							</select>
 						</span>
 						
-						<div class="dropdown" id="dropdownU">
-							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
-									<span class="tooltiptext">Enter the size of each information unit or select one of the default values.</span>
-								</div>	
-								IU Size &#8628;
-							</h3>
-							<div class="dropdown-content">
-								<a onClick="contr.SetDefaultU(100, 1); return false;">100 bit</a>
-								<a onClick="contr.SetDefaultU(200, 1); return false;">200 bit</a>
-								<a onClick="contr.SetDefaultU(500, 1); return false;">500 bit</a>
-								<a onClick="contr.SetDefaultU(1, 1000); return false;">1 kbit</a>
-								<a onClick="contr.SetDefaultU(2, 1000); return false;">2 kbit</a>
-								<a onClick="contr.SetDefaultU(5, 1000); return false;">5 kbit</a>
-								<a onClick="contr.SetDefaultU(10, 1000); return false;">10 kbit</a>
-							</div>
-						</div>						
-
+						<h3>
+							<div class="tooltip">&#10068;
+								<span class="tooltiptext">Enter the size of each information unit.</span>
+							</div>	
+							IU Size
+						</h3>
 						<input type="number" value="500" min="0" step="1" id="UnitSize" onchange="contr.setUnitSize(this);"/><span id="unit">
 							<select class="units" id="unitu" onchange="contr.setUnitSize(this);">
 								<option value = "1" selected="selected">bit</option>
@@ -1952,21 +1918,12 @@ function Display(windowNsender, windowNreceiver, hasWindowReceiver){
 							</select>
 						</span>
 								
-						<div class="dropdown" id="dropdownA">
-							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
-									<span class="tooltiptext">Enter the size of each ack unit or select one of the default values.</span>
-								</div>	
-								Ack Size &#8628;
-							</h3>
-							<div class="dropdown-content">
-								<a onClick="contr.SetDefaultA(10, 1); return false;">10 bit</a>
-								<a onClick="contr.SetDefaultA(20, 1); return false;">20 bit</a>
-								<a onClick="contr.SetDefaultA(50, 1); return false;">50 bit</a>
-								<a onClick="contr.SetDefaultA(100, 1); return false;">100 bit</a>
-							</div>
-						</div>	
-						
+						<h3>
+							<div class="tooltip">&#10068;
+								<span class="tooltiptext">Enter the size of each ack unit.</span>
+							</div>	
+							Ack Size
+						</h3>
 						<input type="number" value="20" min="0" step="1" id="AckSize" onchange="contr.setAckSize(this);"/><span id="unit">
 							<select class="units" id="unita" onchange="contr.setAckSize(this);">
 								<option value = "1" selected="selected">bit</option>
@@ -1983,16 +1940,12 @@ function Display(windowNsender, windowNreceiver, hasWindowReceiver){
 							Calculated Parameters:
 						</label></h3>
 
-						<div class="dropdown" id="dropdownTT">
-							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
-									<span class="tooltiptext1">The transmission time of each information unit is calculated according to the IU size and the link capacity.</span>
-								</div>	
-								IU Transmission Time
-							</h3>
-							<div class="dropdown-content">
-							</div>
-						</div>					
+						<h3>
+							<div class="tooltip">&#10068;
+								<span class="tooltiptext1">The transmission time of each information unit is calculated according to the IU size and the link capacity.</span>
+							</div>	
+							IU Transmission Time
+						</h3>
 						<input type="number" value="500" step="any" id="TransmissionTime" disabled="disabled" /><span id="Consunit">
 							<select class="unitdisabled" disabled id="unitTT">
 								<option value = "1000000">μs</option>
@@ -2001,16 +1954,12 @@ function Display(windowNsender, windowNreceiver, hasWindowReceiver){
 							</select>
 						</span>
 						
-						<div class="dropdown" id="dropdownPD">
-							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
-									<span class="tooltiptext1">The transmission time of each ack is calculated according to the ack size and the link capacity.</span>
-								</div>	
-								ACK Transmission Time
-							</h3>
-							<div class="dropdown-content">
-							</div>
-						</div>					
+						<h3>
+							<div class="tooltip">&#10068;
+								<span class="tooltiptext1">The transmission time of each ack is calculated according to the ack size and the link capacity.</span>
+							</div>	
+							ACK Transmission Time
+						</h3>
 						<input type="number" value="20" step="any" id="AckTT" disabled="disabled" /><span id="Consunit">
 							<select class="unitdisabled" disabled id="unitAT">
 								<option value = "1000000">μs</option>
@@ -2019,16 +1968,12 @@ function Display(windowNsender, windowNreceiver, hasWindowReceiver){
 							</select>
 						</span>
 						
-						<div class="dropdown" id="dropdownPD">
-							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
-									<span class="tooltiptext1">The propagation delay is calculated according to the link length and the propagation speed.</span>
-								</div>
-								Propagation delay
-							</h3>
-							<div class="dropdown-content">
+						<h3>
+							<div class="tooltip">&#10068;
+								<span class="tooltiptext1">The propagation delay is calculated according to the link length and the propagation speed.</span>
 							</div>
-						</div>
+							Propagation delay
+						</h3>
 						<input type="number" value="5" id="endToEndDelay2" disabled="disabled" /><span id="Consunit">
 							<select class="unitdisabled" disabled id="unitPD">
 								<option value = "1000000" selected="selected">μs</option>
@@ -2046,28 +1991,20 @@ function Display(windowNsender, windowNreceiver, hasWindowReceiver){
 							Calculated Parameters:
 						</label></h3>
 				
-						<div class="dropdown" id="dropdownPD">
-							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
-									<span class="tooltiptext1">The number of information units is calculated according to the IU size and the total amount of data.</span>
-								</div>
-								Number of IUs
-							</h3>
-							<div class="dropdown-content">
+						<h3>
+							<div class="tooltip">&#10068;
+								<span class="tooltiptext1">The number of information units is calculated according to the IU size and the total amount of data.</span>
 							</div>
-						</div>						
+							Number of IUs
+						</h3>
 						<input type="number" value="20" min="0" step="1" id="NumberUI" disabled="disabled" />
 				
-						<div class="dropdown" id="dropdownPD">
-							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
-									<span class="tooltiptext1">The minimum timeout is suggested here according to the inputs. It depends on the propagation delay and the ack size.</span>
-								</div>	
-								Minumun Timeout
-							</h3>
-							<div class="dropdown-content">
-							</div>
-						</div>						
+						<h3>
+							<div class="tooltip">&#10068;
+								<span class="tooltiptext1">The minimum timeout is suggested here according to the inputs. It depends on the propagation delay and the ack size.</span>
+							</div>	
+							Minumun Timeout
+						</h3>
 						<input type="number" value="20.01" min="0" step="any" id="TimeoutMin" disabled="disabled" /><span id="Consunit">
 							<select class="unitdisabled" disabled id="unitMT">
 								<option value = "1000000">μs</option>
@@ -2076,16 +2013,12 @@ function Display(windowNsender, windowNreceiver, hasWindowReceiver){
 							</select>
 						</span>
 					
-						<div class="dropdown" id="dropdownPD">
-							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
-									<span class="tooltiptext1">Total time will be calculated and showed here after the end of the animation. There might be a small variance in the order of microsecond because of the execution of the algorithm itself.</span>
-								</div>	
-								Total Time
-							</h3>
-							<div class="dropdown-content">
-							</div>
-						</div>	
+						<h3>
+							<div class="tooltip">&#10068;
+								<span class="tooltiptext1">Total time will be calculated and showed here after the end of the animation. There might be a small variance in the order of microsecond because of the execution of the algorithm itself.</span>
+							</div>	
+							Total Time
+						</h3>
 
 						<input type="number" value="" step="any" id="TotalTime" disabled="disabled" /><span id="Consunit">
 							<select class="unitdisabled" disabled id="unitTotal">
@@ -2141,7 +2074,7 @@ function Display(windowNsender, windowNreceiver, hasWindowReceiver){
 				<div id="root"></div>
 			</div>
 			
-			<div id="log" style="position: relative; overflow: auto; width: 100%; height: 150px; display: none; margin-top: 15px; border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; background: white;">
+			<div id="log" style="position: relative; overflow: auto; width: 100%; height: 250px; display: block; margin-top: 10px; border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; background: white;">
 				<p id="myLog">Log: </p>
 			</div>
 		</main>
