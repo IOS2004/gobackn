@@ -3,110 +3,138 @@
  */
  body {
   margin: 0;
-  padding: 3px;
-  background: #fff;
-  font: 12.2px Verdana, sans-serif;
-  color: #000;
+  padding: 10px; /* Added padding */
+  background: #f8f9fa; /* Lighter background */
+  font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; /* Modern font stack */
+  color: #212529; /* Darker text for better contrast */
   text-align: left;
   position:relative;
-    width:100%;
-    height:100%;
+  width:100%;
+  min-height: 100%; /* Changed from height */
+  box-sizing: border-box; /* Include padding in width/height */
 }
 html {
     position:relative;
     width:100%;
-	overflow-x: hidden;
-	overflow-y: scroll;
-
-
+    height: 100%; /* Ensure html takes full height */
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 input, textarea, select {
-	color: #000;
-	background: GhostWhite;
-	font-size: inherit;
-	font-family: inherit;
+  color: #343a40; /* Slightly darker input text */
+  background: #ffffff; /* White background for inputs */
+  border: 1px solid #ced4da; /* Standard border */
+  border-radius: 4px; /* Rounded corners */
+  padding: 6px 10px; /* Better padding */
+  font-size: inherit;
+  font-family: inherit;
+  box-sizing: border-box; /* Consistent sizing */
 }
 
+input:focus, textarea:focus, select:focus {
+  outline: none; /* Remove default outline */
+  border-color: #80bdff; /* Highlight on focus */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Subtle glow on focus */
+}
+
+input[type="button"] { /* Style buttons */
+  background-color: #007bff; /* Primary blue */
+  color: white;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+input[type="button"]:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+input[type="button"]:disabled {
+  background-color: #6c757d; /* Grey out disabled buttons */
+  border-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+
 h1,h2,h3,h4,h5,h6 {
-  margin: 0;
+  margin: 0 0 0.5em 0; /* Added bottom margin */
   padding: 0;
-  font-weight: normal;
-  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 500; /* Slightly bolder */
+  font-family: inherit; /* Use body font */
+  line-height: 1.2; /* Improved line height */
 }
 
 h1 {
-  font-size: 1.7em;
+  font-size: 1.8em;
+  color: #0056b3; /* Theme color for main title */
 }
 
 h2 {
   font-size: 1.6em;
+  margin-top: 1em; /* Space above H2 */
 }
 
 h3 {
-  font-size: 1.6em;
+  font-size: 1.3em; /* Slightly smaller H3 */
+  margin-bottom: 0.8em; /* More space below H3 */
+  color: #343a40;
 }
 
 h4 {
-  font-size: 1.3em;
-}
-
-h5 {
-  font-size: 1.2em;
-}
-
-h6 {
   font-size: 1.1em;
 }
 
-quote, code, fieldset {
-  margin: .5em 0;
+h5 {
+  font-size: 1.0em; /* Made H5 base font size */
 }
 
-code, pre, kbd {
-  font-size: 115%;
+h6 {
+  font-size: 0.9em;
 }
 
 p {
-  margin: 0.6em 0 1.2em;
+  margin: 0 0 1em; /* Consistent bottom margin */
   padding: 0;
+  line-height: 1.5; /* Better paragraph readability */
 }
 
 a:link,
 a:visited {
-  color: #00adef;
-  text-decoration: underline;
+  color: #007bff; /* Theme blue for links */
+  text-decoration: none; /* Remove underline by default */
 }
 
 a:hover {
-  color: #141309;
-  text-decoration: underline;
-}
-
-a:active,
-a.active {
-  color: #555555;
+  color: #0056b3;
+  text-decoration: underline; /* Underline on hover */
 }
 
 hr {
-  margin: 0;
+  margin: 1rem 0; /* More vertical space */
   padding: 0;
   border: none;
   height: 1px;
-  background: #4f4f4f;
+  background: #dee2e6; /* Lighter hr */
 }
 
 ul, ol {
-  margin: 0.5em 0 1em;
-  padding: 0 0 0 1.5em; /* LTR */
+  margin: 0 0 1em; /* Consistent bottom margin */
+  padding: 0 0 0 20px; /* Adjusted padding */
 }
 
-
 dl {
-  margin: 0.5em 0 1em 1.5em; /* LTR */
+  margin: 0 0 1em; /* Consistent bottom margin */
+  padding-left: 5px; /* Reduced indent */
 }
 
 dl dt {
+  font-weight: bold;
+  margin-bottom: 0.2em;
 }
 
 dl dd {
@@ -118,443 +146,373 @@ a img {
   border: none;
 }
 
-table, td, th{
-	border-collapse: collapse;
-	border: 1px solid #00ADEF;
-	padding: 2px;
-	vertical-align: top;
+table { /* Basic table styling */
+    width: 100%; /* Make tables responsive */
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+    border: 1px solid #dee2e6; /* Lighter borders */
+}
+td, th {
+    padding: .75rem; /* More padding */
+    vertical-align: top;
+    border: 1px solid #dee2e6; /* Lighter borders */
+    text-align: left; /* Align text left */
+}
+
+th {
+    background-color: #e9ecef; /* Light grey header */
+    border-bottom-width: 2px; /* Thicker bottom border on header */
+    font-weight: 600; /* Bolder header text */
 }
 span{
-	position: relative;
+  position: relative; /* Kept as is, might be needed by JS positioning */
 }
 
-
-th{
-	font-size: 0.8em;
-	text-align: left;
-	background: #ffffff url(../images/gradient-inner.png) repeat-x 0 0;
-	padding: 3px;
-}
+/* --- Keep existing simulation lines, tooltip, etc. for now --- */
+/* --- Will refine these in the next steps --- */
 .lineSender{
   border: 0;
-  background-color: #000;
-  height: 2px;
+  background-color: #343a40; /* Darker grey line */
+  height: 1px; /* Thinner line */
   width: 100%;
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */ /* Removed */
   margin-top: 40px;
   position: absolute;
+  left: 0; /* Ensure it starts at edge */
 }
 
 .lineReciever{
   border: 0;
-  background-color: #000;
-  height: 2px;
+  background-color: #343a40; /* Darker grey line */
+  height: 1px; /* Thinner line */
   width: 100%;
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */ /* Removed */
   margin-top: 360px;
   position: absolute;
+   left: 0; /* Ensure it starts at edge */
 }
 
 .lineV {
-  border-left: 2px solid green;
+  border-left: 1px solid #28a745; /* Theme green */
   height: 320px;
   margin-top: 40px;
-  margin-left: 5px;
+  margin-left: 10px; /* Adjusted spacing */
   writing-mode: vertical-lr;
   transform: rotate(180deg);
   text-align: center;
-  font: 12px Arial;
+  font: 11px Arial, sans-serif; /* Slightly smaller */
+  color: #28a745; /* Theme green */
   position: absolute;
+  padding-left: 3px; /* Space text from line */
 
 }
 
 .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black;
+  /* border-bottom: 1px dotted black; */ /* Removing dotted line */
+  cursor: help; /* Indicate help available */
 }
 
- .tooltiptext {
+ .tooltiptext, .tooltiptext1 { /* Combined rules */
   visibility: hidden;
-  width: 300px;
-  background-color: black;
+  width: 250px; /* Slightly narrower */
+  background-color: #343a40; /* Dark background */
   color: #fff;
   text-align: center;
-  border-radius: 6px;
-  border: 2px solid grey;
-  padding: 5px 5px;
-  top: 1px;
-  left: 15px;
-  line-height: normal;
+  border-radius: 4px; /* Consistent rounding */
+  /* border: 2px solid grey; */ /* Removed border */
+  padding: 8px 10px; /* Adjusted padding */
+  line-height: 1.4; /* Better line spacing */
+  font-size: 12px; /* Slightly smaller tooltip text */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Subtle shadow */
 
   /* Position the tooltip */
   position: absolute;
   z-index: 200;
+  opacity: 0; /* Start hidden for transition */
+  transition: opacity 0.2s;
 }
- .tooltiptext1 {
-  visibility: hidden;
-  width: 300px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  border: 2px solid grey;
-  padding: 5px 5px;
-  top: 1px;
-  right: 15px;
-  line-height: normal;
-
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
+.tooltiptext { /* Specific position for standard tooltip */
+  top: 100%; /* Position below */
+  left: 50%;
+  transform: translateX(-50%); /* Center align */
+  margin-top: 5px; /* Space from element */
+}
+.tooltiptext1 { /* Specific position for other tooltip */
+   top: 100%; /* Position below */
+   right: 0; /* Align right */
+   margin-top: 5px; /* Space from element */
 }
 
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-}
+.tooltip:hover .tooltiptext,
 .tooltip:hover .tooltiptext1 {
   visibility: visible;
+  opacity: 1; /* Fade in */
 }
 
-
 .browser-features-missing{
-	background-color: #FFBDBE;
-	border: 3px solid red;
-	
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	
-	padding: 15px;
-	margin-bottom: 32px;
+  background-color: #f8d7da; /* Bootstrap danger light */
+  border: 1px solid #f5c6cb; /* Bootstrap danger border */
+  color: #721c24; /* Bootstrap danger text */
+  border-radius: 4px; /* Consistent rounding */
+  padding: 15px;
+  margin-bottom: 32px;
 }
 
 
 /* config */
-
 .config, .legend, .def{
-	background: #ffffff url(../images/gradient-inner.png) repeat-x 0 0;
-	
-	border: 2px solid #00adef;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	
-	margin: 10px 10px 10px 0px;
-	padding: 0.1em 1em 0em;
+  background: #ffffff; /* Plain white background */
+  border: 1px solid #dee2e6; /* Lighter border */
+  border-radius: 6px; /* Slightly larger rounding */
+  margin: 15px 10px 15px 0px; /* Increased vertical margin */
+  padding: 15px 20px; /* Increased padding */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Very subtle shadow */
 }
 
 .config{
-	-webkit-column-width: 17em;
-	-webkit-column-gap: 10px;
-	-moz-column-width: 17em;
-	-moz-column-gap: 10px;
-	column-width: 16em;
-	column-gap: 10px;
-	column-count: 6;
-	margin-bottom: 0.3em;
-	margin-top: 0.1em;
-	
+  /* Keep column layout for now, might revise later */
+  -webkit-column-width: 17em;
+  -webkit-column-gap: 20px; /* Increased gap */
+  -moz-column-width: 17em;
+  -moz-column-gap: 20px;
+  column-width: 16em;
+  column-gap: 20px;
+  column-count: 6; /* Retain column count */
+  margin-bottom: 1em; /* Space below config */
+  margin-top: 1em;
 }
 
 
 .config > .form-item{
-	margin-bottom: 0em;
-    margin-top: 0.1em;
-	
-	padding-left: 0.1em;
-	
-	break-inside: avoid;
-	-moz-column-break-inside: avoid;
-	-webkit-column-break-inside: avoid;
-	-moz-break-inside: avoid;
-	display: block;
-	
-	width: 17em;
+  margin-bottom: 1.5em; /* Increased space between items */
+  margin-top: 0;
+  padding-left: 0; /* Removed padding */
+  break-inside: avoid;
+  -moz-column-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  -moz-break-inside: avoid;
+  display: block;
+  width: 100%; /* Let columns manage width */
 }
 
 .config .form-item.disable.disabled{
-	background-color: silver;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
+  background-color: #e9ecef; /* Lighter disabled background */
+  border-radius: 4px;
+  padding: 5px; /* Add padding when disabled */
+  opacity: 0.7; /* Make it look faded */
 }
 
-/* keep heading out of column layout */
-.config > h2:first-child{
-	position: absolute;
+.config > h2:first-child{ /* May not be needed if structure changes */
+  /* position: absolute; */ /* Removing absolute positioning */
+  margin-bottom: 1em;
 }
-.config > *:nth-child(1){
-	margin-top: 0em;
-	padding-left: 2em;
+.config > *:nth-child(1){ /* Keep for now */
+  margin-top: 0em;
+  /* padding-left: 2em; */ /* Removed padding */
 }
-
 
 
 .config > .form-item > h3{
-	font-size: inherit;
-	font-weight: bold;
-	font-family: inherit;
-	
-	margin-left: -2.3em;
-	margin-bottom: 0.5em;
+  font-size: 1.1em; /* Slightly smaller H3 inside config */
+  font-weight: 600; /* Bolder */
+  font-family: inherit;
+  margin-left: 0; /* Remove negative margin */
+  margin-bottom: 0.6em;
+  padding-bottom: 0.3em; /* Space below title */
+  border-bottom: 1px solid #eee; /* Subtle separator */
 }
 
 .config > .form-item > h5{
-	font-size: inherit;
-	font-family: inherit;
-	
-	margin-left: -2.3em;
-	margin-bottom: 1em;
-	
+  font-size: 1em;
+  font-family: inherit;
+  font-weight: 600; /* Bolder labels */
+  margin-left: 0; /* Removed negative margin */
+  margin-bottom: 0.5em; /* Space below label */
 }
 
 .config label{
-	display: block;
-	
+  display: block;
+  margin-bottom: 0.3em; /* Space below labels */
+  font-weight: 500; /* Slightly bolder labels */
 }
 
 .config label.option{
-	display: inline;
-	font-weight: normal;
+  display: inline-block; /* Better alignment */
+  font-weight: normal;
+  margin-right: 10px; /* Space options */
 }
 
 .config .description{
-	font-size: 0.92em;
-	color: #000;
-	line-height: 150%;
-	margin-top: 0.4em;
-	margin-bottom: 0.75em;
+  font-size: 0.85em; /* Smaller description text */
+  color: #6c757d; /* Muted grey color */
+  line-height: 1.4;
+  margin-top: 0.4em;
+  margin-bottom: 0.75em;
 }
 
-.config input{
-	font-size: 1em;
-
+/* Input number styling */
+.config input[type=number] {
+    width: calc(100% - 60px); /* Adjust width calculation based on unit select */
+    padding: 6px 10px;
+    margin: 0 5px 0.3em 0; /* Adjust margin */
+    display: inline-block; /* Align with select */
+    vertical-align: middle; /* Align with select */
 }
+
 .config input[type=number]:enabled {
-	background-color: Ivory;
-    width: 80%;
-    padding: 3px 3px;
-    margin: 3px 1px;
-	margin-bottom: 0.3em;
-    box-sizing: border-box;  
-	
+  background-color: #fff;
+  border: 1px solid #ced4da;
 }
 
 .config input[type=number]:disabled{
-	background-color: Salmon;
-    width: 80%;
-    padding: 3px 3px;
-    margin: 3px 1px;
-	margin-bottom: 0.3em;
-    box-sizing: border-box;  
-}
-.config span[id=Consunit]{ 
-	border-style: none;
-	width: 30%;
-    padding: 1px 1px;
-    margin: 1px 7px;
-    box-sizing: border-box; 
-	margin-left:-50px;
-}
-.units {
-	border-style: none;
-	background-color: Ivory;
-	width: 30%;
-    padding: 1px 1px;
-    margin: 1px 7px;
-    box-sizing: border-box; 
-	margin-left:-70px;
+  background-color: #e9ecef; /* Consistent disabled background */
+  color: #6c757d;
+  border: 1px solid #ced4da;
+  cursor: not-allowed;
 }
 
+/* Unit select styling */
+.config span#unit, .config span#Consunit {
+  border-style: none;
+  width: 55px; /* Fixed width for units */
+  padding: 0;
+  margin: 0;
+  display: inline-block; /* Align with input */
+  vertical-align: middle; /* Align with input */
+  margin-left: -5px; /* Pull closer to input */
+}
+
+.units, .unitdisabled {
+  width: 100%; /* Fill the span */
+  padding: 6px 5px; /* Match input padding (adjust left/right) */
+  margin: 0;
+  border: 1px solid #ced4da;
+  border-left: none; /* Remove left border to merge with input */
+  border-radius: 0 4px 4px 0; /* Round right corners only */
+  height: 32px; /* Match input height (adjust as needed) */
+  font-size: 12px; /* Smaller unit text */
+  box-sizing: border-box;
+  background-color: #e9ecef; /* Light grey background for units */
+  -webkit-appearance: none; /* Remove default styling */
+  -moz-appearance: none;
+  appearance: none;
+}
 .unitdisabled {
-	border-style: none;
-	color: black;
-	background-color: Salmon;
-	width: 20%;
-    padding: 1px 1px;
-    margin: 1px 1px;
-    box-sizing: border-box; 
-	margin-left:0px;
+  background-color: #e9ecef; /* Keep background same when disabled */
+  color: #6c757d;
+  cursor: not-allowed;
 }
-
 
 select:disabled {
   /* for Firefox */
   -moz-appearance: none;
   /* for Chrome */
   -webkit-appearance: none;
- 
 }
 
-select::-ms-expand {
+select::-ms-expand { /* Hide IE arrow */
   display: none;
 }
 
 
-
-
 /* legend */
-
 .legend{
-	float: left;
+  float: none; /* Let it take block layout */
+  width: auto; /* Adjust width */
+  margin-bottom: 1em; /* Space below legend */
 }
-
-.legend table, .legend td, .legend th{
-	border-style: none;
+.legend h2 {
+    font-size: 1.3em;
+    margin-bottom: 0.8em;
+}
+.legend table { /* Reset table styles within legend */
+    border: none;
+    width: auto;
+    margin-bottom: 0;
+}
+.legend td, .legend th{
+  border: none;
+  padding: 4px 0; /* Adjust padding */
+  vertical-align: middle; /* Center vertically */
 }
 
 /* simulation */
 .simulation{
-	-moz-box-shadow: 10px 10px 5px #888;
-	-webkit-box-shadow: 10px 10px 5px #888;
-	box-shadow: 10px 10px 5px #888;
-	padding: 1em 0 1em 0;
-	border: 1px solid black;
-	overflow: hidden;
-	background-color: Ivory;
+  box-shadow: none; /* Remove shadow */
+  padding: 10px; /* Reduced padding */
+  border: 1px solid #dee2e6; /* Lighter border */
+  background-color: #fff; /* White background */
+  margin-top: 1em; /* Space above simulation */
 }
 
-/* input range fix for android stock browser (http://tiffanybbrown.com/2012/02/07/input-typerange-and-androids-stock-browser/)*/
-input[type=range]{
-    background: #D8D8D8;
-    height: auto;
-}
-
-input[type=range]::-webkit-slider-thumb{
-    background: #00adef;
-    height: 30px;
-    width: 30px;
-    border-radius: 30px;
-}
+/* Remove input range fixes as we style inputs directly */
+/* input[type=range]... */
 
 
+/* Dropdown styling */
 .dropbtn {
-  background-color: none;
-  color: black;
-  display: inline-block;
-  font-size: 12px;
-  width: 100%;
-  box-sizing: border-box; 
-  padding: 0.1em 0em 0.1em 0.1em;
-  margin: 0;
-   border: none;
+  background-color: transparent; /* No background */
+  color: #007bff; /* Theme blue */
+  display: block; /* Make it block */
+  font-size: 1em; /* Match surrounding text */
+  font-weight: 600;
+  width: auto; /* Auto width */
+  padding: 0;
+  margin: 0 0 5px 0; /* Space below button */
+  border: none;
   outline: none;
+  cursor: pointer;
+  text-align: left;
 }
-
+.dropbtn:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
 
 .dropdown {
   position: relative;
-  display: inline-block;
-  
+  display: block; /* Make dropdowns block elements */
+  margin-bottom: 5px; /* Space between dropdown triggers */
 }
 
-.dropdown [id = dropdownC]{
-
-  position: absolute;
-  display: inline-block;
-
-}
-
-.dropdown [id = dropdownL]{
-  position: absolute;
-  display: inline-block;
-  z-index: 99;
-
-}
-
-.dropdown [id = dropdownP]{
-  position: absolute;
-  display: inline-block;
-  z-index: 98;
-}
-
-.dropdown [id = dropdownD]{
-  position: absolute;
-  display: inline-block;
-  z-index: 100;
-}
-
-.dropdown [id = dropdownU]{
-  position: absolute;
-  display: inline-block;
-  z-index: 99;
-}
-
-.dropdown [id = dropdownA]{
-  position: absolute;
-  display: inline-block;
-  z-index: 98;
-}
+/* Remove absolute positioning for dropdown IDs */
+/* .dropdown [id = dropdownC]... etc. */
 
 .dropdown-content {
   display: none;
-  position: fixed;
-  background-color: #f1f1f1;
-  min-width: 100px;
-  margin-top:-3px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  position: absolute; /* Changed from fixed */
+  background-color: #fff;
+  min-width: 160px; /* Increased width */
+  margin-top: 2px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.15); /* Softer shadow */
   z-index: 100;
-  overflow:visible;
+  border: 1px solid #dee2e6; /* Border */
+  border-radius: 4px;
 }
 
 .dropdown-content a {
   color: black;
-  padding: 5px 16px;
+  padding: 8px 16px; /* Increased padding */
   text-decoration: none;
   display: block;
+  font-size: 13px; /* Match body font */
 }
 
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content a:hover {
+    background-color: #f8f9fa; /* Light hover */
+    color: #0056b3;
+}
 
 .dropdown:hover .dropdown-content {
-	position: fixed;
-	display: block;
-	margin-top:-3px;
-	z-index: 50;
-	}
-
-.dropdown:hover .dropbtn {
-	background-color: SkyBlue;
-	
+  display: block; /* Keep display block on hover */
 }
 
+/* Remove hover background on dropbtn */
+/* .dropdown:hover .dropbtn {...} */
 
-@media screen and (min-width: 1200px){
-	/*body{
-		padding-left: 5em;
-	}
-	body > h1:first-child{
-		-moz-transform: rotate(90deg);
-		-moz-transform-origin: left bottom;
-		-o-transform: rotate(90deg);
-		-o-transform-origin: left bottom;
-		-webkit-transform: rotate(90deg);
-		-webkit-transform-origin: left bottom;
-		transform: rotate(90deg);
-		transform-origin: left bottom;
-		
-		
-		font-size: 5em;
-		margin-left: -1.2em;
-		position: absolute;
-		top: -1em;
-	}*/
-}
 
-/*@media handheld and (orientation: landscape), screen and (orientation: landscape) and (max-height: 550px)
-	, screen and (max-width: 550px) {
-	
-	body.mobile > *:not(.simulation){
-		display: none;
-	}
-	body.mobile .simulation{
-		margin: 0px;
-		border: 0px;
-		-moz-box-shadow: 0 0 0 0 #888;
-		-webkit-box-shadow: 0 0 0 0 #888;
-		box-shadow: 0 0 0 0 #888;
-	}
-	body.mobile{
-	}
-}*/
+/* Remove media queries for now, focus on base style */
+/* @media ... */
