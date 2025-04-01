@@ -66,7 +66,6 @@
       bottom: 0;
       left: 0;
       z-index: 100;
-      padding-top: 70px;
       height: 100vh;
       box-shadow: 2px 0 5px var(--shadow-color);
     }
@@ -132,7 +131,8 @@
 
     .tab-button.active {
       background: white;
-      border-bottom: 2px solid var(--primary-color);
+      border-bottom: 3px solid var(--primary-color);
+      font-weight: 600; /* Make active tab text bolder */
     }
 
     .tab-content {
@@ -175,8 +175,11 @@
       background: var(--primary-color);
       color: white;
       cursor: pointer;
-      padding: 6px 12px;
+      padding: 8px 15px; /* Slightly larger padding */
       border: none;
+      border-radius: 4px; /* Slightly more rounded corners */
+      transition: background-color 0.2s ease; /* Smooth transition */
+      margin-right: 5px; /* Space between buttons */
     }
 
     input[type="button"]:hover {
@@ -462,6 +465,25 @@
       #main-content.expanded {
         margin-top: 50px;
       }
+    }
+
+    /* Make main section headings bolder and slightly larger */
+    .form-item > h3 > label { /* Target the label inside h3 */
+      font-weight: 600; /* Bolder weight */
+      font-size: 1.05rem; /* Slightly larger font size */
+    }
+
+    .form-item > h3 { /* Keep margin on the h3 */
+      margin-bottom: 1rem; /* Add consistent spacing below */
+    }
+
+    /* Add zebra striping to log entries (Increased Specificity) */
+    #log #myLog > div:nth-child(even) {
+      background-color: #f8f9fa; /* Light gray for even rows */
+    }
+
+    #log #myLog > div {
+      padding: 2px 5px; /* Add slight padding to log lines */
     }
 	</style>
 	<script type="text/javascript" src="../global/js/jquery-1.7.1.min.js"></script>
