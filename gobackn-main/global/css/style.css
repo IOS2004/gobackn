@@ -18,7 +18,7 @@ html {
     width:100%;
     height: 100%; /* Ensure html takes full height */
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 input, textarea, select {
@@ -264,7 +264,7 @@ span{
 
 /* config */
 .config, .legend, .def{
-  background: #ffffff; /* Plain white background */
+  background: #fffefe; /* Plain white background */
   border: 1px solid #dee2e6; /* Lighter border */
   border-radius: 6px; /* Slightly larger rounding */
   margin: 15px 10px 15px 0px; /* Increased vertical margin */
@@ -388,7 +388,7 @@ span{
 .units, .unitdisabled {
   width: 100%; /* Fill the span */
   padding: 6px 5px; /* Match input padding (adjust left/right) */
-  margin: 0;
+  margin-bottom: 5px;
   border: 1px solid #ced4da;
   border-left: none; /* Remove left border to merge with input */
   border-radius: 0 4px 4px 0; /* Round right corners only */
@@ -514,5 +514,78 @@ select::-ms-expand { /* Hide IE arrow */
 /* .dropdown:hover .dropbtn {...} */
 
 
-/* Remove media queries for now, focus on base style */
-/* @media ... */
+::-webkit-scrollbar {
+  width: 8px;  /* Width of vertical scrollbar */
+  height: 8px; /* Height of horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track-bg); /* Use variable */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-bg); /* Use variable */
+  border-radius: 4px;
+  border: 1px solid var(--scrollbar-thumb-border); /* Use variable */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover-bg); /* Use variable */
+}
+
+/* --- General Scrollbar Styling (Firefox) --- */
+/* Apply to the root HTML element for the main page scrollbar */
+html {
+  scrollbar-width: thin;
+  /* Use variables: thumb color track color */
+  scrollbar-color: var(--scrollbar-thumb-bg) var(--scrollbar-track-bg);
+}
+
+/* --- Specific Styling for the #log element (Firefox) --- */
+/* Ensure #log gets the Firefox styling too */
+#log {
+ scrollbar-width: thin;
+ /* Use variables: thumb color track color */
+ scrollbar-color: var(--scrollbar-thumb-bg) var(--scrollbar-track-bg);
+ /* Make sure overflow is set correctly */
+ overflow: auto; /* Or scroll */
+}
+
+#sidebar::-webkit-scrollbar {
+  width: 8px; /* Keep consistent width */
+}
+
+#sidebar::-webkit-scrollbar-track {
+  /* Track background should match the sidebar's background */
+  background: var(--sidebar-bg);
+  border-radius: 0; /* Optional: Remove radius if desired */
+  /* Add a subtle border to delineate track if needed */
+  /* border-left: 1px solid var(--border-color); */ /* Uncomment if you want a line */
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+  /* Thumb color should contrast sidebar-bg but fit theme */
+  /* Using --border-color often works well */
+  background-color: var(--border-color);
+  border-radius: 4px; /* Keep rounded thumb */
+  /* Border around the thumb using a slightly different shade */
+  border: 1px solid var(--sidebar-bg); /* Match track bg */
+}
+
+#sidebar::-webkit-scrollbar-thumb:hover {
+  /* Hover color - use a slightly lighter/brighter shade */
+  /* --input-border might be suitable */
+  background-color: var(--input-border);
+}
+
+/* --- Firefox --- */
+#sidebar {
+ scrollbar-width: 8px; /* Keep thin */
+ /* Thumb color , Track color */
+ /* Use same logic: thumb = border-color, track = sidebar-bg */
+ scrollbar-color: var(--border-color) var(--sidebar-bg);
+ /* Ensure overflow settings are correct on #sidebar */
+ overflow-y: auto; /* Already set in original HTML, but good to confirm */
+ overflow-x: hidden; /* Prevent horizontal scrollbar */
+}
