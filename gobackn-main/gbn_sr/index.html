@@ -11,107 +11,104 @@
 		href="../global/css/jqui-lightness/jquery-ui-1.8.18.custom.css" />
 	<style type="text/css">
 		:root {
-			/* Light Mode Colors */
-			--primary-color: #00ADEF;
+			/* Light Mode Colors - Enhanced with better contrast */
+			--primary-color: #0062b0; /* Deeper blue for better visibility */
 			--sidebar-width: 400px;
-			--sidebar-bg: #f8f9fa;
-			--border-color: #dee2e6;
-			--shadow-color: rgba(0, 0, 0, 0.1);
-			--text-color: #212529;
-			--header-bg: #f1f8fc;
+			--sidebar-bg: #f0f4f8; /* Keep existing sidebar tone */
+			--border-color: #a4b5c6; /* Darker borders for definition */
+			--shadow-color: rgba(0, 0, 0, 0.15);
+			--text-color: #1a2a36; /* Keep existing text color */
+			--header-bg: #e3f2fd;
 			--body-bg: #ffffff;
 			--input-bg: #ffffff;
-			--input-border: #ced4da;
+			--input-border: #8ca3b8; /* Slightly darker for better definition */
 			--button-bg: var(--primary-color);
 			--button-text: #ffffff;
-			--button-hover-bg: #0090c5;
-			--tooltip-bg: #555;
+			--button-hover-bg: #005b96;
+			--tooltip-bg: #344955;
 			--tooltip-text: #fff;
 			--tooltip-info-bg: #e9ecef;
 			--log-bg: #ffffff;
 			--log-border: var(--border-color);
-			--log-even-row-bg: #f8f9fa;
-			--packet-default-bg: #cfe2ff;
-			--packet-default-border: #a6c8ff;
-			--packet-default-text: #00307a;
-			--packet-delivered-bg: #f1d3f7;
-			--packet-delivered-border: #e4a8ed;
-			--packet-delivered-text: #58156e;
-			--packet-confirmed-bg: #fff3cd;
-			--packet-confirmed-border: #ffeeba;
-			--packet-confirmed-text: #664d03;
-			--packet-ack-bg: #d1e7dd;
-			--packet-ack-border: #badbcc;
-			--packet-ack-text: #0f5132;
-			--packet-nack-bg: #f8d7da;
-			--packet-nack-border: #f5c2c7;
-			--packet-nack-text: #842029;
-			--packet-empty-bg: #f8f9fa;
-			--packet-empty-border: #dee2e6;
-			--packet-empty-text: #ced4da;
-			--window-bg: #e9ecef;
-			--window-border: #6c757d;
-			--sim-bg: #f8f9fa;
-			/* Added */
+			--log-even-row-bg: #f5f9fc;
+			
+			/* More saturated packet colors for better distinction */
+			--packet-default-bg: #90caf9; /* Brighter blue */
+			--packet-default-border: #1976d2;
+			--packet-default-text: #0d47a1;
+			--packet-delivered-bg: #ce93d8; /* Richer purple */
+			--packet-delivered-border: #8e24aa;
+			--packet-delivered-text: #4a148c;
+			--packet-confirmed-bg: #ffe082; /* Brighter amber */
+			--packet-confirmed-border: #ffa000;
+			--packet-confirmed-text: #e65100;
+			--packet-ack-bg: #a5d6a7; /* Richer green */
+			--packet-ack-border: #2e7d32;
+			--packet-ack-text: #1b5e20;
+			--packet-nack-bg: #ef9a9a; /* Brighter red */
+			--packet-nack-border: #c62828;
+			--packet-nack-text: #b71c1c;
+			--packet-empty-bg: #cfd8dc; /* Distinct gray - not washed out */
+			--packet-empty-border: #607d8b;
+			--packet-empty-text: #37474f;
+			--window-bg: #bbdefb;
+			--window-border: #1976d2;
+			--sim-bg: #f7fafc;
+			/* Keep all other variables the same */
+			
+			/* Added previously */
 			--tab-bg: var(--sidebar-bg);
 			--tab-active-bg: var(--body-bg);
 			--tab-border: var(--border-color);
 			--tab-active-border: var(--primary-color);
 			/* Scrollbar Colors - Light Mode */
 			--scrollbar-track-bg: #f1f1f1;
-			/* Very light grey track */
-			--scrollbar-thumb-bg: #adb5bd;
-			/* Medium grey thumb */
-			--scrollbar-thumb-hover-bg: #6c757d;
-			/* Darker grey thumb hover */
+			--scrollbar-thumb-bg: #90a4ae;
+			--scrollbar-thumb-hover-bg: #546e7a;
 			--scrollbar-thumb-border: var(--border-color);
-			/* Use existing light border */
 		}
 
 		body.dark-mode {
-			/* Dark Mode Colors */
-			--primary-color: #00ADEF;
-			/* Keep primary color? Or adjust? */
-			--sidebar-bg: #2c3034;
-			--border-color: #6c757d;
-			/* Made slightly lighter for better line contrast */
-			--shadow-color: rgba(255, 255, 255, 0.05);
-			--text-color: #e9ecef;
-			--header-bg: #1a1d20;
-			--body-bg: #212529;
-			--input-bg: #343a40;
-			--input-border: #495057;
+			/* Dark Mode Colors - Enhanced and Darkened */
+			--primary-color: #00a2ff; /* Brighter, more saturated blue for better visibility on dark */
+			--sidebar-bg: #1a1d21; /* Much darker sidebar */
+			--border-color: #3d4852; /* Darker, more subtle borders */
+			--shadow-color: rgba(0, 0, 0, 0.5); /* Increased shadow opacity */
+			--text-color: #ffffff; /* Pure white text for maximum contrast */
+			--header-bg: #0d1117; /* Very dark header */
+			--body-bg: #0d1117; /* Very dark body background, GitHub dark theme inspired */
+			--input-bg: #21262d; /* Darker input fields */
+			--input-border: #30363d; /* Darker, more subtle input borders */
 			--button-bg: var(--primary-color);
 			--button-text: #ffffff;
-			--button-hover-bg: #00c0ff;
-			/* Lighter hover for dark */
-			--tooltip-bg: #f8f9fa;
-			--tooltip-text: #212529;
-			--tooltip-info-bg: #495057;
-			--log-bg: #2c3034;
+			--button-hover-bg: #1f6feb; /* Rich blue hover */
+			--tooltip-bg: #f0f6fc;
+			--tooltip-text: #0d1117;
+			--tooltip-info-bg: #21262d;
+			--log-bg: #161b22; /* Slightly lighter than body bg for contrast */
 			--log-border: var(--border-color);
-			--log-even-row-bg: #343a40;
-			--packet-default-bg: #3a5b8e;
-			--packet-default-border: #5c84c7;
-			--packet-default-text: #dbe4f4;
-			--packet-delivered-bg: #6e3b7a;
-			--packet-delivered-border: #a56eaa;
-			--packet-delivered-text: #f5e7f9;
-			--packet-confirmed-bg: #7a6c3b;
-			--packet-confirmed-border: #b7a76c;
-			--packet-confirmed-text: #fff9e4;
-			--packet-ack-bg: #3c634e;
-			--packet-ack-border: #699b82;
-			--packet-ack-text: #e6f0ea;
-			--packet-nack-bg: #8b414a;
-			--packet-nack-border: #c27b83;
-			--packet-nack-text: #fce8ea;
-			--packet-empty-bg: #343a40;
-			--packet-empty-border: #495057;
-			--packet-empty-text: #6c757d;
-			--window-bg: #495057;
-			--window-border: #6c757d;
-			--sim-bg: #2c3034;
+			--log-even-row-bg: #1c2127; /* Very subtle contrast for alternating rows */
+			--packet-default-bg: #0d4a7f; /* Darker blue */
+			--packet-default-border: #1a6bae;
+			--packet-default-text: #e3f2fd;
+			--packet-delivered-bg: #5b1178; /* Darker purple */
+			--packet-delivered-border: #7b1fa2;
+			--packet-delivered-text: #f5e9ff;
+			--packet-confirmed-bg: #b26000; /* Darker amber */
+			--packet-confirmed-border: #e67700;
+			--packet-confirmed-text: #fff4de;
+			--packet-ack-bg: #215732; /* Darker green */
+			--packet-ack-border: #2e7d32;
+			--packet-ack-text: #e6f5ec;
+			--packet-nack-bg: #911c1c; /* Darker red */
+			--packet-nack-border: #cf222e;
+			--packet-nack-text: #ffeded;
+			--packet-empty-bg: #21262d;
+			--packet-empty-border: #30363d;
+			--packet-empty-text: #8b949e;
+			--window-bg: #21262d;
+			--window-border: #444c56;
+			--sim-bg: #161b22;
 			/* Added */
 			--tab-bg: var(--sidebar-bg);
 			--tab-active-bg: var(--body-bg);
@@ -119,36 +116,40 @@
 			--tab-active-border: var(--primary-color);
 			/* Scrollbar Colors - Dark Mode */
 			--scrollbar-track-bg: var(--body-bg);
-			/* Match dark body */
-			--scrollbar-thumb-bg: var(--input-border);
-			/* Medium dark thumb (matches input border) */
-			--scrollbar-thumb-hover-bg: var(--border-color);
-			/* Lighter thumb hover (matches dark border) */
+			--scrollbar-thumb-bg: #30363d;
+			--scrollbar-thumb-hover-bg: #444c56;
 			--scrollbar-thumb-border: var(--input-bg);
-			/* Dark border (matches input background) */
 		}
 
-		/* Legend item for "No data received yet" */
-		.dscPkg.empty-legend {
-			background-color: var(--packet-empty-bg);
-			color: var(--packet-empty-text);
-			border: 1px solid var(--packet-empty-border);
-			/* Use a solid border for legend clarity */
-			/* Ensure default .dscPkg padding/text-align is applied */
-			padding: 5px 8px;
-			text-align: center;
-			border-radius: 3px;
-			box-sizing: border-box;
-			font-size: 12px;
-			/* Match other legend items if needed */
-		}
-
-		/* Optional: Slightly darker text for light mode if needed for contrast */
+		/* Ensure "No data received yet" legend item has sufficient contrast */
 		body:not(.dark-mode) .dscPkg.empty-legend {
-			/* Adjust if the default --packet-empty-text (#ced4da) is too light on light bg */
-			/* color: #6c757d; */
+			color: #37474f; /* Darker text */
+			border: 1px dashed #607d8b; /* More visible border */
+			background-color: #eceff1; /* Less washed out background */
 		}
-
+		
+		/* Also update this for dark mode empty packages */
+		body.dark-mode .pkg.empty {
+			color: #b0bec5; /* Better visibility for empty package text */
+			border: 1px dashed #78909c; /* More visible dashed border */
+		}
+		
+		/* Enhance button hover styles for better interaction feedback */
+		input[type="button"]:hover {
+			background: var(--button-hover-bg);
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+		}
+		
+		/* Add subtle transition to packet colors for smoother visual experience */
+		.pkg {
+			transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+		}
+		
+		/* Improve tooltip visibility */
+		.tooltip .tooltiptext, .tooltip .tooltiptext1 {
+			box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+		}
+		
 		body {
 			margin: 0;
 			padding: 0;
@@ -350,6 +351,13 @@
 			color: var(--primary-color);
 		}
 
+		body.dark-mode .tab-button.active {
+			background: var(--body-bg);
+			border-bottom: 3px solid var(--primary-color);
+			font-weight: 700;
+			color: var(--primary-color);
+		}
+
 		.tab-content {
 			display: none;
 			padding: 0.5rem;
@@ -389,6 +397,13 @@
 			transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 		}
 
+		body.dark-mode input[type="number"],
+		body.dark-mode select {
+			background-color: var(--input-bg);
+			color: var(--text-color);
+			border-color: var(--input-border);
+		}
+
 		input[type="button"] {
 			background: var(--button-bg);
 			color: var(--button-text);
@@ -419,24 +434,24 @@
 		/* Style DISABLED inputs within .config in dark mode */
 		/* Overrides both external styles and the more generic dark mode disabled rule */
 		body.dark-mode .config input[type=number]:disabled {
-			background-color: #3a3f44;
-			/* Specific dark disabled background from original inline style */
-			color: #a0a6ac;
-			/* Slightly lighter grey text for better contrast on #3a3f44 */
-			border-color: #495057;
-			/* Specific dark disabled border from original inline style */
-			opacity: 0.7;
+			background-color: #161b22;
+			/* Specific dark disabled background */
+			color: #6e7681;
+			/* Slightly lighter grey text for better contrast */
+			border-color: #30363d;
+			/* Specific dark disabled border */
+			opacity: 0.8;
 			/* Keep the opacity effect */
 			cursor: not-allowed;
 		}
 
 		/* Also ensure the disabled unit selects have appropriate colors */
 		body.dark-mode .config .unitdisabled {
-			background-color: #3a3f44;
+			background-color: #161b22;
 			/* Match disabled input background */
-			color: #a0a6ac;
+			color: #6e7681;
 			/* Match disabled input text */
-			border-color: #495057;
+			border-color: #30363d;
 			/* Match disabled input border */
 			border-left: none;
 			/* Keep left border removed */
@@ -446,10 +461,9 @@
 		/* --- FIX for Legend Text Contrast in Light Mode --- */
 		/* Darken the text for the "No data" legend item in light mode */
 		body:not(.dark-mode) .dscPkg.empty-legend {
-			color: #6c757d;
-			/* A medium-dark grey for better contrast */
-			/* Optional: You could also use var(--text-color) if that looks better */
-			/* color: var(--text-color); */
+			color: #37474f; /* Darker text */
+			border: 1px dashed #607d8b; /* More visible border */
+			background-color: #eceff1; /* Less washed out background */
 		}
 
 		/* --- End of FIX --- */
@@ -571,6 +585,7 @@
 			-moz-user-select: none;
 			-ms-user-select: none;
 			user-select: none;
+			transition: background-color 0.2s, border-color 0.2s, color 0.2s;
 		}
 
 		.pkg.delivered {
@@ -602,6 +617,11 @@
 			color: var(--packet-empty-text);
 			background: var(--packet-empty-bg);
 			border: 1px dashed var(--packet-empty-border);
+		}
+
+		body.dark-mode .pkg.empty {
+			color: #b0bec5;
+			border: 1px dashed #78909c;
 		}
 
 		#svg canvas.window-timer {
@@ -647,7 +667,7 @@
 			transition: opacity 0.3s;
 			font-size: 12px;
 			font-weight: normal;
-			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+			box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
 			pointer-events: none;
 			word-wrap: break-word;
 		}
@@ -839,10 +859,10 @@
 		/* Dark mode specific disabled styles */
 		body.dark-mode input:disabled,
 		body.dark-mode select:disabled {
-			background-color: #3a3f44;
-			color: #868e96;
-			border-color: #495057;
-			opacity: 0.7;
+			background-color: #161b22;
+			color: #6e7681;
+			border-color: #30363d;
+			opacity: 0.8;
 		}
 	</style>
 	<script type="text/javascript" src="../global/js/jquery-1.7.1.min.js"></script>
@@ -2368,177 +2388,177 @@
 							</label></h3>
 
 						<h3>
-							<div class="tooltip">&#10068;
-								<span class="tooltiptext1">The transmission time of each information unit is calculated according to the
-									IU size and the link capacity.</span>
-							</div>
-							IU Transmission Time
-						</h3>
-						<input type="number" value="500" step="any" id="TransmissionTime" disabled="disabled" /><span id="Consunit">
-							<select class="unitdisabled" disabled id="unitTT">
-								<option value="1000000">μs</option>
-								<option value="1000" selected="selected">ms</option>
-								<option value="1">s</option>
-							</select>
-						</span>
-
-						<h3>
-							<div class="tooltip">&#10068;
-								<span class="tooltiptext1">The transmission time of each ack is calculated according to the ack size and
-									the link capacity.</span>
-							</div>
-							ACK Transmission Time
-						</h3>
-						<input type="number" value="20" step="any" id="AckTT" disabled="disabled" /><span id="Consunit">
-							<select class="unitdisabled" disabled id="unitAT">
-								<option value="1000000">μs</option>
-								<option value="1000" selected="selected">ms</option>
-								<option value="1">s</option>
-							</select>
-						</span>
-
-						<h3>
-							<div class="tooltip">&#10068;
-								<span class="tooltiptext1">The propagation delay is calculated according to the link length and the
-									propagation speed.</span>
-							</div>
-							Propagation delay
-						</h3>
-						<input type="number" value="5" id="endToEndDelay2" disabled="disabled" /><span id="Consunit">
-							<select class="unitdisabled" disabled id="unitPD">
-								<option value="1000000" selected="selected">μs</option>
-								<option value="1000">ms</option>
-								<option value="1">s</option>
-							</select>
-						</span>
-					</div>
-
-					<div class="form-item">
-						<h3><label for="Data Parameters">
 								<div class="tooltip">&#10068;
-									<span class="tooltiptext1">These parameters are calculated automaticly according to the inputs!</span>
+									<span class="tooltiptext1">The transmission time of each information unit is calculated according to the
+										IU size and the link capacity.</span>
 								</div>
-								Calculated Parameters:
-							</label></h3>
+								IU Transmission Time
+							</h3>
+							<input type="number" value="500" step="any" id="TransmissionTime" disabled="disabled" /><span id="Consunit">
+								<select class="unitdisabled" disabled id="unitTT">
+									<option value="1000000">μs</option>
+									<option value="1000" selected="selected">ms</option>
+									<option value="1">s</option>
+								</select>
+							</span>
 
-						<h3>
-							<div class="tooltip">&#10068;
-								<span class="tooltiptext1">The number of information units is calculated according to the IU size and
-									the total amount of data.</span>
-							</div>
-							Number of IUs
-						</h3>
-						<input type="number" value="20" min="0" step="1" id="NumberUI" disabled="disabled" />
+							<h3>
+								<div class="tooltip">&#10068;
+									<span class="tooltiptext1">The transmission time of each ack is calculated according to the ack size and
+										the link capacity.</span>
+								</div>
+								ACK Transmission Time
+							</h3>
+							<input type="number" value="20" step="any" id="AckTT" disabled="disabled" /><span id="Consunit">
+								<select class="unitdisabled" disabled id="unitAT">
+									<option value="1000000">μs</option>
+									<option value="1000" selected="selected">ms</option>
+									<option value="1">s</option>
+								</select>
+							</span>
 
-						<h3>
-							<div class="tooltip">&#10068;
-								<span class="tooltiptext1">The minimum timeout is suggested here according to the inputs. It depends on
-									the propagation delay and the ack size.</span>
-							</div>
-							Minumun Timeout
-						</h3>
-						<input type="number" value="20.01" min="0" step="any" id="TimeoutMin" disabled="disabled" /><span
-							id="Consunit">
-							<select class="unitdisabled" disabled id="unitMT">
-								<option value="1000000">μs</option>
-								<option value="1000" selected="selected">ms</option>
-								<option value="1">s</option>
-							</select>
-						</span>
+							<h3>
+								<div class="tooltip">&#10068;
+									<span class="tooltiptext1">The propagation delay is calculated according to the link length and the
+										propagation speed.</span>
+								</div>
+								Propagation delay
+							</h3>
+							<input type="number" value="5" id="endToEndDelay2" disabled="disabled" /><span id="Consunit">
+								<select class="unitdisabled" disabled id="unitPD">
+									<option value="1000000" selected="selected">μs</option>
+									<option value="1000">ms</option>
+									<option value="1">s</option>
+								</select>
+							</span>
+						</div>
 
-						<h3>
-							<div class="tooltip">&#10068;
-								<span class="tooltiptext1">Total time will be calculated and showed here after the end of the animation.
-									There might be a small variance in the order of microsecond because of the execution of the algorithm
-									itself.</span>
-							</div>
-							Total Time
-						</h3>
+						<div class="form-item">
+							<h3><label for="Data Parameters">
+									<div class="tooltip">&#10068;
+										<span class="tooltiptext1">These parameters are calculated automaticly according to the inputs!</span>
+									</div>
+									Calculated Parameters:
+								</label></h3>
 
-						<input type="number" value="" step="any" id="TotalTime" disabled="disabled" /><span id="Consunit">
-							<select class="unitdisabled" disabled id="unitTotal">
-								<option value="1000000">μs</option>
-								<option value="1000" selected="selected">ms</option>
-								<option value="1">s</option>
-							</select>
-						</span>
-					</div>
-				</form>
-			</div>
+							<h3>
+								<div class="tooltip">&#10068;
+									<span class="tooltiptext1">The number of information units is calculated according to the IU size and
+										the total amount of data.</span>
+								</div>
+								Number of IUs
+							</h3>
+							<input type="number" value="20" min="0" step="1" id="NumberUI" disabled="disabled" />
 
-			<!-- Legend Tab -->
-			<div id="legend-tab" class="tab-content">
-				<div class="legend">
-					<h2>Legend</h2>
-					<table>
-						<tr>
-							<td>
-								<div class="dscPkg empty-legend">No data received yet</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div class="dscPkg"
-									style="background-color: var(--packet-default-bg); color: var(--packet-default-text); border-color: var(--packet-default-border);">
-									Buffered data</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div class="dscPkg"
-									style="background-color: var(--packet-ack-bg); color: var(--packet-ack-text); border-color: var(--packet-ack-border);">
-									ACK</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div id="nackleg" class="dscPkg"
-									style="background-color: var(--packet-nack-bg); color: var(--packet-nack-text); border-color: var(--packet-nack-border);">
-									NACK</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div class="dscPkg"
-									style="background-color: var(--packet-confirmed-bg); color: var(--packet-confirmed-text); border-color: var(--packet-confirmed-border);">
-									Transmission confirmed</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div class="dscPkg"
-									style="background-color: var(--packet-delivered-bg); color: var(--packet-delivered-text); border-color: var(--packet-delivered-border);">
-									Data has been delivered to upper network layer</div>
-							</td>
-						</tr>
-					</table>
+							<h3>
+								<div class="tooltip">&#10068;
+									<span class="tooltiptext1">The minimum timeout is suggested here according to the inputs. It depends on
+										the propagation delay and the ack size.</span>
+								</div>
+								Minumun Timeout
+							</h3>
+							<input type="number" value="20.01" min="0" step="any" id="TimeoutMin" disabled="disabled" /><span
+								id="Consunit">
+								<select class="unitdisabled" disabled id="unitMT">
+									<option value="1000000">μs</option>
+									<option value="1000" selected="selected">ms</option>
+									<option value="1">s</option>
+								</select>
+							</span>
 
-					<p>Coded by Johannes Kessler 2012</p>
-					<p>Developed by Reza Mohajer</p>
-					<p>Politecnico di Milano 2020-2021</p>
+							<h3>
+								<div class="tooltip">&#10068;
+									<span class="tooltiptext1">Total time will be calculated and showed here after the end of the animation.
+										There might be a small variance in the order of microsecond because of the execution of the algorithm
+										itself.</span>
+								</div>
+								Total Time
+							</h3>
+
+							<input type="number" value="" step="any" id="TotalTime" disabled="disabled" /><span id="Consunit">
+								<select class="unitdisabled" disabled id="unitTotal">
+									<option value="1000000">μs</option>
+									<option value="1000" selected="selected">ms</option>
+									<option value="1">s</option>
+								</select>
+							</span>
+						</div>
+					</form>
 				</div>
-			</div>
-		</aside>
 
-		<!-- Toggle Button for Sidebar -->
-		<button id="sidebar-toggle" title="Toggle Sidebar">×</button>
+				<!-- Legend Tab -->
+				<div id="legend-tab" class="tab-content">
+					<div class="legend">
+						<h2>Legend</h2>
+						<table>
+							<tr>
+								<td>
+									<div class="dscPkg empty-legend">No data received yet</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="dscPkg"
+										style="background-color: var(--packet-default-bg); color: var(--packet-default-text); border-color: var(--packet-default-border);">
+										Buffered data</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="dscPkg"
+										style="background-color: var(--packet-ack-bg); color: var(--packet-ack-text); border-color: var(--packet-ack-border);">
+										ACK</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div id="nackleg" class="dscPkg"
+										style="background-color: var(--packet-nack-bg); color: var(--packet-nack-text); border-color: var(--packet-nack-border);">
+										NACK</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="dscPkg"
+										style="background-color: var(--packet-confirmed-bg); color: var(--packet-confirmed-text); border-color: var(--packet-confirmed-border);">
+										Transmission confirmed</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="dscPkg"
+										style="background-color: var(--packet-delivered-bg); color: var(--packet-delivered-text); border-color: var(--packet-delivered-border);">
+										Data has been delivered to upper network layer</div>
+								</td>
+							</tr>
+						</table>
 
-		<!-- Main Content with Simulation -->
-		<main id="main-content">
-			<div id="svg" class="simulation">
-				<hr class="lineSender">
-				</hr>
-				<hr class="lineReciever">
-				</hr>
-				<div id="root"></div>
-			</div>
+						<p>Coded by Johannes Kessler 2012</p>
+						<p>Developed by Reza Mohajer</p>
+						<p>Politecnico di Milano 2020-2021</p>
+					</div>
+				</div>
+			</aside>
 
-			<div id="log"
-				style="position: relative; overflow: auto; width: 100%; height: 300px; display: block; margin-top: 10px; border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; background: white;">
-				<p id="myLog">Log: </p>
-			</div>
-		</main>
-	</div>
-</body>
+			<!-- Toggle Button for Sidebar -->
+			<button id="sidebar-toggle" title="Toggle Sidebar">×</button>
 
-</html>
+			<!-- Main Content with Simulation -->
+			<main id="main-content">
+				<div id="svg" class="simulation">
+					<hr class="lineSender">
+					</hr>
+					<hr class="lineReciever">
+					</hr>
+					<div id="root"></div>
+				</div>
+
+				<div id="log"
+					style="position: relative; overflow: auto; width: 100%; height: 300px; display: block; margin-top: 10px; border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; background: white;">
+					<p id="myLog">Log: </p>
+				</div>
+			</main>
+		</div>
+	</body>
+
+	</html>
