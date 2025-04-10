@@ -612,8 +612,12 @@ html {
 
 
 .headingName{
-  color: rgb(17, 213, 244);
+  color: var(--heading-color);
   font-weight: bold;
   margin-left: 400px;
-  transition: margin-left .4s ease
+  transition: margin-left .4s ease;
+  font-family: 'Poppins', sans-serif;
+font-weight: 700;
+font-size: 28px;
+letter-spacing: 1px;
 }
