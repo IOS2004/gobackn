@@ -8,10 +8,113 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" media="screen" href="../global/css/style.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Victor+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+		rel="stylesheet">
 	<link rel="stylesheet" type="text/css" media="screen"
 		href="../global/css/jqui-lightness/jquery-ui-1.8.18.custom.css" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+		rel="stylesheet">
 	<style type="text/css">
+		.ibm-plex-sans-condensed-thin {
+			font-family: "IBM Plex Sans Condensed", sans-serif;
+			font-weight: 100;
+			font-style: normal;
+		}
+
+		.ibm-plex-sans-condensed-extralight {
+			font-family: "IBM Plex Sans Condensed", sans-serif;
+			font-weight: 200;
+			font-style: normal;
+		}
+
+		.ibm-plex-sans-condensed-light {
+			font-family: "IBM Plex Sans Condensed", sans-serif;
+			font-weight: 300;
+			font-style: normal;
+		}
+
+		.ibm-plex-sans-condensed-regular {
+			font-family: "IBM Plex Sans Condensed", sans-serif;
+			font-weight: 400;
+			font-style: normal;
+		}
+
+		.ibm-plex-sans-condensed-medium {
+			font-family: "IBM Plex Sans Condensed", sans-serif;
+			font-weight: 500;
+			font-style: normal;
+		}
+
+		.ibm-plex-sans-condensed-semibold {
+			font-family: "IBM Plex Sans Condensed", sans-serif;
+			font-weight: 600;
+			font-style: normal;
+		}
+
+		.ibm-plex-sans-condensed-bold {
+			font-family: "IBM Plex Sans Condensed", sans-serif;
+			font-weight: 700;
+			font-style: normal;
+		}
+
+		.ibm-plex-sans-condensed-thin-italic {
+			font-family: "IBM Plex Sans Condensed", sans-serif;
+			font-weight: 100;
+			font-style: italic;
+		}
+
+		.ibm-plex-sans-condensed-extralight-italic {
+			font-family: "IBM Plex Sans Condensed", sans-serif;
+			font-weight: 200;
+			font-style: italic;
+		}
+
+		.ibm-plex-sans-condensed-light-italic {
+			font-family: "IBM Plex Sans Condensed", sans-serif;
+			font-weight: 300;
+			font-style: italic;
+		}
+
+		.ibm-plex-sans-condensed-regular-italic {
+			font-family: "IBM Plex Sans Condensed", sans-serif;
+			font-weight: 400;
+			font-style: italic;
+		}
+
+		.ibm-plex-sans-condensed-medium-italic {
+			font-family: "IBM Plex Sans Condensed", sans-serif;
+			font-weight: 500;
+			font-style: italic;
+		}
+
+		.ibm-plex-sans-condensed-semibold-italic {
+			font-family: "IBM Plex Sans Condensed", sans-serif;
+			font-weight: 600;
+			font-style: italic;
+		}
+
+		.ibm-plex-sans-condensed-bold-italic {
+			font-family: "IBM Plex Sans Condensed", sans-serif;
+			font-weight: 700;
+			font-style: italic;
+		}
+
+		.victor-mono {
+			font-family: "Victor Mono", monospace;
+			font-optical-sizing: auto;
+			font-weight: 500;
+			font-style: normal;
+		}
+
 		:root {
 			/* Light Mode Colors - Enhanced with better contrast */
 			--primary-color: #0062b0;
@@ -80,6 +183,19 @@
 			--scrollbar-thumb-hover-bg: #546e7a;
 			--scrollbar-thumb-border: var(--border-color);
 			--heading-color: #0329d3;
+		}
+
+		.amatic-sc-regular {
+			font-family: "Amatic SC", sans-serif;
+			font-weight: 100;
+			font-style: normal;
+		}
+
+		.amatic-sc-bold {
+			font-family: "Amatic SC", sans-serif;
+			font-weight: 900;
+			font-style: normal;
+
 		}
 
 		body.dark-mode {
@@ -1009,7 +1125,8 @@
 			content: "";
 			height: 15px;
 			width: 15px;
-			left: 2.5px; /* Start with a bit of padding from the left */
+			left: 2.5px;
+			/* Start with a bit of padding from the left */
 			bottom: 2.5px;
 			background-color: white;
 			-webkit-transition: .25s ease-in-out;
@@ -1025,9 +1142,10 @@
 		}
 
 		/* Move knob when checked */
-		
-		input:checked + .slider:before {
-			-webkit-transform: translateX(15px); /* 35 (track width) - 15 (knob width) - 2.5*2 (padding) = 15px */
+
+		input:checked+.slider:before {
+			-webkit-transform: translateX(15px);
+			/* 35 (track width) - 15 (knob width) - 2.5*2 (padding) = 15px */
 			-ms-transform: translateX(15px);
 			transform: translateX(15px);
 		}
@@ -1895,17 +2013,17 @@
 			const headerHeading = document.querySelector('header .headingName'); // Target the h1
 
 			sidebarToggle.addEventListener('click', function () {
-			sidebar.classList.toggle('closed');
-			mainContent.classList.toggle('expanded');
-			sidebarToggle.classList.toggle('closed');
-			sidebarToggle.textContent = sidebar.classList.contains('closed') ? '☰' : '×';
-			
-			// When sidebar is closed, center the h1; otherwise, align it left (or any default alignment)
-			if (sidebar.classList.contains('closed')) {
-				headerHeading.style.marginLeft = '0px';
-			} else {
-				headerHeading.style.marginLeft="400px";
-			}
+				sidebar.classList.toggle('closed');
+				mainContent.classList.toggle('expanded');
+				sidebarToggle.classList.toggle('closed');
+				sidebarToggle.textContent = sidebar.classList.contains('closed') ? '☰' : '×';
+
+				// When sidebar is closed, center the h1; otherwise, align it left (or any default alignment)
+				if (sidebar.classList.contains('closed')) {
+					headerHeading.style.marginLeft = '0px';
+				} else {
+					headerHeading.style.marginLeft = "400px";
+				}
 			});
 
 
@@ -2598,8 +2716,8 @@
 </head>
 
 <body onload="init();" class="mobile">
-	<header >
-		<h1 class="headingName">Go back N Protocol</h1>
+	<header>
+		<h1 class="headingName ibm-plex-sans-condensed-regular ">GO BACK N PROTOCOL</h1>
 		<button id="theme-toggle" title="Toggle Theme"></button> <!-- Added Theme Toggle Button -->
 	</header>
 
@@ -2850,9 +2968,9 @@
 						<h3>
 							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
 
-								<span class="tooltiptext">Enter the size of each information unit.</span>
+								<span class="tooltiptext">Enter the size of each packet.</span>
 							</div>
-							IU Size
+							Packet Size
 						</h3>
 						<input type="number" value="500" min="0" step="1" id="UnitSize" onchange="contr.setUnitSize(this);" /><span
 							id="unit">
@@ -2865,9 +2983,9 @@
 						<h3>
 							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
 
-								<span class="tooltiptext">Enter the size of each ack unit.</span>
+								<span class="tooltiptext">Enter the size of each acknowledgement unit.</span>
 							</div>
-							Ack Size
+							Acknowledgement Size
 						</h3>
 						<input type="number" value="20" min="0" step="1" id="AckSize" onchange="contr.setAckSize(this);" /><span
 							id="unit">
@@ -2890,10 +3008,10 @@
 						<h3>
 							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
 
-								<span class="tooltiptext1">The transmission time of each information unit is calculated according to the
-									IU size and the link capacity.</span>
+								<span class="tooltiptext1">The transmission time of each packet is calculated according to the
+									packet size and the link capacity.</span>
 							</div>
-							IU Transmission Time
+							Packet Transmission Time
 						</h3>
 						<input type="number" value="500" step="any" id="TransmissionTime" disabled="disabled" /><span id="Consunit">
 							<select class="unitdisabled" disabled id="unitTT">
@@ -2906,10 +3024,11 @@
 						<h3>
 							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
 
-								<span class="tooltiptext1">The transmission time of each ack is calculated according to the ack size and
+								<span class="tooltiptext1">The transmission time of each acknowledgement is calculated according to the
+									acknowledgement size and
 									the link capacity.</span>
 							</div>
-							ACK Transmission Time
+							Acknowledgement Transmission Time
 						</h3>
 						<input type="number" value="20" step="any" id="AckTT" disabled="disabled" /><span id="Consunit">
 							<select class="unitdisabled" disabled id="unitAT">
@@ -2948,10 +3067,11 @@
 						<h3>
 							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
 
-								<span class="tooltiptext1">The number of information units is calculated according to the IU size and
+								<span class="tooltiptext1">The number of information units is calculated according to the packet size
+									and
 									the total amount of data.</span>
 							</div>
-							Number of IUs
+							Number of Packets
 						</h3>
 						<input type="number" value="20" min="0" step="1" id="NumberUI" disabled="disabled" />
 
@@ -2959,7 +3079,7 @@
 							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
 
 								<span class="tooltiptext1">The minimum timeout is suggested here according to the inputs. It depends on
-									the propagation delay and the ack size.</span>
+									the propagation delay and the acknowldegement size.</span>
 							</div>
 							Minumun Timeout
 						</h3>
@@ -3057,7 +3177,7 @@
 			</div>
 
 			<div id="log"
-				style="position: relative; overflow: auto; width: 100%; height: 300px; display: block; margin-top: 10px; border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; background: white;">
+				style="position: relative; overflow: auto; width: 100%; height: 280px; display: block; margin-top: 10px; border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; background: white;">
 				<p id="myLog">Log: </p>
 			</div>
 		</main>

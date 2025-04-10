@@ -1,1293 +1,1401 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Go-Back-N Protocol Simulator</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        /* Light Mode Colors - Updated to match simulation */
-        --primary-color: #0062b0; /* Deeper blue from simulation */
-        --primary-light: #e3f2fd; /* Matching header-bg from simulation */
-        --primary-hover: #005b96; /* From simulation */
-        --text-color: #1a2a36; /* From simulation */
-        --subtle-text: #6b7280;
-        --body-bg: #ffffff;
-        --card-bg: #ffffff;
-        --border-color: #a4b5c6; /* Darker borders from simulation */
-        --accent-color: #2e7d32; /* Green from simulation */
-        --shadow-color: rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
-        --header-bg: #e3f2fd; /* From simulation */
-        --hero-gradient: linear-gradient(
-          135deg,
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Go Back N Protocol Simulator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* Light Mode Colors - Updated to match simulation */
+      --primary-color: #0062b0;
+      /* Deeper blue from simulation */
+      --primary-light: #e3f2fd;
+      /* Matching header-bg from simulation */
+      --primary-hover: #005b96;
+      /* From simulation */
+      --text-color: #1a2a36;
+      /* From simulation */
+      --subtle-text: #6b7280;
+      --body-bg: #ffffff;
+      --card-bg: #ffffff;
+      --border-color: #a4b5c6;
+      /* Darker borders from simulation */
+      --accent-color: #2e7d32;
+      /* Green from simulation */
+      --shadow-color: rgba(0, 0, 0, 0.15);
+      /* Slightly stronger shadow */
+      --header-bg: #e3f2fd;
+      /* From simulation */
+      --hero-gradient: linear-gradient(135deg,
           #e3f2fd 0%,
-          #bbdefb 100%
-        ); /* Deeper blue gradient */
+          #bbdefb 100%);
+      /* Deeper blue gradient */
 
-        /* Simulation-aligned packet colors */
-        --packet-color: #90caf9; /* From simulation packet-default-bg */
-        --ack-color: #a5d6a7; /* From simulation packet-ack-bg */
-        --nack-color: #ef9a9a; /* From simulation packet-nack-bg */
-      }
+      /* Simulation-aligned packet colors */
+      --packet-color: #90caf9;
+      /* From simulation packet-default-bg */
+      --ack-color: #a5d6a7;
+      /* From simulation packet-ack-bg */
+      --nack-color: #ef9a9a;
+      /* From simulation packet-nack-bg */
+    }
 
-      body.dark-mode {
-        /* Dark Mode Colors - Aligned with simulation */
-        --primary-color: #00a2ff; /* From simulation */
-        --primary-light: #1e293b; /* From simulation */
-        --primary-hover: #1f6feb; /* From simulation */
-        --text-color: #ffffff; /* From simulation */
-        --subtle-text: #9ca3af;
-        --body-bg: #0d1117; /* From simulation */
-        --card-bg: #1e293b; /* From simulation */
-        --border-color: #3d4852; /* From simulation */
-        --accent-color: #10b981;
-        --shadow-color: rgba(0, 0, 0, 0.3);
-        --header-bg: #0d1117; /* From simulation */
-        --hero-gradient: linear-gradient(
-          135deg,
+    body.dark-mode {
+      /* Dark Mode Colors - Aligned with simulation */
+      --primary-color: #00a2ff;
+      /* From simulation */
+      --primary-light: #1e293b;
+      /* From simulation */
+      --primary-hover: #1f6feb;
+      /* From simulation */
+      --text-color: #ffffff;
+      /* From simulation */
+      --subtle-text: #9ca3af;
+      --body-bg: #0d1117;
+      /* From simulation */
+      --card-bg: #1e293b;
+      /* From simulation */
+      --border-color: #3d4852;
+      /* From simulation */
+      --accent-color: #10b981;
+      --shadow-color: rgba(0, 0, 0, 0.3);
+      --header-bg: #0d1117;
+      /* From simulation */
+      --hero-gradient: linear-gradient(135deg,
           #1e293b 0%,
-          #0d1117 100%
-        ); /* Adjusted for dark mode */
-        --packet-color: #0d4a7f; /* From simulation dark mode */
-        --ack-color: #215732; /* From simulation dark mode */
-        --nack-color: #911c1c; /* From simulation dark mode */
+          #0d1117 100%);
+      /* Adjusted for dark mode */
+      --packet-color: #0d4a7f;
+      /* From simulation dark mode */
+      --ack-color: #215732;
+      /* From simulation dark mode */
+      --nack-color: #911c1c;
+      /* From simulation dark mode */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: var(--body-bg);
+      color: var(--text-color);
+      line-height: 1.6;
+      overflow-x: hidden;
+      font-weight: 400;
+      background-image: radial-gradient(circle at 25% 25%,
+          rgba(0, 98, 176, 0.02) 1%,
+          /* Updated to use primary color */
+          transparent 5%),
+        radial-gradient(circle at 75% 75%,
+          rgba(0, 98, 176, 0.02) 1%,
+          /* Updated to use primary color */
+          transparent 5%);
+      background-size: 60px 60px;
+      animation: subtle-shift 120s linear infinite;
+    }
+
+    body.dark-mode {
+      background-image: radial-gradient(circle at 25% 25%,
+          rgba(0, 162, 255, 0.03) 1%,
+          /* Updated to use dark mode primary */
+          transparent 5%),
+        radial-gradient(circle at 75% 75%,
+          rgba(0, 162, 255, 0.03) 1%,
+          /* Updated to use dark mode primary */
+          transparent 5%);
+    }
+
+    @keyframes subtle-shift {
+      0% {
+        background-position: 0 0;
       }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+      100% {
+        background-position: 100px 100px;
       }
+    }
 
-      body {
-        font-family: "Inter", sans-serif;
-        background-color: var(--body-bg);
-        color: var(--text-color);
-        line-height: 1.6;
-        overflow-x: hidden;
-        font-weight: 400;
-        background-image: radial-gradient(
-            circle at 25% 25%,
-            rgba(0, 98, 176, 0.02) 1%,
-            /* Updated to use primary color */ transparent 5%
-          ),
-          radial-gradient(
-            circle at 75% 75%,
-            rgba(0, 98, 176, 0.02) 1%,
-            /* Updated to use primary color */ transparent 5%
-          );
-        background-size: 60px 60px;
-        animation: subtle-shift 120s linear infinite;
-      }
+    /* Header Styles - Updated to match simulation */
+    header {
+      background-color: var(--header-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
 
-      body.dark-mode {
-        background-image: radial-gradient(
-            circle at 25% 25%,
-            rgba(0, 162, 255, 0.03) 1%,
-            /* Updated to use dark mode primary */ transparent 5%
-          ),
-          radial-gradient(
-            circle at 75% 75%,
-            rgba(0, 162, 255, 0.03) 1%,
-            /* Updated to use dark mode primary */ transparent 5%
-          );
-      }
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: transform 0.3s ease;
+      position: relative;
+      padding: 5px 10px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
 
-      @keyframes subtle-shift {
-        0% {
-          background-position: 0 0;
-        }
-        100% {
-          background-position: 100px 100px;
-        }
-      }
+    .logo:hover {
+      transform: scale(1.05);
+    }
 
-      /* Header Styles - Updated to match simulation */
-      header {
-        background-color: var(--header-bg);
-        border-bottom: 1px solid var(--border-color);
-        padding: 1rem 2rem;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-      }
-
-      .logo {
-        display: flex;
-        align-items: center;
-        font-weight: 600;
-        font-size: 1.25rem;
-        color: var(--primary-color);
-        text-decoration: none;
-        transition: transform 0.3s ease;
-        position: relative;
-        padding: 5px 10px;
-        border-radius: 4px;
-        overflow: hidden;
-      }
-
-      .logo:hover {
-        transform: scale(1.05);
-      }
-
-      .logo::after {
-        content: "";
-        position: absolute;
-        left: -100%;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
+    .logo::after {
+      content: "";
+      position: absolute;
+      left: -100%;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg,
           transparent,
           rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transition: left 0.8s;
+          transparent);
+      transition: left 0.8s;
+    }
+
+    .logo:hover::after {
+      left: 100%;
+    }
+
+    .logo i {
+      margin-right: 10px;
+      font-size: 1.5rem;
+    }
+
+    .theme-toggle {
+      background: var(--primary-color);
+      border: none;
+      color: white;
+      font-size: 1.25rem;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    .theme-toggle:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Hero Section - Improved */
+    .hero {
+      background: var(--hero-gradient);
+      min-height: 85vh;
+      /* Increased height for better impact */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      background-size: 400% 400%;
+      animation: gradient-shift 15s ease infinite;
+    }
+
+    body.dark-mode .hero {
+      background: var(--hero-gradient);
+      background-size: 400% 400%;
+    }
+
+    @keyframes gradient-shift {
+      0% {
+        background-position: 0% 50%;
       }
 
-      .logo:hover::after {
-        left: 100%;
+      50% {
+        background-position: 100% 50%;
       }
 
-      .logo i {
-        margin-right: 10px;
-        font-size: 1.5rem;
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* Animation Container - Improved positioning */
+    .animation-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      opacity: 0.7;
+      /* Increased opacity for better visibility */
+      overflow: hidden;
+      border: none;
+      margin: 0;
+      background: transparent;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      background-color: rgba(255,
+          255,
+          255,
+          0.15);
+      /* Slightly more transparent */
+      backdrop-filter: blur(5px);
+      /* Increased blur for depth */
+      padding: 3rem;
+      /* Increased padding */
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      /* Stronger shadow for depth */
+      margin: 0 auto;
+      animation: float 6s ease-in-out infinite;
+      border: 1px solid rgba(164, 181, 198, 0.2);
+      /* Subtle border */
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
       }
 
-      .theme-toggle {
-        background: var(--primary-color);
-        border: none;
-        color: white;
-        font-size: 1.25rem;
-        cursor: pointer;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 4px;
+      50% {
+        transform: translateY(-10px);
       }
 
-      .theme-toggle:hover {
-        background: var(--primary-hover);
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    body.dark-mode .hero-content {
+      background-color: rgba(15, 23, 42, 0.4);
+      /* Adjusted for dark mode */
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(61, 72, 82, 0.3);
+      /* Subtle border for dark mode */
+    }
+
+    .hero h1 {
+      font-size: 3.25rem;
+      /* Slightly larger */
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+      font-weight: 600;
+      text-shadow: 0 2px 10px rgba(0, 98, 176, 0.2);
+      /* Updated color */
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      /* Slightly larger */
+      max-width: 700px;
+      margin-bottom: 2.5rem;
+      color: var(--text-color);
+      /* Changed from subtle-text for better readability */
+    }
+
+    .cta-button {
+      padding: 0.85rem 2.5rem;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 98, 176, 0.25);
+      /* Updated color */
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent);
+      transition: left 0.8s;
+    }
+
+    .cta-button:hover::after {
+      left: 100%;
+    }
+
+    .cta-button i {
+      margin-left: 10px;
+      /* Added spacing between text and icon */
+      transition: transform 0.3s ease;
+    }
+
+    .cta-button:hover i {
+      transform: translateX(4px);
+    }
+
+    .cta-button:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 98, 176, 0.3);
+      /* Updated color */
+    }
+
+    /* Animation elements - Improved positioning and visibility */
+    .sender,
+    .receiver {
+      position: absolute;
+      width: 120px;
+      /* Increased size */
+      height: 120px;
+      /* Increased size */
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--border-color);
+      /* Thicker border */
+      z-index: 5;
+      background-color: var(--card-bg);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      /* Added shadow */
+    }
+
+    .sender {
+      top: 40%;
+      /* Adjusted position */
+      left: 10%;
+      /* Moved further left */
+    }
+
+    .receiver {
+      top: 40%;
+      /* Adjusted position */
+      right: 10%;
+      /* Moved further right */
+    }
+
+    .icon {
+      font-size: 3rem;
+      /* Larger icon */
+      color: var(--primary-color);
+    }
+
+    .channel {
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      /* Match sender position */
+      right: 10%;
+      /* Match receiver position */
+      height: 4px;
+      /* Thicker line */
+      background-color: var(--border-color);
+      z-index: 4;
+      /* Ensure above background */
+    }
+
+    .packet {
+      position: absolute;
+      width: 50px;
+      /* Larger packets */
+      height: 50px;
+      /* Larger packets */
+      border-radius: 6px;
+      /* Slightly rounded corners */
+      background-color: var(--packet-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 20px;
+      /* Larger text */
+      z-index: 6;
+      /* Above sender/receiver */
+      box-shadow: 0 0 15px rgba(0, 98, 176, 0.3);
+      /* Updated color */
+      transition: all 0.3s ease;
+    }
+
+    .ack {
+      background-color: var(--ack-color);
+      width: 40px;
+      /* Slightly smaller than data packets */
+      height: 40px;
+      /* Slightly smaller than data packets */
+      box-shadow: 0 0 15px rgba(46, 125, 50, 0.3);
+      /* Updated color */
+    }
+
+    .nack {
+      background-color: var(--nack-color);
+      box-shadow: 0 0 15px rgba(198, 40, 40, 0.3);
+      /* Updated color */
+    }
+
+    .window {
+      display: none;
+      /* Hide the window element instead of removing it from HTML */
+    }
+
+    /* Keyframes adjustments - smoother animations */
+    @keyframes movePacket {
+      0% {
+        left: 12%;
+        /* Match sender position */
+        top: 40%;
+        /* Match sender position */
+        transform: scale(0.8);
+        opacity: 0;
       }
 
-      /* Hero Section - Improved */
-      .hero {
-        background: var(--hero-gradient);
-        min-height: 85vh; /* Increased height for better impact */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 2rem;
-        position: relative;
-        overflow: hidden;
-        background-size: 400% 400%;
-        animation: gradient-shift 15s ease infinite;
+      5% {
+        transform: scale(1);
+        opacity: 1;
       }
 
-      body.dark-mode .hero {
-        background: var(--hero-gradient);
-        background-size: 400% 400%;
+      45% {
+        left: 82%;
+        /* Match receiver position */
+        top: 40%;
+        /* Match receiver position */
+        transform: scale(1);
+        opacity: 1;
       }
 
-      @keyframes gradient-shift {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
+      50% {
+        left: 82%;
+        /* Match receiver position */
+        top: 40%;
+        /* Match receiver position */
+        opacity: 1;
+        transform: scale(0.8);
       }
 
-      /* Animation Container - Improved positioning */
-      .animation-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        opacity: 0.7; /* Increased opacity for better visibility */
-        overflow: hidden;
-        border: none;
-        margin: 0;
-        background: transparent;
+      51% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+
+      100% {
+        left: 12%;
+        /* Match sender position */
+        top: 40%;
+        /* Match sender position */
+        opacity: 0;
+        transform: scale(0.8);
+      }
+    }
+
+    @keyframes moveAck {
+      0% {
+        left: 82%;
+        /* Match receiver position */
+        top: 55%;
+        opacity: 0;
+      }
+
+      1% {
+        opacity: 1;
+      }
+
+      55% {
+        left: 12%;
+        /* Match sender position */
+        top: 55%;
+        opacity: 1;
+      }
+
+      60% {
+        left: 12%;
+        /* Match sender position */
+        top: 55%;
+        opacity: 0;
+      }
+
+      100% {
+        left: 82%;
+        /* Match receiver position */
+        top: 55%;
+        opacity: 0;
+      }
+    }
+
+    @keyframes lostPacket {
+      0% {
+        left: 12%;
+        /* Match sender position */
+        top: 40%;
+        /* Match sender position */
+        opacity: 1;
+      }
+
+      40% {
+        left: 47%;
+        top: 40%;
+        opacity: 1;
+      }
+
+      50% {
+        left: 47%;
+        top: 70%;
+        opacity: 0;
+      }
+
+      100% {
+        left: 47%;
+        top: 70%;
+        opacity: 0;
+      }
+    }
+
+    /* Animation delays and durations */
+    #packet1 {
+      animation: movePacket 5s infinite;
+      animation-delay: 0s;
+    }
+
+    #packet2 {
+      animation: movePacket 5s infinite;
+      animation-delay: 0.8s;
+    }
+
+    #packet3 {
+      animation: lostPacket 5s infinite;
+      animation-delay: 1.6s;
+    }
+
+    #packet4 {
+      animation: movePacket 5s infinite;
+      animation-delay: 3.2s;
+    }
+
+    #ack1 {
+      animation: moveAck 5s infinite;
+      animation-delay: 1.2s;
+    }
+
+    #ack2 {
+      animation: moveAck 5s infinite;
+      animation-delay: 2s;
+    }
+
+    #ack4 {
+      animation: moveAck 5s infinite;
+      animation-delay: 3.6s;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 5rem 2rem;
+      background-color: var(--body-bg);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.25rem;
+      /* Slightly larger */
+      margin-bottom: 3rem;
+      color: var(--text-color);
+      font-weight: 600;
+      /* Slightly bolder */
+      background: linear-gradient(90deg,
+          var(--primary-hover),
+          var(--primary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      display: inline-block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .section-title::after {
+      content: "";
+      position: absolute;
+      width: 80px;
+      /* Wider underline */
+      height: 4px;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg,
+          var(--primary-hover),
+          var(--primary-color));
+      border-radius: 2px;
+    }
+
+    .features-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      max-width: 1200px;
+      /* Slightly wider */
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      /* Slightly more rounded */
+      border: 1px solid var(--border-color);
+      padding: 2rem;
+      /* More padding */
+      flex: 1 1 300px;
+      max-width: 350px;
+      /* Slightly larger */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      border-top: 4px solid var(--primary-color);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      /* Stronger shadow on hover */
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg,
+          var(--primary-color),
+          var(--primary-hover),
+          var(--primary-color));
+      background-size: 200% 100%;
+      animation: gradient-flow 3s linear infinite;
+    }
+
+    @keyframes gradient-flow {
+      0% {
+        background-position: 100% 0;
+      }
+
+      100% {
+        background-position: -100% 0;
+      }
+    }
+
+    .feature-icon {
+      color: var(--primary-color);
+      font-size: 2rem;
+      /* Larger icon */
+      margin-bottom: 1.5rem;
+      /* More space below icon */
+      background-color: var(--primary-light);
+      height: 70px;
+      /* Larger circle */
+      width: 70px;
+      /* Larger circle */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    body.dark-mode .feature-icon {
+      background-color: rgba(0, 162, 255, 0.1);
+      /* Updated color */
+    }
+
+    .feature-icon::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle,
+          rgba(255, 255, 255, 0.2) 0%,
+          transparent 70%);
+      opacity: 0;
+      transform: scale(0.1);
+      transition: transform 0.8s, opacity 0.8s;
+      z-index: -1;
+    }
+
+    .feature-card:hover .feature-icon::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .feature-title {
+      font-size: 1.35rem;
+      /* Slightly larger */
+      margin-bottom: 0.75rem;
+      color: var(--text-color);
+      font-weight: 600;
+      /* Slightly bolder */
+    }
+
+    .feature-card p {
+      color: var(--subtle-text);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* About Section */
+    .about {
+      padding: 5rem 2rem;
+      background-color: var(--primary-light);
+    }
+
+    .about-container {
+      max-width: 1000px;
+      /* Slightly wider */
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2.5rem;
+      /* More space between boxes */
+    }
+
+    .about-box {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      /* More rounded */
+      border: 1px solid var(--border-color);
+      padding: 2rem;
+      /* More padding */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+      /* Stronger shadow */
+      position: relative;
+    }
+
+    .about-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+      /* Stronger shadow on hover */
+    }
+
+    .about-box::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg,
+          var(--primary-color),
+          transparent,
+          var(--primary-color),
+          transparent);
+      background-size: 400% 400%;
+      animation: border-shift 5s ease infinite;
+      z-index: -1;
+      border-radius: 10px;
+      /* Match box radius + 2px for border */
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .about-box:hover::before {
+      opacity: 1;
+    }
+
+    @keyframes border-shift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .about-title {
+      font-size: 1.6rem;
+      /* Larger */
+      margin-bottom: 1.25rem;
+      /* More space below title */
+      color: var(--primary-color);
+      /* Changed to primary color */
+      font-weight: 600;
+      /* Bolder */
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 0.75rem;
+    }
+
+    .about-box p,
+    .about-box li {
+      color: var(--text-color);
+      /* Changed from subtle-text for better readability */
+      font-size: 1rem;
+    }
+
+    .about-box ul {
+      padding-left: 1.5rem;
+      margin-top: 1rem;
+      /* More space */
+    }
+
+    .about-box li {
+      margin-bottom: 0.75rem;
+      /* More space between list items */
+    }
+
+    .step {
+      display: flex;
+      margin-bottom: 1.25rem;
+      /* More space between steps */
+      align-items: flex-start;
+    }
+
+    .step-number {
+      color: white;
+      /* Changed for better contrast */
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-right: 0.75rem;
+      line-height: 1.4;
+      background-color: var(--primary-color);
+      /* Changed from primary-light */
+      width: 32px;
+      /* Slightly larger */
+      height: 32px;
+      /* Slightly larger */
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      animation: pulse 2s infinite;
+      position: relative;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(0, 98, 176, 0.4);
+        /* Updated color */
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(0, 98, 176, 0);
+        /* Updated color */
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(0, 98, 176, 0);
+        /* Updated color */
+      }
+    }
+
+    body.dark-mode .step-number {
+      background-color: rgba(0, 162, 255, 0.8);
+      /* Updated color */
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-content strong {
+      color: var(--primary-color);
+      /* Changed to primary color */
+      font-weight: 600;
+      /* Bolder */
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--header-bg);
+      /* Match header */
+      border-top: 1px solid var(--border-color);
+      color: var(--text-color);
+      /* Changed from subtle-text */
+      padding: 3rem 2rem;
+      /* More padding */
+      text-align: center;
+      font-size: 0.95rem;
+      /* Slightly larger */
+      position: relative;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    footer::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+          transparent,
+          var(--primary-color),
+          transparent);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      /* More space */
+    }
+
+    .social-link {
+      color: white;
+      /* Changed for better contrast */
+      font-size: 1.25rem;
+      transition: transform 0.2s ease;
+      width: 45px;
+      /* Larger buttons */
+      height: 45px;
+      /* Larger buttons */
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      /* Changed from primary-light */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .social-link:hover {
+      transform: translateY(-5px);
+      background-color: var(--primary-hover);
+    }
+
+    body.dark-mode .social-link {
+      background-color: rgba(0, 162, 255, 0.8);
+      /* Updated color */
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+        /* Adjust for smaller screens */
       }
 
       .hero-content {
-        max-width: 800px;
-        width: 90%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        position: relative;
-        z-index: 2;
-        background-color: rgba(
-          255,
-          255,
-          255,
-          0.15
-        ); /* Slightly more transparent */
-        backdrop-filter: blur(5px); /* Increased blur for depth */
-        padding: 3rem; /* Increased padding */
-        border-radius: 12px;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow for depth */
-        margin: 0 auto;
-        animation: float 6s ease-in-out infinite;
-        border: 1px solid rgba(164, 181, 198, 0.2); /* Subtle border */
-      }
-
-      @keyframes float {
-        0% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-        100% {
-          transform: translateY(0px);
-        }
-      }
-
-      body.dark-mode .hero-content {
-        background-color: rgba(15, 23, 42, 0.4); /* Adjusted for dark mode */
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(61, 72, 82, 0.3); /* Subtle border for dark mode */
-      }
-
-      .hero h1 {
-        font-size: 3.25rem; /* Slightly larger */
-        margin-bottom: 1.5rem;
-        color: var(--primary-color);
-        font-weight: 600;
-        text-shadow: 0 2px 10px rgba(0, 98, 176, 0.2); /* Updated color */
-        letter-spacing: -0.5px;
-      }
-
-      .hero p {
-        font-size: 1.25rem; /* Slightly larger */
-        max-width: 700px;
-        margin-bottom: 2.5rem;
-        color: var(
-          --text-color
-        ); /* Changed from subtle-text for better readability */
-      }
-
-      .cta-button {
-        padding: 0.85rem 2.5rem;
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-size: 1.1rem;
-        font-weight: 500;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        box-shadow: 0 4px 12px rgba(0, 98, 176, 0.25); /* Updated color */
-        position: relative;
-        overflow: hidden;
-      }
-
-      .cta-button::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transition: left 0.8s;
-      }
-
-      .cta-button:hover::after {
-        left: 100%;
-      }
-
-      .cta-button i {
-        margin-left: 10px; /* Added spacing between text and icon */
-        transition: transform 0.3s ease;
-      }
-
-      .cta-button:hover i {
-        transform: translateX(4px);
-      }
-
-      .cta-button:hover {
-        background-color: var(--primary-hover);
-        transform: translateY(-3px);
-        box-shadow: 0 6px 16px rgba(0, 98, 176, 0.3); /* Updated color */
-      }
-
-      /* Animation elements - Improved positioning and visibility */
-      .sender,
-      .receiver {
-        position: absolute;
-        width: 120px; /* Increased size */
-        height: 120px; /* Increased size */
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid var(--border-color); /* Thicker border */
-        z-index: 5;
-        background-color: var(--card-bg);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Added shadow */
-      }
-
-      .sender {
-        top: 40%; /* Adjusted position */
-        left: 10%; /* Moved further left */
-      }
-
-      .receiver {
-        top: 40%; /* Adjusted position */
-        right: 10%; /* Moved further right */
-      }
-
-      .icon {
-        font-size: 3rem; /* Larger icon */
-        color: var(--primary-color);
-      }
-
-      .channel {
-        position: absolute;
-        top: 50%;
-        left: 10%; /* Match sender position */
-        right: 10%; /* Match receiver position */
-        height: 4px; /* Thicker line */
-        background-color: var(--border-color);
-        z-index: 4; /* Ensure above background */
-      }
-
-      .packet {
-        position: absolute;
-        width: 50px; /* Larger packets */
-        height: 50px; /* Larger packets */
-        border-radius: 6px; /* Slightly rounded corners */
-        background-color: var(--packet-color);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 600;
-        font-size: 20px; /* Larger text */
-        z-index: 6; /* Above sender/receiver */
-        box-shadow: 0 0 15px rgba(0, 98, 176, 0.3); /* Updated color */
-        transition: all 0.3s ease;
-      }
-
-      .ack {
-        background-color: var(--ack-color);
-        width: 40px; /* Slightly smaller than data packets */
-        height: 40px; /* Slightly smaller than data packets */
-        box-shadow: 0 0 15px rgba(46, 125, 50, 0.3); /* Updated color */
-      }
-
-      .nack {
-        background-color: var(--nack-color);
-        box-shadow: 0 0 15px rgba(198, 40, 40, 0.3); /* Updated color */
-      }
-
-      .window {
-        display: none; /* Hide the window element instead of removing it from HTML */
-      }
-
-      /* Keyframes adjustments - smoother animations */
-      @keyframes movePacket {
-        0% {
-          left: 12%; /* Match sender position */
-          top: 40%; /* Match sender position */
-          transform: scale(0.8);
-          opacity: 0;
-        }
-        5% {
-          transform: scale(1);
-          opacity: 1;
-        }
-        45% {
-          left: 82%; /* Match receiver position */
-          top: 40%; /* Match receiver position */
-          transform: scale(1);
-          opacity: 1;
-        }
-        50% {
-          left: 82%; /* Match receiver position */
-          top: 40%; /* Match receiver position */
-          opacity: 1;
-          transform: scale(0.8);
-        }
-        51% {
-          opacity: 0;
-          transform: scale(0.8);
-        }
-        100% {
-          left: 12%; /* Match sender position */
-          top: 40%; /* Match sender position */
-          opacity: 0;
-          transform: scale(0.8);
-        }
-      }
-
-      @keyframes moveAck {
-        0% {
-          left: 82%; /* Match receiver position */
-          top: 55%;
-          opacity: 0;
-        }
-        1% {
-          opacity: 1;
-        }
-        55% {
-          left: 12%; /* Match sender position */
-          top: 55%;
-          opacity: 1;
-        }
-        60% {
-          left: 12%; /* Match sender position */
-          top: 55%;
-          opacity: 0;
-        }
-        100% {
-          left: 82%; /* Match receiver position */
-          top: 55%;
-          opacity: 0;
-        }
-      }
-
-      @keyframes lostPacket {
-        0% {
-          left: 12%; /* Match sender position */
-          top: 40%; /* Match sender position */
-          opacity: 1;
-        }
-        40% {
-          left: 47%;
-          top: 40%;
-          opacity: 1;
-        }
-        50% {
-          left: 47%;
-          top: 70%;
-          opacity: 0;
-        }
-        100% {
-          left: 47%;
-          top: 70%;
-          opacity: 0;
-        }
-      }
-
-      /* Animation delays and durations */
-      #packet1 {
-        animation: movePacket 5s infinite;
-        animation-delay: 0s;
-      }
-
-      #packet2 {
-        animation: movePacket 5s infinite;
-        animation-delay: 0.8s;
-      }
-
-      #packet3 {
-        animation: lostPacket 5s infinite;
-        animation-delay: 1.6s;
-      }
-
-      #packet4 {
-        animation: movePacket 5s infinite;
-        animation-delay: 3.2s;
-      }
-
-      #ack1 {
-        animation: moveAck 5s infinite;
-        animation-delay: 1.2s;
-      }
-
-      #ack2 {
-        animation: moveAck 5s infinite;
-        animation-delay: 2s;
-      }
-
-      #ack4 {
-        animation: moveAck 5s infinite;
-        animation-delay: 3.6s;
-      }
-
-      /* Features Section */
-      .features {
-        padding: 5rem 2rem;
-        background-color: var(--body-bg);
-      }
-
-      .section-title {
-        text-align: center;
-        font-size: 2.25rem; /* Slightly larger */
-        margin-bottom: 3rem;
-        color: var(--text-color);
-        font-weight: 600; /* Slightly bolder */
-        background: linear-gradient(
-          90deg,
-          var(--primary-hover),
-          var(--primary-color)
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        position: relative;
-        display: inline-block;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .section-title::after {
-        content: "";
-        position: absolute;
-        width: 80px; /* Wider underline */
-        height: 4px;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: linear-gradient(
-          90deg,
-          var(--primary-hover),
-          var(--primary-color)
-        );
-        border-radius: 2px;
-      }
-
-      .features-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 2rem;
-        max-width: 1200px; /* Slightly wider */
-        margin: 0 auto;
-      }
-
-      .feature-card {
-        background-color: var(--card-bg);
-        border-radius: 8px; /* Slightly more rounded */
-        border: 1px solid var(--border-color);
-        padding: 2rem; /* More padding */
-        flex: 1 1 300px;
-        max-width: 350px; /* Slightly larger */
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-        border-top: 4px solid var(--primary-color);
-        overflow: hidden;
-        position: relative;
-      }
-
-      .feature-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
-      }
-
-      .feature-card::before {
-        content: "";
-        position: absolute;
-        top: -4px;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(
-          90deg,
-          var(--primary-color),
-          var(--primary-hover),
-          var(--primary-color)
-        );
-        background-size: 200% 100%;
-        animation: gradient-flow 3s linear infinite;
-      }
-
-      @keyframes gradient-flow {
-        0% {
-          background-position: 100% 0;
-        }
-        100% {
-          background-position: -100% 0;
-        }
-      }
-
-      .feature-icon {
-        color: var(--primary-color);
-        font-size: 2rem; /* Larger icon */
-        margin-bottom: 1.5rem; /* More space below icon */
-        background-color: var(--primary-light);
-        height: 70px; /* Larger circle */
-        width: 70px; /* Larger circle */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        position: relative;
-        z-index: 1;
-        overflow: hidden;
-      }
-
-      body.dark-mode .feature-icon {
-        background-color: rgba(0, 162, 255, 0.1); /* Updated color */
-      }
-
-      .feature-icon::after {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(
-          circle,
-          rgba(255, 255, 255, 0.2) 0%,
-          transparent 70%
-        );
-        opacity: 0;
-        transform: scale(0.1);
-        transition: transform 0.8s, opacity 0.8s;
-        z-index: -1;
-      }
-
-      .feature-card:hover .feature-icon::after {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      .feature-title {
-        font-size: 1.35rem; /* Slightly larger */
-        margin-bottom: 0.75rem;
-        color: var(--text-color);
-        font-weight: 600; /* Slightly bolder */
-      }
-
-      .feature-card p {
-        color: var(--subtle-text);
-        font-size: 1rem;
-        line-height: 1.6;
-      }
-
-      /* About Section */
-      .about {
-        padding: 5rem 2rem;
-        background-color: var(--primary-light);
+        padding: 2rem;
+        /* Less padding on mobile */
       }
 
       .about-container {
-        max-width: 1000px; /* Slightly wider */
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2.5rem; /* More space between boxes */
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2rem;
       }
 
-      .about-box {
-        background-color: var(--card-bg);
-        border-radius: 8px; /* More rounded */
-        border: 1px solid var(--border-color);
-        padding: 2rem; /* More padding */
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08); /* Stronger shadow */
-        position: relative;
-      }
-
-      .about-box:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12); /* Stronger shadow on hover */
-      }
-
-      .about-box::before {
-        content: "";
-        position: absolute;
-        top: -2px;
-        left: -2px;
-        right: -2px;
-        bottom: -2px;
-        background: linear-gradient(
-          45deg,
-          var(--primary-color),
-          transparent,
-          var(--primary-color),
-          transparent
-        );
-        background-size: 400% 400%;
-        animation: border-shift 5s ease infinite;
-        z-index: -1;
-        border-radius: 10px; /* Match box radius + 2px for border */
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-
-      .about-box:hover::before {
-        opacity: 1;
-      }
-
-      @keyframes border-shift {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-
-      .about-title {
-        font-size: 1.6rem; /* Larger */
-        margin-bottom: 1.25rem; /* More space below title */
-        color: var(--primary-color); /* Changed to primary color */
-        font-weight: 600; /* Bolder */
-        border-bottom: 2px solid var(--primary-light);
-        padding-bottom: 0.75rem;
-      }
-
-      .about-box p,
-      .about-box li {
-        color: var(
-          --text-color
-        ); /* Changed from subtle-text for better readability */
+      .hero p {
         font-size: 1rem;
       }
 
-      .about-box ul {
-        padding-left: 1.5rem;
-        margin-top: 1rem; /* More space */
+      .hero-content {
+        padding: 1.5rem 1rem;
+        width: 95%;
       }
 
-      .about-box li {
-        margin-bottom: 0.75rem; /* More space between list items */
+      .cta-button {
+        padding: 0.75rem 1.75rem;
       }
 
-      .step {
-        display: flex;
-        margin-bottom: 1.25rem; /* More space between steps */
-        align-items: flex-start;
+      .section-title {
+        font-size: 1.75rem;
       }
 
-      .step-number {
-        color: white; /* Changed for better contrast */
-        font-weight: 600;
-        font-size: 1.1rem;
-        margin-right: 0.75rem;
-        line-height: 1.4;
-        background-color: var(--primary-color); /* Changed from primary-light */
-        width: 32px; /* Slightly larger */
-        height: 32px; /* Slightly larger */
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 1rem;
-        animation: pulse 2s infinite;
-        position: relative;
+      .sender,
+      .receiver {
+        width: 80px;
+        /* Smaller on mobile */
+        height: 80px;
+        /* Smaller on mobile */
       }
 
-      @keyframes pulse {
-        0% {
-          box-shadow: 0 0 0 0 rgba(0, 98, 176, 0.4); /* Updated color */
-        }
-        70% {
-          box-shadow: 0 0 0 10px rgba(0, 98, 176, 0); /* Updated color */
-        }
-        100% {
-          box-shadow: 0 0 0 0 rgba(0, 98, 176, 0); /* Updated color */
-        }
+      .icon {
+        font-size: 2rem;
+        /* Smaller on mobile */
       }
+    }
 
-      body.dark-mode .step-number {
-        background-color: rgba(0, 162, 255, 0.8); /* Updated color */
-      }
+    /* Custom scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
 
-      .step-content {
-        flex: 1;
-      }
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 4px;
+    }
 
-      .step-content strong {
-        color: var(--primary-color); /* Changed to primary color */
-        font-weight: 600; /* Bolder */
-      }
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 4px;
+    }
 
-      /* Footer */
-      footer {
-        background-color: var(--header-bg); /* Match header */
-        border-top: 1px solid var(--border-color);
-        color: var(--text-color); /* Changed from subtle-text */
-        padding: 3rem 2rem; /* More padding */
-        text-align: center;
-        font-size: 0.95rem; /* Slightly larger */
-        position: relative;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-      }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-hover);
+    }
 
-      footer::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          var(--primary-color),
-          transparent
-        );
-      }
+    body.dark-mode ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+    }
+  </style>
+</head>
 
-      .social-links {
-        display: flex;
-        justify-content: center;
-        gap: 1.5rem;
-        margin-top: 1.5rem; /* More space */
-      }
+<body>
+  <header>
+    <a href="#" class="logo">
+      <i class="fas fa-network-wired"></i>
+      GO BACK N
+    </a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">
+      <i class="fas fa-moon"></i>
+    </button>
+  </header>
 
-      .social-link {
-        color: white; /* Changed for better contrast */
-        font-size: 1.25rem;
-        transition: transform 0.2s ease;
-        width: 45px; /* Larger buttons */
-        height: 45px; /* Larger buttons */
-        border-radius: 50%;
-        background-color: var(--primary-color); /* Changed from primary-light */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.3s ease, background-color 0.3s ease;
-      }
-
-      .social-link:hover {
-        transform: translateY(-5px);
-        background-color: var(--primary-hover);
-      }
-
-      body.dark-mode .social-link {
-        background-color: rgba(0, 162, 255, 0.8); /* Updated color */
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .hero h1 {
-          font-size: 2.5rem; /* Adjust for smaller screens */
-        }
-
-        .hero-content {
-          padding: 2rem; /* Less padding on mobile */
-        }
-
-        .about-container {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .hero h1 {
-          font-size: 2rem;
-        }
-
-        .hero p {
-          font-size: 1rem;
-        }
-
-        .hero-content {
-          padding: 1.5rem 1rem;
-          width: 95%;
-        }
-
-        .cta-button {
-          padding: 0.75rem 1.75rem;
-        }
-
-        .section-title {
-          font-size: 1.75rem;
-        }
-
-        .sender,
-        .receiver {
-          width: 80px; /* Smaller on mobile */
-          height: 80px; /* Smaller on mobile */
-        }
-
-        .icon {
-          font-size: 2rem; /* Smaller on mobile */
-        }
-      }
-
-      /* Custom scrollbar styling */
-      ::-webkit-scrollbar {
-        width: 10px;
-        height: 10px;
-      }
-
-      ::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.05);
-        border-radius: 4px;
-      }
-
-      ::-webkit-scrollbar-thumb {
-        background: var(--primary-color);
-        border-radius: 4px;
-      }
-
-      ::-webkit-scrollbar-thumb:hover {
-        background: var(--primary-hover);
-      }
-
-      body.dark-mode ::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.05);
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <a href="#" class="logo">
-        <i class="fas fa-network-wired"></i>
-        Go-Back-N Simulator
-      </a>
-      <button
-        id="theme-toggle"
-        class="theme-toggle"
-        aria-label="Toggle Dark Mode"
-      >
-        <i class="fas fa-moon"></i>
-      </button>
-    </header>
-
-    <section class="hero">
-      <div class="animation-container">
-        <div class="sender">
-          <i class="fas fa-laptop icon"></i>
-        </div>
-        <div class="receiver">
-          <i class="fas fa-server icon"></i>
-        </div>
-
-        <!-- Window element is still in the HTML but hidden by CSS -->
-        <div class="window"></div>
-        <div id="packet1" class="packet">1</div>
-        <div id="packet2" class="packet">2</div>
-        <div id="packet3" class="packet">3</div>
-        <div id="packet4" class="packet">4</div>
-        <div id="ack1" class="packet ack">A</div>
-        <div id="ack2" class="packet ack">A</div>
-        <div id="ack4" class="packet ack">A</div>
+  <section class="hero">
+    <div class="animation-container">
+      <div class="sender">
+        <i class="fas fa-laptop icon"></i>
+      </div>
+      <div class="receiver">
+        <i class="fas fa-server icon"></i>
       </div>
 
-      <div class="hero-content">
-        <h1>Go-Back-N Protocol Simulator</h1>
+      <!-- Window element is still in the HTML but hidden by CSS -->
+      <div class="window"></div>
+      <div id="packet1" class="packet">1</div>
+      <div id="packet2" class="packet">2</div>
+      <div id="packet3" class="packet">3</div>
+      <div id="packet4" class="packet">4</div>
+      <div id="ack1" class="packet ack">A</div>
+      <div id="ack2" class="packet ack">A</div>
+      <div id="ack4" class="packet ack">A</div>
+    </div>
+
+    <div class="hero-content">
+      <h1 style="font-size: 50px; font-weight: 500;">GO BACK N PROTOCOL SIMULATOR</h1>
+      <a href="./gbn_sr/index.html" class="cta-button">START <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2 class="section-title">Key Features</h2>
+    <div class="features-container">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-eye"></i>
+        </div>
+        <h3 class="feature-title">Visual Learning</h3>
         <p>
-          An interactive tool to visualize the Go-Back-N ARQ protocol.
-          Understand packet transmission, error recovery, and flow control
-          through hands-on simulation.
+          Watch packets flow between sender and receiver with clear animations
+          that demonstrate protocol mechanisms in action.
         </p>
-        <a href="./gbn_sr/index.html" class="cta-button"
-          >Launch Simulator <i class="fas fa-arrow-right"></i
-        ></a>
       </div>
-    </section>
-
-    <section class="features">
-      <h2 class="section-title">Key Features</h2>
-      <div class="features-container">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-eye"></i>
-          </div>
-          <h3 class="feature-title">Visual Learning</h3>
-          <p>
-            Watch packets flow between sender and receiver with clear animations
-            that demonstrate protocol mechanisms in action.
-          </p>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-sliders-h"></i>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-sliders-h"></i>
-          </div>
-          <h3 class="feature-title">Interactive Controls</h3>
-          <p>
-            Adjust window sizes, transmission speeds, and packet sizes to
-            explore protocol performance under different conditions.
-          </p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-bug"></i>
-          </div>
-          <h3 class="feature-title">Error Handling</h3>
-          <p>
-            Simulate packet loss scenarios and observe how the protocol
-            implements recovery mechanisms to ensure reliable delivery.
-          </p>
-        </div>
+        <h3 class="feature-title">Interactive Controls</h3>
+        <p>
+          Adjust window sizes, transmission speeds, and packet sizes to
+          explore protocol performance under different conditions.
+        </p>
       </div>
-    </section>
-
-    <section class="about">
-      <div class="about-container">
-        <div class="about-box">
-          <h3 class="about-title">About Go-Back-N</h3>
-          <p>
-            Go-Back-N is a sliding window protocol that provides reliable data
-            transfer over unreliable networks.
-          </p>
-          <ul>
-            <li>Sender maintains a window of unacknowledged packets</li>
-            <li>Receiver accepts only in-sequence packets</li>
-            <li>
-              Upon error, sender retransmits all packets from the failed one
-            </li>
-            <li>Uses cumulative acknowledgments for efficiency</li>
-          </ul>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-bug"></i>
         </div>
+        <h3 class="feature-title">Error Handling</h3>
+        <p>
+          Simulate packet loss scenarios and observe how the protocol
+          implements recovery mechanisms to ensure reliable delivery.
+        </p>
+      </div>
+    </div>
+  </section>
 
-        <div class="about-box">
-          <h3 class="about-title">How To Use</h3>
-          <div class="step">
-            <div class="step-number">1</div>
-            <div class="step-content">
-              <strong>Configure</strong> window size, transmission capacity, and
-              packet parameters
-            </div>
+  <section class="about">
+    <div class="about-container">
+      <div class="about-box">
+        <h3 class="about-title">About Go-Back-N</h3>
+        <p>
+          Go-Back-N is a sliding window protocol that provides reliable data
+          transfer over unreliable networks.
+        </p>
+        <ul>
+          <li>Sender maintains a window of unacknowledged packets</li>
+          <li>Receiver accepts only in-sequence packets</li>
+          <li>
+            Upon error, sender retransmits all packets from the failed one
+          </li>
+          <li>Uses cumulative acknowledgments for efficiency</li>
+        </ul>
+      </div>
+
+      <div class="about-box">
+        <h3 class="about-title">How To Use</h3>
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <strong>Configure</strong> window size, transmission capacity, and
+            packet parameters
           </div>
-          <div class="step">
-            <div class="step-number">2</div>
-            <div class="step-content">
-              <strong>Start</strong> the simulation to observe packet
-              transmission
-            </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <strong>Start</strong> the simulation to observe packet
+            transmission
           </div>
-          <div class="step">
-            <div class="step-number">3</div>
-            <div class="step-content">
-              <strong>Click</strong> on packets during transmission to simulate
-              packet loss
-            </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <strong>Click</strong> on packets during transmission to simulate
+            packet loss
           </div>
-          <div class="step">
-            <div class="step-number">4</div>
-            <div class="step-content">
-              <strong>Analyze</strong> the log output to understand protocol
-              behavior
-            </div>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <strong>Analyze</strong> the log output to understand protocol
+            behavior
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <footer>
-      <p>
-        Go-Back-N Protocol Simulator — A tool for network protocol education
-      </p>
-     
-    </footer>
+  <footer>
+    <p>
+      Go-Back-N Protocol Simulator — A tool for network protocol education
+    </p>
 
-    <script>
-      // Theme Toggle Functionality
-      const themeToggle = document.getElementById("theme-toggle");
-      const themeIcon = themeToggle.querySelector("i");
+  </footer>
 
-      // Check for saved theme preference or use device preference
-      const prefersDarkScheme = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      );
-      const currentTheme = localStorage.getItem("theme");
+  <script>
+    // Theme Toggle Functionality
+    const themeToggle = document.getElementById("theme-toggle");
+    const themeIcon = themeToggle.querySelector("i");
 
-      if (
-        currentTheme === "dark" ||
-        (!currentTheme && prefersDarkScheme.matches)
-      ) {
-        document.body.classList.add("dark-mode");
+    // Check for saved theme preference or use device preference
+    const prefersDarkScheme = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    );
+    const currentTheme = localStorage.getItem("theme");
+
+    if (
+      currentTheme === "dark" ||
+      (!currentTheme && prefersDarkScheme.matches)
+    ) {
+      document.body.classList.add("dark-mode");
+      themeIcon.classList.replace("fa-moon", "fa-sun");
+    }
+
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+
+      if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("theme", "dark");
         themeIcon.classList.replace("fa-moon", "fa-sun");
+      } else {
+        localStorage.setItem("theme", "light");
+        themeIcon.classList.replace("fa-sun", "fa-moon");
       }
+    });
 
-      themeToggle.addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
+    // Animation optimization - pause when not in viewport
+    const animationContainer = document.querySelector(".animation-container");
+    const packets = document.querySelectorAll(".packet");
+    const windowElement = document.querySelector(".window");
 
-        if (document.body.classList.contains("dark-mode")) {
-          localStorage.setItem("theme", "dark");
-          themeIcon.classList.replace("fa-moon", "fa-sun");
+    function isElementInViewport(el) {
+      const rect = el.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <=
+        (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <=
+        (window.innerWidth || document.documentElement.clientWidth)
+      );
+    }
+
+    function handleVisibility() {
+      const isVisible = isElementInViewport(animationContainer);
+      packets.forEach((packet) => {
+        if (isVisible) {
+          packet.style.animationPlayState = "running";
         } else {
-          localStorage.setItem("theme", "light");
-          themeIcon.classList.replace("fa-sun", "fa-moon");
+          packet.style.animationPlayState = "paused";
         }
       });
 
-      // Animation optimization - pause when not in viewport
-      const animationContainer = document.querySelector(".animation-container");
-      const packets = document.querySelectorAll(".packet");
-      const windowElement = document.querySelector(".window");
-
-      function isElementInViewport(el) {
-        const rect = el.getBoundingClientRect();
-        return (
-          rect.top >= 0 &&
-          rect.left >= 0 &&
-          rect.bottom <=
-            (window.innerHeight || document.documentElement.clientHeight) &&
-          rect.right <=
-            (window.innerWidth || document.documentElement.clientWidth)
-        );
+      if (windowElement) {
+        windowElement.style.animationPlayState = isVisible
+          ? "running"
+          : "paused";
       }
+    }
 
-      function handleVisibility() {
-        const isVisible = isElementInViewport(animationContainer);
-        packets.forEach((packet) => {
-          if (isVisible) {
-            packet.style.animationPlayState = "running";
-          } else {
-            packet.style.animationPlayState = "paused";
-          }
-        });
+    // Initial check and event listeners
+    handleVisibility();
+    window.addEventListener("scroll", handleVisibility);
+    window.addEventListener("resize", handleVisibility);
 
-        if (windowElement) {
-          windowElement.style.animationPlayState = isVisible
-            ? "running"
-            : "paused";
+    document.addEventListener("DOMContentLoaded", function () {
+      // Create subtle particle effect in the hero background
+      const heroSection = document.querySelector(".hero");
+
+      // Only create particles on desktop for better performance
+      if (window.innerWidth > 768) {
+        for (let i = 0; i < 30; i++) {
+          // More particles
+          createParticle(heroSection);
         }
       }
 
-      // Initial check and event listeners
-      handleVisibility();
-      window.addEventListener("scroll", handleVisibility);
-      window.addEventListener("resize", handleVisibility);
+      // Add entrance animations for key elements
+      const featureCards = document.querySelectorAll(".feature-card");
+      const aboutBoxes = document.querySelectorAll(".about-box");
 
-      document.addEventListener("DOMContentLoaded", function () {
-        // Create subtle particle effect in the hero background
-        const heroSection = document.querySelector(".hero");
+      // Use Intersection Observer for scroll-triggered animations
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+              // Delayed animation based on index
+              setTimeout(() => {
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+              }, index * 100);
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
 
-        // Only create particles on desktop for better performance
-        if (window.innerWidth > 768) {
-          for (let i = 0; i < 30; i++) {
-            // More particles
-            createParticle(heroSection);
-          }
-        }
-
-        // Add entrance animations for key elements
-        const featureCards = document.querySelectorAll(".feature-card");
-        const aboutBoxes = document.querySelectorAll(".about-box");
-
-        // Use Intersection Observer for scroll-triggered animations
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry, index) => {
-              if (entry.isIntersecting) {
-                // Delayed animation based on index
-                setTimeout(() => {
-                  entry.target.style.opacity = "1";
-                  entry.target.style.transform = "translateY(0)";
-                }, index * 100);
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.1 }
-        );
-
-        // Apply initial styles and observe
-        featureCards.forEach((card) => {
-          card.style.opacity = "0";
-          card.style.transform = "translateY(20px)";
-          card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
-          observer.observe(card);
-        });
-
-        aboutBoxes.forEach((box) => {
-          box.style.opacity = "0";
-          box.style.transform = "translateY(20px)";
-          box.style.transition = "opacity 0.5s ease, transform 0.5s ease";
-          observer.observe(box);
-        });
+      // Apply initial styles and observe
+      featureCards.forEach((card) => {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(20px)";
+        card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+        observer.observe(card);
       });
 
-      // Function to create floating particles with improved visuals
-      function createParticle(parent) {
-        const particle = document.createElement("div");
-        particle.style.position = "absolute";
-        const size = Math.random() * 6 + 2; // Larger particles (2-8px)
-        particle.style.width = size + "px";
-        particle.style.height = size + "px";
+      aboutBoxes.forEach((box) => {
+        box.style.opacity = "0";
+        box.style.transform = "translateY(20px)";
+        box.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+        observer.observe(box);
+      });
+    });
 
-        // Use primary-color with opacity for particles
-        particle.style.background = "var(--primary-color)";
-        particle.style.opacity = Math.random() * 0.3 + 0.1; // 0.1-0.4 opacity
+    // Function to create floating particles with improved visuals
+    function createParticle(parent) {
+      const particle = document.createElement("div");
+      particle.style.position = "absolute";
+      const size = Math.random() * 6 + 2; // Larger particles (2-8px)
+      particle.style.width = size + "px";
+      particle.style.height = size + "px";
 
-        particle.style.borderRadius = "50%";
-        particle.style.pointerEvents = "none";
-        particle.style.filter = "blur(1px)"; // Add slight blur for softer look
+      // Use primary-color with opacity for particles
+      particle.style.background = "var(--primary-color)";
+      particle.style.opacity = Math.random() * 0.3 + 0.1; // 0.1-0.4 opacity
 
-        // Random starting position
-        const startPositionX = Math.random() * 100 + "%";
-        const startPositionY = Math.random() * 100 + "%";
-        particle.style.left = startPositionX;
-        particle.style.top = startPositionY;
+      particle.style.borderRadius = "50%";
+      particle.style.pointerEvents = "none";
+      particle.style.filter = "blur(1px)"; // Add slight blur for softer look
 
-        // Animate with random duration
-        const duration = Math.random() * 20 + 15; // 15-35 seconds - slower movements
+      // Random starting position
+      const startPositionX = Math.random() * 100 + "%";
+      const startPositionY = Math.random() * 100 + "%";
+      particle.style.left = startPositionX;
+      particle.style.top = startPositionY;
 
-        // Custom animation for more natural movement
-        const keyframes = `
+      // Animate with random duration
+      const duration = Math.random() * 20 + 15; // 15-35 seconds - slower movements
+
+      // Custom animation for more natural movement
+      const keyframes = `
           @keyframes float${duration} {
             0% { transform: translate(0, 0); }
-            25% { transform: translate(${Math.random() * 20 - 10}px, ${
-          Math.random() * 20 - 10
+            25% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10
         }px); }
-            50% { transform: translate(${Math.random() * 40 - 20}px, ${
-          Math.random() * 40 - 20
+            50% { transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * 40 - 20
         }px); }
-            75% { transform: translate(${Math.random() * 20 - 10}px, ${
-          Math.random() * 20 - 10
+            75% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10
         }px); }
             100% { transform: translate(0, 0); }
           }
         `;
 
-        const style = document.createElement("style");
-        style.innerHTML = keyframes;
-        document.head.appendChild(style);
+      const style = document.createElement("style");
+      style.innerHTML = keyframes;
+      document.head.appendChild(style);
 
-        particle.style.animation = `float${duration} ${duration}s ease-in-out infinite`;
+      particle.style.animation = `float${duration} ${duration}s ease-in-out infinite`;
 
-        // Add to hero section
-        parent.appendChild(particle);
+      // Add to hero section
+      parent.appendChild(particle);
 
-        // Remove from DOM after some time to prevent memory issues
-        setTimeout(() => {
-          if (parent.contains(particle)) {
-            parent.removeChild(particle);
-            document.head.removeChild(style);
-            createParticle(parent); // Create a new one to replace it
-          }
-        }, duration * 1000);
-      }
-    </script>
-  </body>
+      // Remove from DOM after some time to prevent memory issues
+      setTimeout(() => {
+        if (parent.contains(particle)) {
+          parent.removeChild(particle);
+          document.head.removeChild(style);
+          createParticle(parent); // Create a new one to replace it
+        }
+      }, duration * 1000);
+    }
+  </script>
+</body>
+
 </html>
