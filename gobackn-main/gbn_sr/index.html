@@ -501,7 +501,7 @@
 		#svg {
 			position: relative;
 			width: 100%;
-			min-height: 400px;
+			min-height: 420px;
 			overflow: hidden;
 			padding: 0;
 			background-color: var(--sim-bg);
@@ -861,6 +861,11 @@
 			background-color: var(--input-bg);
 			color: var(--text-color);
 			border-color: var(--input-border);
+		}
+
+		.centreRotate{
+			transform: rotate(90deg);
+			margin-left: 0px; /* Reset margin */
 		}
 
 		/* Dark mode specific disabled styles */
@@ -1745,8 +1750,8 @@
     // --- Configuration Constants ---
     // --- >> MODIFIED VALUES << ---
     const PKG_WIDTH = 40;          // Visual width of a packet element (Changed from 24)
-    const PKG_HEIGHT = 30;         // Visual height of a packet element (Changed from 30)
-    const WINDOW_HEIGHT = 35;      // Height of the window visualization divs (Increased from 34 for proportion)
+    const PKG_HEIGHT = 50;         // Visual height of a packet element (Changed from 30)
+    const WINDOW_HEIGHT = 55;      // Height of the window visualization divs (Increased from 34 for proportion)
     const WINDOW_TIMER_SIZE = 50;  // Size (width & height) for the main window timer canvas (Increased from 40)
     // --- >> END OF MODIFIED VALUES << ---
     
@@ -1893,7 +1898,7 @@
         const senderDiv = $(`
             <div>
                 <canvas width="${PKG_CANVAS_SIZE}" height="${PKG_CANVAS_SIZE}"></canvas>
-                <center><b>${displaySeqNum}</b></center>
+                <center class="centreRotate"><b>${displaySeqNum}</b></center>
             </div>
         `).css({
             left: currentX + 'px',
@@ -1907,7 +1912,7 @@
         // Create receiver-side packet placeholder visual (div with sequence number)
         const receiverDiv = $(`
             <div>
-                <center><b>${displaySeqNum}</b></center>
+                <center class="centreRotate"><b>${displaySeqNum}</b></center>
             </div>
         `).css({
             left: currentX + 'px',
