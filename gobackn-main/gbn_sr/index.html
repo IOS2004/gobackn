@@ -79,11 +79,13 @@
 			--scrollbar-thumb-bg: #90a4ae;
 			--scrollbar-thumb-hover-bg: #546e7a;
 			--scrollbar-thumb-border: var(--border-color);
+			--heading-color: #0329d3;
 		}
 
 		body.dark-mode {
 			/* Dark Mode Colors - Enhanced and Darkened */
 			--primary-color: #00a2ff;
+			--heading-color: #00a2ff;
 			/* Brighter, more saturated blue for better visibility on dark */
 			--sidebar-bg: #1a1d21;
 			/* Much darker sidebar */
@@ -970,9 +972,9 @@
 			position: relative;
 			margin-top: 8px;
 			display: inline-block;
-			width: 50px;
+			width: 35px;
 			/* Width of the switch */
-			height: 24px;
+			height: 20px;
 			/* Height of the switch */
 			flex-shrink: 0;
 			/* Prevent flexbox from shrinking the switch */
@@ -1005,18 +1007,16 @@
 		.slider:before {
 			position: absolute;
 			content: "";
-			height: 18px;
-			/* Knob height */
-			width: 18px;
-			/* Knob width */
-			left: 3px;
-			/* Padding from left */
-			bottom: 3px;
-			/* Padding from bottom */
+			height: 15px;
+			width: 15px;
+			left: 2.5px; /* Start with a bit of padding from the left */
+			bottom: 2.5px;
 			background-color: white;
-			-webkit-transition: .4s;
-			transition: .4s;
+			-webkit-transition: .25s ease-in-out;
+			transition: .25s ease-in-out;
 		}
+
+
 
 		/* Change track color when checked */
 		input:checked+.slider {
@@ -1025,11 +1025,11 @@
 		}
 
 		/* Move knob when checked */
-		input:checked+.slider:before {
-			-webkit-transform: translateX(26px);
-			/* Move distance = width - knob_width - 2*padding */
-			-ms-transform: translateX(26px);
-			transform: translateX(26px);
+		
+		input:checked + .slider:before {
+			-webkit-transform: translateX(15px); /* 35 (track width) - 15 (knob width) - 2.5*2 (padding) = 15px */
+			-ms-transform: translateX(15px);
+			transform: translateX(15px);
 		}
 
 		/* Rounded sliders */
@@ -1895,17 +1895,17 @@
 			const headerHeading = document.querySelector('header .headingName'); // Target the h1
 
 			sidebarToggle.addEventListener('click', function () {
-				sidebar.classList.toggle('closed');
-				mainContent.classList.toggle('expanded');
-				sidebarToggle.classList.toggle('closed');
-				sidebarToggle.textContent = sidebar.classList.contains('closed') ? '☰' : '×';
-
-				// When sidebar is closed, center the h1; otherwise, align it left (or any default alignment)
-				if (sidebar.classList.contains('closed')) {
-					headerHeading.style.marginLeft = '0px';
-				} else {
-					headerHeading.style.marginLeft = "400px";
-				}
+			sidebar.classList.toggle('closed');
+			mainContent.classList.toggle('expanded');
+			sidebarToggle.classList.toggle('closed');
+			sidebarToggle.textContent = sidebar.classList.contains('closed') ? '☰' : '×';
+			
+			// When sidebar is closed, center the h1; otherwise, align it left (or any default alignment)
+			if (sidebar.classList.contains('closed')) {
+				headerHeading.style.marginLeft = '0px';
+			} else {
+				headerHeading.style.marginLeft="400px";
+			}
 			});
 
 
@@ -2598,8 +2598,8 @@
 </head>
 
 <body onload="init();" class="mobile">
-	<header>
-		<h1>Go-back-N ARQ Protocol</h1>
+	<header >
+		<h1 class="headingName">Go back N Protocol</h1>
 		<button id="theme-toggle" title="Toggle Theme"></button> <!-- Added Theme Toggle Button -->
 	</header>
 
