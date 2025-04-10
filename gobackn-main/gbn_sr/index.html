@@ -14,16 +14,21 @@
 	<style type="text/css">
 		:root {
 			/* Light Mode Colors - Enhanced with better contrast */
-			--primary-color: #0062b0; /* Deeper blue for better visibility */
+			--primary-color: #0062b0;
+			/* Deeper blue for better visibility */
 			--sidebar-width: 400px;
-			--sidebar-bg: #f0f4f8; /* Keep existing sidebar tone */
-			--border-color: #a4b5c6; /* Darker borders for definition */
+			--sidebar-bg: #f0f4f8;
+			/* Keep existing sidebar tone */
+			--border-color: #a4b5c6;
+			/* Darker borders for definition */
 			--shadow-color: rgba(0, 0, 0, 0.15);
-			--text-color: #1a2a36; /* Keep existing text color */
+			--text-color: #1a2a36;
+			/* Keep existing text color */
 			--header-bg: #e3f2fd;
 			--body-bg: #ffffff;
 			--input-bg: #ffffff;
-			--input-border: #8ca3b8; /* Slightly darker for better definition */
+			--input-border: #8ca3b8;
+			/* Slightly darker for better definition */
 			--button-bg: var(--primary-color);
 			--button-text: #ffffff;
 			--button-hover-bg: #005b96;
@@ -33,31 +38,37 @@
 			--log-bg: #ffffff;
 			--log-border: var(--border-color);
 			--log-even-row-bg: #f5f9fc;
-			
+
 			/* More saturated packet colors for better distinction */
-			--packet-default-bg: #90caf9; /* Brighter blue */
+			--packet-default-bg: #90caf9;
+			/* Brighter blue */
 			--packet-default-border: #1976d2;
 			--packet-default-text: #0d47a1;
-			--packet-delivered-bg: #ce93d8; /* Richer purple */
+			--packet-delivered-bg: #ce93d8;
+			/* Richer purple */
 			--packet-delivered-border: #8e24aa;
 			--packet-delivered-text: #4a148c;
-			--packet-confirmed-bg: #ffe082; /* Brighter amber */
+			--packet-confirmed-bg: #ffe082;
+			/* Brighter amber */
 			--packet-confirmed-border: #ffa000;
 			--packet-confirmed-text: #e65100;
-			--packet-ack-bg: #a5d6a7; /* Richer green */
+			--packet-ack-bg: #a5d6a7;
+			/* Richer green */
 			--packet-ack-border: #2e7d32;
 			--packet-ack-text: #1b5e20;
-			--packet-nack-bg: #ef9a9a; /* Brighter red */
+			--packet-nack-bg: #ef9a9a;
+			/* Brighter red */
 			--packet-nack-border: #c62828;
 			--packet-nack-text: #b71c1c;
-			--packet-empty-bg: #cfd8dc; /* Distinct gray - not washed out */
+			--packet-empty-bg: #cfd8dc;
+			/* Distinct gray - not washed out */
 			--packet-empty-border: #607d8b;
 			--packet-empty-text: #37474f;
 			--window-bg: #bbdefb;
 			--window-border: #1976d2;
 			--sim-bg: #f7fafc;
 			/* Keep all other variables the same */
-			
+
 			/* Added previously */
 			--tab-bg: var(--sidebar-bg);
 			--tab-active-bg: var(--body-bg);
@@ -72,37 +83,54 @@
 
 		body.dark-mode {
 			/* Dark Mode Colors - Enhanced and Darkened */
-			--primary-color: #00a2ff; /* Brighter, more saturated blue for better visibility on dark */
-			--sidebar-bg: #1a1d21; /* Much darker sidebar */
-			--border-color: #3d4852; /* Darker, more subtle borders */
-			--shadow-color: rgba(0, 0, 0, 0.5); /* Increased shadow opacity */
-			--text-color: #ffffff; /* Pure white text for maximum contrast */
-			--header-bg: #0d1117; /* Very dark header */
-			--body-bg: #0d1117; /* Very dark body background, GitHub dark theme inspired */
-			--input-bg: #21262d; /* Darker input fields */
-			--input-border: #30363d; /* Darker, more subtle input borders */
+			--primary-color: #00a2ff;
+			/* Brighter, more saturated blue for better visibility on dark */
+			--sidebar-bg: #1a1d21;
+			/* Much darker sidebar */
+			--border-color: #3d4852;
+			/* Darker, more subtle borders */
+			--shadow-color: rgba(0, 0, 0, 0.5);
+			/* Increased shadow opacity */
+			--text-color: #ffffff;
+			/* Pure white text for maximum contrast */
+			--header-bg: #0d1117;
+			/* Very dark header */
+			--body-bg: #0d1117;
+			/* Very dark body background, GitHub dark theme inspired */
+			--input-bg: #21262d;
+			/* Darker input fields */
+			--input-border: #30363d;
+			/* Darker, more subtle input borders */
 			--button-bg: var(--primary-color);
 			--button-text: #ffffff;
-			--button-hover-bg: #1f6feb; /* Rich blue hover */
+			--button-hover-bg: #1f6feb;
+			/* Rich blue hover */
 			--tooltip-bg: #f0f6fc;
 			--tooltip-text: #0d1117;
 			--tooltip-info-bg: #21262d;
-			--log-bg: #161b22; /* Slightly lighter than body bg for contrast */
+			--log-bg: #161b22;
+			/* Slightly lighter than body bg for contrast */
 			--log-border: var(--border-color);
-			--log-even-row-bg: #1c2127; /* Very subtle contrast for alternating rows */
-			--packet-default-bg: #0d4a7f; /* Darker blue */
+			--log-even-row-bg: #1c2127;
+			/* Very subtle contrast for alternating rows */
+			--packet-default-bg: #0d4a7f;
+			/* Darker blue */
 			--packet-default-border: #1a6bae;
 			--packet-default-text: #e3f2fd;
-			--packet-delivered-bg: #5b1178; /* Darker purple */
+			--packet-delivered-bg: #5b1178;
+			/* Darker purple */
 			--packet-delivered-border: #7b1fa2;
 			--packet-delivered-text: #f5e9ff;
-			--packet-confirmed-bg: #b26000; /* Darker amber */
+			--packet-confirmed-bg: #b26000;
+			/* Darker amber */
 			--packet-confirmed-border: #e67700;
 			--packet-confirmed-text: #fff4de;
-			--packet-ack-bg: #215732; /* Darker green */
+			--packet-ack-bg: #215732;
+			/* Darker green */
 			--packet-ack-border: #2e7d32;
 			--packet-ack-text: #e6f5ec;
-			--packet-nack-bg: #911c1c; /* Darker red */
+			--packet-nack-bg: #911c1c;
+			/* Darker red */
 			--packet-nack-border: #cf222e;
 			--packet-nack-text: #ffeded;
 			--packet-empty-bg: #21262d;
@@ -125,33 +153,39 @@
 
 		/* Ensure "No data received yet" legend item has sufficient contrast */
 		body:not(.dark-mode) .dscPkg.empty-legend {
-			color: #37474f; /* Darker text */
-			border: 1px dashed #607d8b; /* More visible border */
-			background-color: #eceff1; /* Less washed out background */
+			color: #37474f;
+			/* Darker text */
+			border: 1px dashed #607d8b;
+			/* More visible border */
+			background-color: #eceff1;
+			/* Less washed out background */
 		}
-		
+
 		/* Also update this for dark mode empty packages */
 		body.dark-mode .pkg.empty {
-			color: #b0bec5; /* Better visibility for empty package text */
-			border: 1px dashed #78909c; /* More visible dashed border */
+			color: #b0bec5;
+			/* Better visibility for empty package text */
+			border: 1px dashed #78909c;
+			/* More visible dashed border */
 		}
-		
+
 		/* Enhance button hover styles for better interaction feedback */
 		input[type="button"]:hover {
 			background: var(--button-hover-bg);
 			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 		}
-		
+
 		/* Add subtle transition to packet colors for smoother visual experience */
 		.pkg {
 			transition: background-color 0.2s, border-color 0.2s, color 0.2s;
 		}
-		
+
 		/* Improve tooltip visibility */
-		.tooltip .tooltiptext, .tooltip .tooltiptext1 {
+		.tooltip .tooltiptext,
+		.tooltip .tooltiptext1 {
 			box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
 		}
-		
+
 		body {
 			margin: 0;
 			padding: 0;
@@ -218,6 +252,7 @@
 			height: 100vh;
 			box-shadow: 2px 0 5px var(--shadow-color);
 		}
+
 		#theme-toggle {
 			position: absolute;
 			top: 10px;
@@ -229,6 +264,7 @@
 			padding: 5px 10px;
 			cursor: pointer;
 		}
+
 		#sidebar.closed {
 			transform: translateX(calc(-1 * var(--sidebar-width)));
 		}
@@ -464,9 +500,12 @@
 		/* --- FIX for Legend Text Contrast in Light Mode --- */
 		/* Darken the text for the "No data" legend item in light mode */
 		body:not(.dark-mode) .dscPkg.empty-legend {
-			color: #37474f; /* Darker text */
-			border: 1px dashed #607d8b; /* More visible border */
-			background-color: #eceff1; /* Less washed out background */
+			color: #37474f;
+			/* Darker text */
+			border: 1px dashed #607d8b;
+			/* More visible border */
+			background-color: #eceff1;
+			/* Less washed out background */
 		}
 
 		/* --- End of FIX --- */
@@ -569,7 +608,7 @@
 			border-radius: 2px;
 			margin-top: -2px;
 			margin-left: -2px;
-			padding-right: 2px ;
+			padding-right: 2px;
 		}
 
 		.pkg {
@@ -641,7 +680,7 @@
 			width: 40px;
 			z-index: 45;
 			margin-left: -20px;
-			
+
 		}
 
 		/* Tooltip styles */
@@ -652,7 +691,7 @@
 			margin-left: 5px;
 			width: 16px;
 			height: 16px;
-			
+
 			line-height: 16px;
 			text-align: center;
 			border-radius: 50%;
@@ -868,9 +907,10 @@
 			border-color: var(--input-border);
 		}
 
-		.centreRotate{
+		.centreRotate {
 			transform: rotate(90deg);
-			margin-left: 0px; /* Reset margin */
+			margin-left: 0px;
+			/* Reset margin */
 		}
 
 		/* Dark mode specific disabled styles */
@@ -891,35 +931,131 @@
 			width: 100%;
 			height: 100%;
 			overflow: hidden;
-			z-index: 0; /* Behind simulation elements but above the background */
-			pointer-events: none; /* Ensure clicks pass through to simulation elements */
+			z-index: 0;
+			/* Behind simulation elements but above the background */
+			pointer-events: none;
+			/* Ensure clicks pass through to simulation elements */
 		}
 
 		.star {
 			position: absolute;
-			background-color: rgba(100, 100, 180, 0.7); /* Bluish color for light mode */
+			background-color: rgba(100, 100, 180, 0.7);
+			/* Bluish color for light mode */
 			border-radius: 50%;
 			opacity: 0;
 			animation: twinkle 5s infinite ease-in-out;
 		}
 
 		body.dark-mode .star {
-			background-color: rgba(255, 255, 255, 0.8); /* Whiter color for dark mode */
+			background-color: rgba(255, 255, 255, 0.8);
+			/* Whiter color for dark mode */
 		}
 
 		@keyframes twinkle {
 			0% {
 				opacity: 0;
 			}
+
 			50% {
 				opacity: 1;
 			}
+
 			100% {
 				opacity: 0;
 			}
 		}
 
+		/* Toggle Switch Styles */
+		.toggle-switch {
+			position: relative;
+			margin-top: 8px;
+			display: inline-block;
+			width: 50px;
+			/* Width of the switch */
+			height: 24px;
+			/* Height of the switch */
+			flex-shrink: 0;
+			/* Prevent flexbox from shrinking the switch */
+		}
 
+		/* Hide default HTML checkbox */
+		.toggle-switch input {
+			opacity: 0;
+			width: 0;
+			height: 0;
+			position: absolute;
+			/* Take it out of layout flow */
+		}
+
+		/* The slider track */
+		.slider {
+			position: absolute;
+			cursor: pointer;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: #ccc;
+			/* Track color when OFF */
+			-webkit-transition: .4s;
+			transition: .4s;
+		}
+
+		/* The slider knob */
+		.slider:before {
+			position: absolute;
+			content: "";
+			height: 18px;
+			/* Knob height */
+			width: 18px;
+			/* Knob width */
+			left: 3px;
+			/* Padding from left */
+			bottom: 3px;
+			/* Padding from bottom */
+			background-color: white;
+			-webkit-transition: .4s;
+			transition: .4s;
+		}
+
+		/* Change track color when checked */
+		input:checked+.slider {
+			background-color: var(--primary-color, #007bff);
+			/* Use theme color or fallback */
+		}
+
+		/* Move knob when checked */
+		input:checked+.slider:before {
+			-webkit-transform: translateX(26px);
+			/* Move distance = width - knob_width - 2*padding */
+			-ms-transform: translateX(26px);
+			transform: translateX(26px);
+		}
+
+		/* Rounded sliders */
+		.slider.round {
+			border-radius: 24px;
+			/* Make track rounded (height) */
+		}
+
+		.slider.round:before {
+			border-radius: 50%;
+			/* Make knob round */
+		}
+
+		/* Optional: Adjust tooltip position if needed */
+		/* Since it's now in a span next to the switch, default positioning might be okay */
+
+		/* Ensure label text remains clickable (though clicking the switch is primary) */
+		label[for="enableNacksCheckbox"] {
+			cursor: pointer;
+		}
+
+		/* Style the text span if needed */
+		span[style*="margin-left"] {
+			cursor: default;
+			/* Indicate text isn't the primary control */
+		}
 	</style>
 	<script type="text/javascript" src="../global/js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="../global/js/jquery.pause.min.js"></script>
@@ -957,29 +1093,30 @@
 		var autoscale = false;
 		var overall_time;
 		var unlock = false;
+		var nacksEnabled = true;
 
 		// Add function to create starry background
 		function createStarryBackground() {
 			const starsContainer = document.createElement('div');
 			starsContainer.className = 'stars-container';
-			
+
 			// Create stars with random positions, sizes and animation delays
 			const numStars = 100; // Number of stars to create
 			for (let i = 0; i < numStars; i++) {
 				const star = document.createElement('div');
 				star.className = 'star';
-				
+
 				// Random position
 				const left = Math.random() * 100;
 				const top = Math.random() * 100;
-				
+
 				// Random size (0.5px to 3px)
 				const size = 0.5 + Math.random() * 2.5;
-				
+
 				// Random animation delay and duration
 				const delay = Math.random() * 5;
 				const duration = 3 + Math.random() * 4;
-				
+
 				// Set star styles
 				star.style.left = `${left}%`;
 				star.style.top = `${top}%`;
@@ -987,10 +1124,10 @@
 				star.style.height = `${size}px`;
 				star.style.animationDelay = `${delay}s`;
 				star.style.animationDuration = `${duration}s`;
-				
+
 				starsContainer.appendChild(star);
 			}
-			
+
 			// Add to simulation area (prepend to make it the background)
 			const simulationArea = document.getElementById('svg');
 			simulationArea.prepend(starsContainer);
@@ -1063,7 +1200,12 @@
 		});
 
 		function Controller() {
-
+			this.setNackEnabledState = function (isEnabled) {
+				nacksEnabled = isEnabled; // Update the global variable
+				console.log("NACKs enabled status set to: " + nacksEnabled);
+				// Optional: You might want to re-initialize or clear logs if changing this mid-simulation
+				// initAnimation(contr.getMethod()); // Uncomment if you want changing this to reset the simulation
+			}
 			this.resetConfig = function () {
 				this.SetDefaultC(1, 1000);
 				this.SetDefaultL(1, 1000);
@@ -1079,6 +1221,10 @@
 				sender.timeout = 40;
 				document.getElementById('senderN').value = 5;
 				document.getElementById('timeout').value = 60;
+				// **** RESET NACK STATE ****
+				document.getElementById('enableNacksCheckbox').checked = true; // Reset checkbox visually
+				nacksEnabled = true; // Reset the global variable
+				// **** END RESET NACK STATE ****
 				document.getElementById('timeout').min = TimeoutMin;
 				document.getElementById('TotalTime').value = "";
 				document.getElementById('unitTimeout').value = 1;
@@ -1689,15 +1835,21 @@
 					display.setReceiverBase(1, this.expectedseqnum);
 				}
 				else {
-					console.log("Packet " + (packet.seqnum - 1) + " received is UNEXPECTED: send the first time NACK then for the next times old ACK");
-
-					if (packet.seqnum > this.expectedseqnum && NACKFlag == false) {	// cheks if NACK has been sent before
-						NACKFlag = true;
-						this.sndpkt = new Packet(this.expectedseqnum, 'NACK');
-						this.sndpkt.send(this.partner, endToEndDelay + ackTT);
-						display.send(false, this.sndpkt);
-					}
-					else if (this.expectedseqnum != 1) {		//Sends the old ACK for each out of sequence packet
+					console.log("Packet " + (packet.seqnum - 1) + " received is UNEXPECTED. NACKs enabled: " + nacksEnabled);
+					if (nacksEnabled) {
+						if (packet.seqnum > this.expectedseqnum && NACKFlag == false) {	// cheks if NACK has been sent before
+							NACKFlag = true;
+							this.sndpkt = new Packet(this.expectedseqnum, 'NACK');
+							this.sndpkt.send(this.partner, endToEndDelay + ackTT);
+							display.send(false, this.sndpkt);
+						}
+						else if (this.expectedseqnum != 1) {		//Sends the old ACK for each out of sequence packet
+							this.sndpkt = new Packet(this.expectedseqnum - 1, 'ACK');
+							this.sndpkt.send(this.partner, endToEndDelay + ackTT);
+							display.send(false, this.sndpkt);
+						}
+					} else if (this.expectedseqnum != 1) { // If NACKs are *disabled*, always send duplicate ACK
+						console.log("NACKs disabled. Sending duplicate ACK for packet " + (this.expectedseqnum - 2));
 						this.sndpkt = new Packet(this.expectedseqnum - 1, 'ACK');
 						this.sndpkt.send(this.partner, endToEndDelay + ackTT);
 						display.send(false, this.sndpkt);
@@ -1732,9 +1884,9 @@
 			PDspeedFactor = 0;
 			document.getElementById('unitTimeout').value = 1;
 			initAnimation(contr.getMethod());
-            
-            // Create starry background
-            createStarryBackground();
+
+			// Create starry background
+			createStarryBackground();
 
 			// Setup sidebar toggle functionality
 			const sidebarToggle = document.getElementById('sidebar-toggle');
@@ -1743,17 +1895,17 @@
 			const headerHeading = document.querySelector('header .headingName'); // Target the h1
 
 			sidebarToggle.addEventListener('click', function () {
-			sidebar.classList.toggle('closed');
-			mainContent.classList.toggle('expanded');
-			sidebarToggle.classList.toggle('closed');
-			sidebarToggle.textContent = sidebar.classList.contains('closed') ? '☰' : '×';
-			
-			// When sidebar is closed, center the h1; otherwise, align it left (or any default alignment)
-			if (sidebar.classList.contains('closed')) {
-				headerHeading.style.marginLeft = '0px';
-			} else {
-				headerHeading.style.marginLeft="400px";
-			}
+				sidebar.classList.toggle('closed');
+				mainContent.classList.toggle('expanded');
+				sidebarToggle.classList.toggle('closed');
+				sidebarToggle.textContent = sidebar.classList.contains('closed') ? '☰' : '×';
+
+				// When sidebar is closed, center the h1; otherwise, align it left (or any default alignment)
+				if (sidebar.classList.contains('closed')) {
+					headerHeading.style.marginLeft = '0px';
+				} else {
+					headerHeading.style.marginLeft = "400px";
+				}
 			});
 
 
@@ -1831,615 +1983,615 @@
 
 
 		function Display(windowNsender, windowNreceiver, hasWindowReceiver) {
-    
-    // --- Configuration Constants ---
-    // --- >> MODIFIED VALUES << ---
-    const PKG_WIDTH = 40;          // Visual width of a packet element (Changed from 24)
-    const PKG_HEIGHT = 50;         // Visual height of a packet element (Changed from 30)
-    const WINDOW_HEIGHT = 55;      // Height of the window visualization divs (Increased from 34 for proportion)
-    const WINDOW_TIMER_SIZE = 50;  // Size (width & height) for the main window timer canvas (Increased from 40)
-    // --- >> END OF MODIFIED VALUES << ---
-    
-    const PKG_CANVAS_SIZE = 30;    // Size (width & height) of the canvas inside sender packets (Kept at 30, adjust if desired)
-    const PKG_GAP = 10;            // Horizontal gap between packet elements (Kept at 10, adjust if desired)
-    const PKG_TOTAL_SPACING = PKG_WIDTH + PKG_GAP; // Total horizontal space per packet (NOW: 40 + 10 = 50px)
-    const WINDOW_PADDING = 4;      // Padding inside the window visualization divs
-    const BASE_OFFSET_X = 10;      // Initial horizontal offset for the first packet
-    const FINE_TUNE_OFFSET = -2;   // Small adjustment for window positioning (may need tweaking)
-    const SENDER_Y = 10;           // Top position for sender elements
-    const RECEIVER_Y = 360;        // Top position for receiver elements
-    const SENDER_WINDOW_Y = 8;     // Top position for the sender window visual
-    const RECEIVER_WINDOW_Y = 358; // Top position for the receiver window visual
-    
 
-    // --- Initialization ---
-    this.paper = $('#root'); // Main container jQuery object
-    this.paper.children(':not(div.desc)').remove(); // Clear previous simulation elements
-    this.paper.css({ 'left': '0px' }); // Reset horizontal scroll
+			// --- Configuration Constants ---
+			// --- >> MODIFIED VALUES << ---
+			const PKG_WIDTH = 40;          // Visual width of a packet element (Changed from 24)
+			const PKG_HEIGHT = 50;         // Visual height of a packet element (Changed from 30)
+			const WINDOW_HEIGHT = 55;      // Height of the window visualization divs (Increased from 34 for proportion)
+			const WINDOW_TIMER_SIZE = 50;  // Size (width & height) for the main window timer canvas (Increased from 40)
+			// --- >> END OF MODIFIED VALUES << ---
 
-    this.windowNsender = windowNsender;     // Current sender window size N
-    this.windowNreceiver = windowNreceiver; // Current receiver window size N
-    this.windowOffset = 5; // Offset used in sequence number calculations? (Legacy or specific purpose)
-    this.seqnumToPkg = {}; // Map: sequence number -> {sender: jQueryObj, receiver: jQueryObj}
-    this.windowSender;     // jQuery object for the sender window visual
-    this.windowReceiver;   // jQuery object for the receiver window visual
-    this.xOffset = 0;      // Current horizontal scroll offset of the 'paper' container
-    this.nextFreeSeqNum = 1 - this.windowOffset; // Sequence number for the next packet to create
-    this.nextFreePkgIndex = 0; // Horizontal index for the next packet element
-    this.nextSeqNumToRemove = 0; // Lowest sequence number potentially scrolled off-screen
-    this.windowTimer;      // jQuery object for the GBN-style window timer canvas
-    this.packetsAlive = 0; // Counter for packets currently animating (in transit)
+			const PKG_CANVAS_SIZE = 30;    // Size (width & height) of the canvas inside sender packets (Kept at 30, adjust if desired)
+			const PKG_GAP = 10;            // Horizontal gap between packet elements (Kept at 10, adjust if desired)
+			const PKG_TOTAL_SPACING = PKG_WIDTH + PKG_GAP; // Total horizontal space per packet (NOW: 40 + 10 = 50px)
+			const WINDOW_PADDING = 4;      // Padding inside the window visualization divs
+			const BASE_OFFSET_X = 10;      // Initial horizontal offset for the first packet
+			const FINE_TUNE_OFFSET = -2;   // Small adjustment for window positioning (may need tweaking)
+			const SENDER_Y = 10;           // Top position for sender elements
+			const RECEIVER_Y = 360;        // Top position for receiver elements
+			const SENDER_WINDOW_Y = 8;     // Top position for the sender window visual
+			const RECEIVER_WINDOW_Y = 358; // Top position for the receiver window visual
 
-    // --- Methods ---
 
-    /** Decrements the count of animating packets and checks if simulation is done. */
-    this.packetsAliveDec = function (seqnum) {
-        this.packetsAlive--;
-        //console.log('Packets alive:', this.packetsAlive, 'Seqnum finished:', seqnum);
-        this.alive();
-    };
+			// --- Initialization ---
+			this.paper = $('#root'); // Main container jQuery object
+			this.paper.children(':not(div.desc)').remove(); // Clear previous simulation elements
+			this.paper.css({ 'left': '0px' }); // Reset horizontal scroll
 
-    /** Checks if all packets/timers are finished, signaling simulation end. */
-    this.alive = function () {
-        // Check if no packets animating, no individual packet timers running, and window timer not started
-        if (this.packetsAlive === 0 && Object.keys(this.pkgTimers).length === 0 && !this.windowTimerStarted) {
-            // Assuming 'contr' is a global controller object
-            if (typeof contr !== 'undefined' && typeof contr.allPacketsReceived === 'function') {
-                contr.allPacketsReceived();
-            } else {
-                console.warn("Controller 'contr' or 'allPacketsReceived' method not found.");
-            }
-        }
-    };
+			this.windowNsender = windowNsender;     // Current sender window size N
+			this.windowNreceiver = windowNreceiver; // Current receiver window size N
+			this.windowOffset = 5; // Offset used in sequence number calculations? (Legacy or specific purpose)
+			this.seqnumToPkg = {}; // Map: sequence number -> {sender: jQueryObj, receiver: jQueryObj}
+			this.windowSender;     // jQuery object for the sender window visual
+			this.windowReceiver;   // jQuery object for the receiver window visual
+			this.xOffset = 0;      // Current horizontal scroll offset of the 'paper' container
+			this.nextFreeSeqNum = 1 - this.windowOffset; // Sequence number for the next packet to create
+			this.nextFreePkgIndex = 0; // Horizontal index for the next packet element
+			this.nextSeqNumToRemove = 0; // Lowest sequence number potentially scrolled off-screen
+			this.windowTimer;      // jQuery object for the GBN-style window timer canvas
+			this.packetsAlive = 0; // Counter for packets currently animating (in transit)
 
-    /** Creates or updates the visual representation of the sender's window. */
-    this.setNsender = function (windowNsender, base) {
-        this.windowNsender = windowNsender;
+			// --- Methods ---
 
-        // Calculate window position and width using constants
-        const x = BASE_OFFSET_X + PKG_TOTAL_SPACING * (base + this.windowOffset - 1) + FINE_TUNE_OFFSET;
-        const widthSender = WINDOW_PADDING + this.windowNsender * PKG_WIDTH + Math.max(0, this.windowNsender - 1) * PKG_GAP;
+			/** Decrements the count of animating packets and checks if simulation is done. */
+			this.packetsAliveDec = function (seqnum) {
+				this.packetsAlive--;
+				//console.log('Packets alive:', this.packetsAlive, 'Seqnum finished:', seqnum);
+				this.alive();
+			};
 
-        if (typeof this.windowSender === 'undefined') {
-            // --- First time creation ---
-            this.windowSender = $('<div> </div>').css({
-                left: x + 'px',
-                top: SENDER_WINDOW_Y + 'px',
-                width: widthSender + 'px',
-                height: WINDOW_HEIGHT + 'px' // Use updated WINDOW_HEIGHT
-            }).attr('class', 'window').appendTo(this.paper);
+			/** Checks if all packets/timers are finished, signaling simulation end. */
+			this.alive = function () {
+				// Check if no packets animating, no individual packet timers running, and window timer not started
+				if (this.packetsAlive === 0 && Object.keys(this.pkgTimers).length === 0 && !this.windowTimerStarted) {
+					// Assuming 'contr' is a global controller object
+					if (typeof contr !== 'undefined' && typeof contr.allPacketsReceived === 'function') {
+						contr.allPacketsReceived();
+					} else {
+						console.warn("Controller 'contr' or 'allPacketsReceived' method not found.");
+					}
+				}
+			};
 
-            // Create Window timer canvas (typically for GBN) if receiver window isn't shown
-            if (!hasWindowReceiver) {
-                // Create with updated WINDOW_TIMER_SIZE and adjust vertical position based on new WINDOW_HEIGHT
-                this.windowTimer = $(`<canvas height="${WINDOW_TIMER_SIZE}" width="${WINDOW_TIMER_SIZE}"> </canvas>`).css({
-                    left: x + 'px', // Position timer with window
-                    top: (SENDER_WINDOW_Y - WINDOW_TIMER_SIZE / 2 + WINDOW_HEIGHT / 2) + 'px' // Recalculate vertical center
-                }).attr('class', 'window-timer').appendTo(this.paper);
-            }
-        } else {
-            // --- Update existing window ---
-            this.windowSender.css('width', widthSender + 'px');
-             // Also update height in case it changes dynamically elsewhere (unlikely here, but good practice)
-            this.windowSender.css('height', WINDOW_HEIGHT + 'px');
-        }
-    };
+			/** Creates or updates the visual representation of the sender's window. */
+			this.setNsender = function (windowNsender, base) {
+				this.windowNsender = windowNsender;
 
-    /** Creates or updates the visual representation of the receiver's window. */
-    this.setNreceiver = function (windowNreceiver, base) {
-        this.windowNreceiver = windowNreceiver;
+				// Calculate window position and width using constants
+				const x = BASE_OFFSET_X + PKG_TOTAL_SPACING * (base + this.windowOffset - 1) + FINE_TUNE_OFFSET;
+				const widthSender = WINDOW_PADDING + this.windowNsender * PKG_WIDTH + Math.max(0, this.windowNsender - 1) * PKG_GAP;
 
-        // Calculate window position and width using constants
-        const x = BASE_OFFSET_X + PKG_TOTAL_SPACING * (base + this.windowOffset - 1) + FINE_TUNE_OFFSET;
-        const widthReceiver = WINDOW_PADDING + this.windowNreceiver * PKG_WIDTH + Math.max(0, this.windowNreceiver - 1) * PKG_GAP;
+				if (typeof this.windowSender === 'undefined') {
+					// --- First time creation ---
+					this.windowSender = $('<div> </div>').css({
+						left: x + 'px',
+						top: SENDER_WINDOW_Y + 'px',
+						width: widthSender + 'px',
+						height: WINDOW_HEIGHT + 'px' // Use updated WINDOW_HEIGHT
+					}).attr('class', 'window').appendTo(this.paper);
 
-        if (typeof this.windowReceiver === 'undefined') {
-            // --- First time creation ---
+					// Create Window timer canvas (typically for GBN) if receiver window isn't shown
+					if (!hasWindowReceiver) {
+						// Create with updated WINDOW_TIMER_SIZE and adjust vertical position based on new WINDOW_HEIGHT
+						this.windowTimer = $(`<canvas height="${WINDOW_TIMER_SIZE}" width="${WINDOW_TIMER_SIZE}"> </canvas>`).css({
+							left: x + 'px', // Position timer with window
+							top: (SENDER_WINDOW_Y - WINDOW_TIMER_SIZE / 2 + WINDOW_HEIGHT / 2) + 'px' // Recalculate vertical center
+						}).attr('class', 'window-timer').appendTo(this.paper);
+					}
+				} else {
+					// --- Update existing window ---
+					this.windowSender.css('width', widthSender + 'px');
+					// Also update height in case it changes dynamically elsewhere (unlikely here, but good practice)
+					this.windowSender.css('height', WINDOW_HEIGHT + 'px');
+				}
+			};
 
-            // Create Window timer only if GBN style AND it wasn't created by setNsender
-             if (!hasWindowReceiver && !this.windowTimer) {
-                 console.warn("Creating window timer in setNreceiver - unusual for GBN.");
-                 // Use updated size/positioning if created here
-                 this.windowTimer = $(`<canvas height="${WINDOW_TIMER_SIZE}" width="${WINDOW_TIMER_SIZE}"> </canvas>`).css({
-                     left: x + 'px', 
-                     top: (SENDER_WINDOW_Y - WINDOW_TIMER_SIZE / 2 + WINDOW_HEIGHT / 2) + 'px' 
-                 }).attr('class', 'window-timer').appendTo(this.paper);
-             }
+			/** Creates or updates the visual representation of the receiver's window. */
+			this.setNreceiver = function (windowNreceiver, base) {
+				this.windowNreceiver = windowNreceiver;
 
-            // Create receiver window visual only if requested
-            if (hasWindowReceiver) {
-                this.windowReceiver = $('<div> </div>').css({
-                    left: x + 'px',
-                    top: RECEIVER_WINDOW_Y + 'px',
-                    width: widthReceiver + 'px',
-                    height: WINDOW_HEIGHT + 'px' // Use updated WINDOW_HEIGHT
-                }).attr('class', 'window').appendTo(this.paper);
-            }
-        } else {
-            // --- Update existing window ---
-             if (hasWindowReceiver && this.windowReceiver) { // Check if it exists before updating
-                this.windowReceiver.css('width', widthReceiver + 'px');
-                 // Also update height
-                this.windowReceiver.css('height', WINDOW_HEIGHT + 'px');
-            }
-        }
-    };
+				// Calculate window position and width using constants
+				const x = BASE_OFFSET_X + PKG_TOTAL_SPACING * (base + this.windowOffset - 1) + FINE_TUNE_OFFSET;
+				const widthReceiver = WINDOW_PADDING + this.windowNreceiver * PKG_WIDTH + Math.max(0, this.windowNreceiver - 1) * PKG_GAP;
 
-    /** Creates the visual elements (sender/receiver placeholders) for one packet. */
-    this.createPackets = function () {
-        // Check for potential 'numberUI' global variable dependency
-        let displaySeqNum = '';
-        if (typeof numberUI !== 'undefined') {
-             // Use logical AND && instead of bitwise &
-            displaySeqNum = (this.nextFreeSeqNum > 0 && this.nextFreeSeqNum <= numberUI) ? (this.nextFreeSeqNum) : (''); // Display actual seq num
-        } else {
-            // Fallback if numberUI is not defined
-             displaySeqNum = (this.nextFreeSeqNum > 0) ? (this.nextFreeSeqNum) : ('');
-        }
-        
-        const currentX = BASE_OFFSET_X + this.nextFreePkgIndex * PKG_TOTAL_SPACING;
+				if (typeof this.windowReceiver === 'undefined') {
+					// --- First time creation ---
 
-        // Create sender-side packet visual (div with canvas and sequence number)
-        const senderDiv = $(`
+					// Create Window timer only if GBN style AND it wasn't created by setNsender
+					if (!hasWindowReceiver && !this.windowTimer) {
+						console.warn("Creating window timer in setNreceiver - unusual for GBN.");
+						// Use updated size/positioning if created here
+						this.windowTimer = $(`<canvas height="${WINDOW_TIMER_SIZE}" width="${WINDOW_TIMER_SIZE}"> </canvas>`).css({
+							left: x + 'px',
+							top: (SENDER_WINDOW_Y - WINDOW_TIMER_SIZE / 2 + WINDOW_HEIGHT / 2) + 'px'
+						}).attr('class', 'window-timer').appendTo(this.paper);
+					}
+
+					// Create receiver window visual only if requested
+					if (hasWindowReceiver) {
+						this.windowReceiver = $('<div> </div>').css({
+							left: x + 'px',
+							top: RECEIVER_WINDOW_Y + 'px',
+							width: widthReceiver + 'px',
+							height: WINDOW_HEIGHT + 'px' // Use updated WINDOW_HEIGHT
+						}).attr('class', 'window').appendTo(this.paper);
+					}
+				} else {
+					// --- Update existing window ---
+					if (hasWindowReceiver && this.windowReceiver) { // Check if it exists before updating
+						this.windowReceiver.css('width', widthReceiver + 'px');
+						// Also update height
+						this.windowReceiver.css('height', WINDOW_HEIGHT + 'px');
+					}
+				}
+			};
+
+			/** Creates the visual elements (sender/receiver placeholders) for one packet. */
+			this.createPackets = function () {
+				// Check for potential 'numberUI' global variable dependency
+				let displaySeqNum = '';
+				if (typeof numberUI !== 'undefined') {
+					// Use logical AND && instead of bitwise &
+					displaySeqNum = (this.nextFreeSeqNum > 0 && this.nextFreeSeqNum <= numberUI) ? (this.nextFreeSeqNum - 1) : (''); // Display actual seq num
+				} else {
+					// Fallback if numberUI is not defined
+					displaySeqNum = (this.nextFreeSeqNum > 0) ? (this.nextFreeSeqNum - 1) : ('');
+				}
+
+				const currentX = BASE_OFFSET_X + this.nextFreePkgIndex * PKG_TOTAL_SPACING;
+
+				// Create sender-side packet visual (div with canvas and sequence number)
+				const senderDiv = $(`
             <div>
                 <canvas width="${PKG_CANVAS_SIZE}" height="${PKG_CANVAS_SIZE}"></canvas>
                 <center class="centreRotate"><b>${displaySeqNum}</b></center>
             </div>
         `).css({
-            left: currentX + 'px',
-            top: SENDER_Y + 'px',
-            width: PKG_WIDTH + 'px', // Set width explicitly
-            height: PKG_HEIGHT + 'px' // **Set height explicitly using the constant**
-        }).attr('class', 'pkg')
-          .data('index', this.nextFreePkgIndex) // Store index for positioning calculations
-          .appendTo(this.paper);
+					left: currentX + 'px',
+					top: SENDER_Y + 'px',
+					width: PKG_WIDTH + 'px', // Set width explicitly
+					height: PKG_HEIGHT + 'px' // **Set height explicitly using the constant**
+				}).attr('class', 'pkg')
+					.data('index', this.nextFreePkgIndex) // Store index for positioning calculations
+					.appendTo(this.paper);
 
-        // Create receiver-side packet placeholder visual (div with sequence number)
-        const receiverDiv = $(`
+				// Create receiver-side packet placeholder visual (div with sequence number)
+				const receiverDiv = $(`
             <div>
                 <center class="centreRotate"><b>${displaySeqNum}</b></center>
             </div>
         `).css({
-            left: currentX + 'px',
-            top: RECEIVER_Y + 'px',
-            width: PKG_WIDTH + 'px', // Set width explicitly
-            height: PKG_HEIGHT + 'px' // **Set height explicitly using the constant**
-        }).attr('class', 'pkg empty') // Starts as an empty slot
-          .data('index', this.nextFreePkgIndex)
-          .appendTo(this.paper);
+					left: currentX + 'px',
+					top: RECEIVER_Y + 'px',
+					width: PKG_WIDTH + 'px', // Set width explicitly
+					height: PKG_HEIGHT + 'px' // **Set height explicitly using the constant**
+				}).attr('class', 'pkg empty') // Starts as an empty slot
+					.data('index', this.nextFreePkgIndex)
+					.appendTo(this.paper);
 
-        // Store references in the map
-        this.seqnumToPkg[this.nextFreeSeqNum] = { 'sender': senderDiv, 'receiver': receiverDiv };
+				// Store references in the map
+				this.seqnumToPkg[this.nextFreeSeqNum] = { 'sender': senderDiv, 'receiver': receiverDiv };
 
-        // Increment for the next packet
-        this.nextFreeSeqNum++;
-        this.nextFreePkgIndex++;
-    };
+				// Increment for the next packet
+				this.nextFreeSeqNum++;
+				this.nextFreePkgIndex++;
+			};
 
-    // --- Initial Setup Execution ---
-    // Create initial batch of packet placeholders
-    for (let i = 0; i < 30; i++) { // Create 30 initial slots
-        this.createPackets();
-    }
-    // Draw the initial windows based on constructor parameters
-    this.setNsender(this.windowNsender, 1); // Draw sender window starting at base 1
-    this.setNreceiver(this.windowNreceiver, 1); // Draw receiver window starting at base 1
+			// --- Initial Setup Execution ---
+			// Create initial batch of packet placeholders
+			for (let i = 0; i < 30; i++) { // Create 30 initial slots
+				this.createPackets();
+			}
+			// Draw the initial windows based on constructor parameters
+			this.setNsender(this.windowNsender, 1); // Draw sender window starting at base 1
+			this.setNreceiver(this.windowNreceiver, 1); // Draw receiver window starting at base 1
 
-    // --- State Change Methods ---
+			// --- State Change Methods ---
 
-    /** Marks a sender packet as confirmed (acknowledged). */
-    this.confirmSender = function (seqnum) {
-        if (this.seqnumToPkg[seqnum]) {
-             $(this.seqnumToPkg[seqnum].sender).attr('class', 'pkg confirmed');
-        }
-    };
+			/** Marks a sender packet as confirmed (acknowledged). */
+			this.confirmSender = function (seqnum) {
+				if (this.seqnumToPkg[seqnum]) {
+					$(this.seqnumToPkg[seqnum].sender).attr('class', 'pkg confirmed');
+				}
+			};
 
-    /** Marks a receiver placeholder as ready (data acknowledged). */
-    this.confirmReceiver = function (seqnum) {
-         if (this.seqnumToPkg[seqnum]) {
-            $(this.seqnumToPkg[seqnum].receiver).attr('class', 'pkg'); // Removes 'empty' or 'delivered'
-         }
-    };
+			/** Marks a receiver placeholder as ready (data acknowledged). */
+			this.confirmReceiver = function (seqnum) {
+				if (this.seqnumToPkg[seqnum]) {
+					$(this.seqnumToPkg[seqnum].receiver).attr('class', 'pkg'); // Removes 'empty' or 'delivered'
+				}
+			};
 
-    /** Marks a receiver packet as delivered to the application layer. */
-    this.deliverPkg = function (seqnum) {
-         if (this.seqnumToPkg[seqnum]) {
-            $(this.seqnumToPkg[seqnum].receiver).attr('class', 'pkg delivered');
-         }
-    };
+			/** Marks a receiver packet as delivered to the application layer. */
+			this.deliverPkg = function (seqnum) {
+				if (this.seqnumToPkg[seqnum]) {
+					$(this.seqnumToPkg[seqnum].receiver).attr('class', 'pkg delivered');
+				}
+			};
 
-    // --- Window Sliding and Scrolling ---
-    let xOffsetLast = this.xOffset; // Track previous offset for scrolling condition
+			// --- Window Sliding and Scrolling ---
+			let xOffsetLast = this.xOffset; // Track previous offset for scrolling condition
 
-    /** Slides the sender window and potentially scrolls the view. */
-    this.setSenderBase = function (count, newBase) {
-        if (count === 0 || !this.seqnumToPkg[newBase]) return; // No move or target packet doesn't exist
+			/** Slides the sender window and potentially scrolls the view. */
+			this.setSenderBase = function (count, newBase) {
+				if (count === 0 || !this.seqnumToPkg[newBase]) return; // No move or target packet doesn't exist
 
-        // Update total horizontal offset
-        this.xOffset += count * PKG_TOTAL_SPACING; // Uses updated PKG_TOTAL_SPACING
+				// Update total horizontal offset
+				this.xOffset += count * PKG_TOTAL_SPACING; // Uses updated PKG_TOTAL_SPACING
 
-        // Create new packet placeholders at the tail end as the view expands
-        for (let i = 0; i < count; i++) {
-            this.createPackets();
-        }
+				// Create new packet placeholders at the tail end as the view expands
+				for (let i = 0; i < count; i++) {
+					this.createPackets();
+				}
 
-        // Calculate the new horizontal pixel position for the sender window
-        const newX = BASE_OFFSET_X + this.seqnumToPkg[newBase].sender.data('index') * PKG_TOTAL_SPACING + FINE_TUNE_OFFSET;
+				// Calculate the new horizontal pixel position for the sender window
+				const newX = BASE_OFFSET_X + this.seqnumToPkg[newBase].sender.data('index') * PKG_TOTAL_SPACING + FINE_TUNE_OFFSET;
 
-        // Animate the sender window smoothly to the new position
-        if (this.windowSender) {
-            this.windowSender.stop(true).animate({ 'left': newX + 'px' }, 100);
-        }
-        
-        // Animate the window timer canvas along with the window if it exists
-        if (this.windowTimer) {
-            this.windowTimer.stop(true).animate({ 'left': newX + 'px' }, 100);
-        }
+				// Animate the sender window smoothly to the new position
+				if (this.windowSender) {
+					this.windowSender.stop(true).animate({ 'left': newX + 'px' }, 100);
+				}
 
-        // Check if the 'paper' container needs to be scrolled left
-        const scrollThreshold = 750; // Viewport width threshold (adjust as needed)
-        let shouldScroll = false;
-        if (typeof typewriter !== 'undefined' && !typewriter) { // Check if typewriter mode is off
-            shouldScroll = true;
-        } else if (this.windowSender) { // Check if right edge goes beyond threshold
-             // Use windowSender.width() which reflects the calculation using new PKG_WIDTH
-             shouldScroll = (newX + this.windowSender.width() - xOffsetLast >= scrollThreshold);
-        } else {
-             // Estimate if window not ready (less accurate but fallback)
-             shouldScroll = (newX + PKG_TOTAL_SPACING * this.windowNsender - xOffsetLast >= scrollThreshold); 
-        }
+				// Animate the window timer canvas along with the window if it exists
+				if (this.windowTimer) {
+					this.windowTimer.stop(true).animate({ 'left': newX + 'px' }, 100);
+				}
 
-
-        if (shouldScroll) {
-            const displayObj = this; // Use 'displayObj' or similar distinct name for 'this' in callback
-            this.paper.stop(true).animate({
-                left: -this.xOffset + "px" // Move container left
-            }, 400, function () { // Animation complete callback
-                // --- Cleanup Off-Screen Elements ---
-                for (let i = displayObj.nextSeqNumToRemove; i < displayObj.nextFreeSeqNum; i++) {
-                    const packetElements = displayObj.seqnumToPkg[i];
-                    if (packetElements && packetElements.sender) {
-                        // Check if the element's left edge is completely off-screen
-                        // Uses updated PKG_TOTAL_SPACING for threshold
-                        if (packetElements.sender.offset().left < -PKG_TOTAL_SPACING) { 
-                            // Remove both sender and receiver elements from DOM
-                            packetElements.sender.remove();
-                            packetElements.receiver.remove();
-                            // Delete the entry from the map
-                            delete displayObj.seqnumToPkg[i];
-                            // Increment the sequence number tracking the removal front
-                            displayObj.nextSeqNumToRemove++;
-                            //console.log('Removed packet elements for seqnum:', i);
-                        } else {
-                            // Stop checking once we find a packet still on-screen
-                            break; 
-                        }
-                    } else if (i >= displayObj.nextSeqNumToRemove) {
-                         // Optional: handle missing elements during cleanup
-                         // displayObj.nextSeqNumToRemove = i + 1; 
-                    }
-                }
-            });
-            xOffsetLast = this.xOffset; // Update the last offset after initiating scroll
-        }
-    };
-
-    /** Slides the receiver window (if displayed). */
-    this.setReceiverBase = function (count, newBase) {
-        if (count === 0 || !hasWindowReceiver || !this.windowReceiver || !this.seqnumToPkg[newBase]) {
-            return; // No move needed, or window/target packet doesn't exist
-        }
-
-        // Calculate the new horizontal pixel position for the receiver window
-        const newX = BASE_OFFSET_X + this.seqnumToPkg[newBase].sender.data('index') * PKG_TOTAL_SPACING + FINE_TUNE_OFFSET;
-        
-        // Animate the receiver window smoothly
-        this.windowReceiver.stop(true).animate({ left: newX + 'px' }, 200);
-    };
-
-    /** Animates a packet/ACK/NACK between sender and receiver areas. */
-    this.send = function (toReceiver, pkg, value) { // 'value' parameter seems unused
-        const seqnum = pkg.seqnum;
-        const isNack = pkg.data === 'NACK'; // Check if it's a NACK
-        
-        // Assumed global variables (ensure they are defined elsewhere)
-        const endToEndDelay = typeof window.endToEndDelay !== 'undefined' ? window.endToEndDelay : 1000; // Default 1s
-        const timeBetweenPkgs = (typeof contr !== 'undefined' && contr.timeBetweenPkgs) ? contr.timeBetweenPkgs : 100; // Default 100ms
-        const ackTT = typeof window.ackTT !== 'undefined' ? window.ackTT : 50; // Default 50ms
-        
-        let originElement, startY, cssClass, initialMoveTargetY, finalTargetY, initialMoveTime;
-
-        if (!this.seqnumToPkg[seqnum]) {
-            console.warn(`Cannot send seqnum ${seqnum}, elements not found.`);
-            return;
-        }
-
-        if (toReceiver) { // Data packet
-            originElement = this.seqnumToPkg[seqnum].sender;
-            startY = SENDER_Y;
-            cssClass = 'pkg';
-            initialMoveTargetY = SENDER_Y + 30; // Short downward move (keep relative move distance)
-            finalTargetY = RECEIVER_Y;
-            initialMoveTime = timeBetweenPkgs; // Time based on inter-packet gap
-        } else { // ACK or NACK
-            originElement = this.seqnumToPkg[seqnum].receiver;
-            startY = RECEIVER_Y;
-            cssClass = isNack ? 'pkg nack' : 'pkg ack'; // Different class for NACK
-            initialMoveTargetY = RECEIVER_Y - 30; // Short upward move (keep relative move distance)
-            finalTargetY = SENDER_Y;
-            initialMoveTime = ackTT; // Time based on ACK transmission time
-        }
-        
-        // Clone the origin element for animation
-        // The clone will inherit the new width/height set in createPackets
-        const animatedSquare = $(originElement).clone()
-            .attr('class', cssClass) // Apply appropriate class
-            .appendTo(this.paper)
-            .css({ 
-                top: startY + 'px', 
-                // Width/Height should be inherited from origin via clone if CSS is set correctly
-                // width: $(originElement).width() + 'px', // Usually not needed if origin CSS is correct
-                // height: $(originElement).height() + 'px',// Usually not needed if origin CSS is correct
-                position: 'absolute' // Ensure it's positioned absolutely for animation
-            });
-            
-        this.packetsAlive++; // Increment count of animating packets
-        const self = this; // Reference to 'this' for callbacks
-
-        // --- Animation Sequence ---
-        animatedSquare
-            // 1. Short initial move (simulates entering channel)
-            .animate({ top: initialMoveTargetY + 'px' }, initialMoveTime, 'linear')
-            // 2. Main travel across the channel
-            .animate({ top: finalTargetY + 'px' }, endToEndDelay, 'linear', function () {
-                // Animation Complete Callback:
-                $(this).remove(); // Remove the animated clone
-                self.packetsAliveDec(seqnum); // Decrement counter and check 'alive' status
-            });
-
-        // --- Click to Simulate Loss ---
-        animatedSquare.on('mousedown', function (e) {
-            e.preventDefault(); // Prevent potential text selection/drag behavior
-            
-            if (typeof pkg.kill === 'function') {
-                pkg.kill(); // Call the packet's kill method if it exists
-            } else {
-                console.warn("Packet object does not have a kill() method.");
-            }
-            
-            self.packetsAliveDec(seqnum); // Decrement counter, packet is "lost"
-
-            $(this).stop(true) // Stop animation immediately
-                   .css({ background: '#ff0000', opacity: 0.7 }) // Visual feedback (red flash)
-                   .delay(150) // Wait briefly
-                   .fadeOut(100, function() { $(this).remove(); }); // Fade out and remove
-                   
-            console.log(`${toReceiver ? 'Data' : (isNack ? 'NACK' : 'ACK')} ${seqnum} killed (simulated loss).`);
-        });
-    };
-
-    // --- Timer Management ---
-    this.pkgTimers = {}; // Object to store individual packet TimerCircle instances
-
-    /** Starts the timeout timer visual for a specific sender packet. */
-    this.startPkgTimer = function (seqnum, time) {
-        if (!this.seqnumToPkg[seqnum] || !this.seqnumToPkg[seqnum].sender) {
-            // console.warn(`Cannot start timer for seqnum ${seqnum}, sender element not found.`);
-            return; // Packet scrolled off or doesn't exist
-        }
-
-        const canvas = this.seqnumToPkg[seqnum].sender.children('canvas');
-        if (canvas.length === 0) {
-             console.warn(`Canvas not found for seqnum ${seqnum}.`);
-             return;
-        }
-        
-        let timerInstance = canvas.data('timer');
-        if (!timerInstance) {
-            // Create TimerCircle instance using constant canvas size (PKG_CANVAS_SIZE)
-            timerInstance = new TimerCircle(PKG_CANVAS_SIZE, canvas, 'pkg');
-            canvas.data('timer', timerInstance); // Store it
-        }
-
-        // Delay start slightly (e.g., based on packet spacing time) - adjust if needed
-        const startDelay = (typeof contr !== 'undefined' && contr.timeBetweenPkgs) ? contr.timeBetweenPkgs : 50;
-        setTimeout(() => { 
-            if (canvas.data('timer')) { // Check if still exists before starting
-                 canvas.data('timer').start(time); 
-            }
-        }, startDelay); 
-    };
-
-    /** Stops and clears the timeout timer visual for a specific sender packet. */
-    this.stopPkgTimer = function (seqnum) {
-        if (!this.seqnumToPkg[seqnum] || !this.seqnumToPkg[seqnum].sender) {
-            return; // Packet scrolled off or doesn't exist
-        }
-
-        const canvas = this.seqnumToPkg[seqnum].sender.children('canvas');
-        const timerInstance = canvas.data('timer');
-        
-        if (timerInstance) {
-            timerInstance.stop();
-            // Optional: remove timer data to allow recreation if needed later
-            // canvas.removeData('timer'); 
-        }
-        // No need to delete from this.pkgTimers here as it wasn't added
-        
-        this.alive(); // Check if simulation might be done
-    };
-
-    // --- Window Timer (Go-Back-N Style) ---
-    this.windowTimerStarted = false; // Flag for the main GBN timer
-
-    /** Starts the main window timer visual. */
-    this.startWindowTimer = function (time) {
-        if (!this.windowTimer) {
-            console.warn("Attempted to start window timer, but canvas element doesn't exist.");
-            return;
-        }
-        
-        let timerInstance = this.windowTimer.data('timer');
-        if (!timerInstance) {
-            // Create TimerCircle instance for the window timer canvas using updated WINDOW_TIMER_SIZE
-            timerInstance = new TimerCircle(WINDOW_TIMER_SIZE, this.windowTimer, 'window');
-            this.windowTimer.data('timer', timerInstance);
-        }
-
-        timerInstance.start(time);
-        this.windowTimerStarted = true;
-    };
-
-    /** Restarts the main window timer. */
-    this.restartWindowTimer = function (time) {
-        if (!this.windowTimer) return; 
-        
-        const timerInstance = this.windowTimer.data('timer');
-        if (timerInstance) {
-            timerInstance.stop(); // Stop the current timer first
-        }
-        
-        this.startWindowTimer(time); // Start a new one
-    };
-
-    /** Stops the main window timer visual. */
-    this.stopWindowTimer = function () {
-         if (!this.windowTimer) return; 
-
-        const timerInstance = this.windowTimer.data('timer');
-        if (timerInstance) {
-            timerInstance.stop();
-        }
-        this.windowTimerStarted = false; // Update flag
-
-        this.alive(); // Check if simulation might be done
-    };
+				// Check if the 'paper' container needs to be scrolled left
+				const scrollThreshold = 750; // Viewport width threshold (adjust as needed)
+				let shouldScroll = false;
+				if (typeof typewriter !== 'undefined' && !typewriter) { // Check if typewriter mode is off
+					shouldScroll = true;
+				} else if (this.windowSender) { // Check if right edge goes beyond threshold
+					// Use windowSender.width() which reflects the calculation using new PKG_WIDTH
+					shouldScroll = (newX + this.windowSender.width() - xOffsetLast >= scrollThreshold);
+				} else {
+					// Estimate if window not ready (less accurate but fallback)
+					shouldScroll = (newX + PKG_TOTAL_SPACING * this.windowNsender - xOffsetLast >= scrollThreshold);
+				}
 
 
-    /**
-     * Inner Helper Class: TimerCircle (Implementation uses requestAnimationFrame)
-     * Creates and manages the animation of a circular countdown timer on a canvas.
-     * @param {number} size - The width and height of the canvas.
-     * @param {jQuery} canvasElement - The jQuery object representing the canvas.
-     * @param {'window'|'pkg'} type - The style of timer ('window' = outline, 'pkg' = filled).
-     */
-    function TimerCircle(size, canvasElement, type) {
-        const context = canvasElement[0].getContext('2d');
-        let animationFrameId = null; // Store requestAnimationFrame ID
-        let startTime = 0;
-        let duration = 0;
-        let isRunning = false;
+				if (shouldScroll) {
+					const displayObj = this; // Use 'displayObj' or similar distinct name for 'this' in callback
+					this.paper.stop(true).animate({
+						left: -this.xOffset + "px" // Move container left
+					}, 400, function () { // Animation complete callback
+						// --- Cleanup Off-Screen Elements ---
+						for (let i = displayObj.nextSeqNumToRemove; i < displayObj.nextFreeSeqNum; i++) {
+							const packetElements = displayObj.seqnumToPkg[i];
+							if (packetElements && packetElements.sender) {
+								// Check if the element's left edge is completely off-screen
+								// Uses updated PKG_TOTAL_SPACING for threshold
+								if (packetElements.sender.offset().left < -PKG_TOTAL_SPACING) {
+									// Remove both sender and receiver elements from DOM
+									packetElements.sender.remove();
+									packetElements.receiver.remove();
+									// Delete the entry from the map
+									delete displayObj.seqnumToPkg[i];
+									// Increment the sequence number tracking the removal front
+									displayObj.nextSeqNumToRemove++;
+									//console.log('Removed packet elements for seqnum:', i);
+								} else {
+									// Stop checking once we find a packet still on-screen
+									break;
+								}
+							} else if (i >= displayObj.nextSeqNumToRemove) {
+								// Optional: handle missing elements during cleanup
+								// displayObj.nextSeqNumToRemove = i + 1; 
+							}
+						}
+					});
+					xOffsetLast = this.xOffset; // Update the last offset after initiating scroll
+				}
+			};
 
-        if (type !== 'window' && type !== 'pkg') {
-            throw new Error(`TimerCircle type "${type}" is not defined`);
-        }
+			/** Slides the receiver window (if displayed). */
+			this.setReceiverBase = function (count, newBase) {
+				if (count === 0 || !hasWindowReceiver || !this.windowReceiver || !this.seqnumToPkg[newBase]) {
+					return; // No move needed, or window/target packet doesn't exist
+				}
 
-        const draw = (percent) => {
-            context.clearRect(0, 0, size, size); // Clear canvas
-            if (percent <= 0) return;
+				// Calculate the new horizontal pixel position for the receiver window
+				const newX = BASE_OFFSET_X + this.seqnumToPkg[newBase].sender.data('index') * PKG_TOTAL_SPACING + FINE_TUNE_OFFSET;
 
-            const value = percent / 100; // Normalize percent to 0-1
-            const startAngle = -0.5 * Math.PI; // Start at 12 o'clock
-            const endAngle = startAngle + (2 * Math.PI * value);
+				// Animate the receiver window smoothly
+				this.windowReceiver.stop(true).animate({ left: newX + 'px' }, 200);
+			};
 
-            context.save();
-            context.beginPath();
+			/** Animates a packet/ACK/NACK between sender and receiver areas. */
+			this.send = function (toReceiver, pkg, value) { // 'value' parameter seems unused
+				const seqnum = pkg.seqnum;
+				const isNack = pkg.data === 'NACK'; // Check if it's a NACK
 
-            if (type === 'window') {
-                // Adjust line width relative to the (potentially larger) timer size
-                const lineWidth = Math.max(2, size * 0.15); 
-                const radius = size / 2 - lineWidth / 2;
-                const centerX = size / 2;
-                const centerY = size / 2;
-                context.arc(centerX, centerY, radius, startAngle, endAngle, false);
-                context.lineWidth = lineWidth;
-                context.strokeStyle = '#ff00ff'; // Magenta
-                context.lineCap = 'round'; // Use round caps
-                context.stroke();
-            } else { // 'pkg' type (filled) - PKG_CANVAS_SIZE is used here
-                const radius = size / 2;
-                const centerX = size / 2;
-                const centerY = size / 2;
-                context.moveTo(centerX, centerY); // Start from center
-                context.arc(centerX, centerY, radius, startAngle, endAngle, false);
-                context.closePath(); // Close path back to center
-                context.fillStyle = '#ff00ff'; // Magenta
-                context.fill();
-            }
-            context.restore();
-        };
-        
-        const step = (timestamp) => {
-             if (!isRunning) return; // Stop if stop() was called
+				// Assumed global variables (ensure they are defined elsewhere)
+				const endToEndDelay = typeof window.endToEndDelay !== 'undefined' ? window.endToEndDelay : 1000; // Default 1s
+				const timeBetweenPkgs = (typeof contr !== 'undefined' && contr.timeBetweenPkgs) ? contr.timeBetweenPkgs : 100; // Default 100ms
+				const ackTT = typeof window.ackTT !== 'undefined' ? window.ackTT : 50; // Default 50ms
 
-             if (!startTime) {
-                 startTime = timestamp; // Record start time on first frame
-             }
-             const elapsed = timestamp - startTime;
-             const remaining = Math.max(0, duration - elapsed);
-             const percent = (remaining / duration) * 100;
+				let originElement, startY, cssClass, initialMoveTargetY, finalTargetY, initialMoveTime;
 
-             draw(percent);
+				if (!this.seqnumToPkg[seqnum]) {
+					console.warn(`Cannot send seqnum ${seqnum}, elements not found.`);
+					return;
+				}
 
-             if (remaining > 0) {
-                 animationFrameId = requestAnimationFrame(step); // Continue animation
-             } else {
-                 // Animation finished
-                 draw(0); // Ensure final state is cleared/empty
-                 isRunning = false; 
-                 startTime = 0; 
-                 animationFrameId = null; // Clear ID
-             }
-        };
+				if (toReceiver) { // Data packet
+					originElement = this.seqnumToPkg[seqnum].sender;
+					startY = SENDER_Y;
+					cssClass = 'pkg';
+					initialMoveTargetY = SENDER_Y + 30; // Short downward move (keep relative move distance)
+					finalTargetY = RECEIVER_Y;
+					initialMoveTime = timeBetweenPkgs; // Time based on inter-packet gap
+				} else { // ACK or NACK
+					originElement = this.seqnumToPkg[seqnum].receiver;
+					startY = RECEIVER_Y;
+					cssClass = isNack ? 'pkg nack' : 'pkg ack'; // Different class for NACK
+					initialMoveTargetY = RECEIVER_Y - 30; // Short upward move (keep relative move distance)
+					finalTargetY = SENDER_Y;
+					initialMoveTime = ackTT; // Time based on ACK transmission time
+				}
 
-        this.start = function (time) {
-             if (isRunning) { 
-                 this.stop(); 
-             }
-             duration = time; 
-             startTime = 0; 
-             isRunning = true;
-             // Ensure drawing starts immediately even if RAF has slight delay
-             draw(100); 
-             animationFrameId = requestAnimationFrame(step); 
-             return this;
-        };
+				// Clone the origin element for animation
+				// The clone will inherit the new width/height set in createPackets
+				const animatedSquare = $(originElement).clone()
+					.attr('class', cssClass) // Apply appropriate class
+					.appendTo(this.paper)
+					.css({
+						top: startY + 'px',
+						// Width/Height should be inherited from origin via clone if CSS is set correctly
+						// width: $(originElement).width() + 'px', // Usually not needed if origin CSS is correct
+						// height: $(originElement).height() + 'px',// Usually not needed if origin CSS is correct
+						position: 'absolute' // Ensure it's positioned absolutely for animation
+					});
 
-        this.stop = function () {
-             if (animationFrameId) {
-                 cancelAnimationFrame(animationFrameId); 
-             }
-             isRunning = false;
-             startTime = 0; 
-             animationFrameId = null;
-             context.clearRect(0, 0, size, size); 
-             return this;
-        };
+				this.packetsAlive++; // Increment count of animating packets
+				const self = this; // Reference to 'this' for callbacks
 
-        // Basic pause/resume (might have timing drift on resume)
-        let pausedTime = 0;
-        this.pause = function() {
-            if (isRunning) {
-                cancelAnimationFrame(animationFrameId);
-                pausedTime = performance.now();
-                isRunning = false; 
-                animationFrameId = null;
-            }
-             return this;
-        }
-        this.resume = function() {
-             if (!isRunning && pausedTime > 0 && duration > 0) {
-                 const pauseDuration = performance.now() - pausedTime;
-                 startTime += pauseDuration; // Adjust start time
-                 isRunning = true;
-                 pausedTime = 0;
-                 animationFrameId = requestAnimationFrame(step);
-             }
-              return this;
-        }
-    } // End of TimerCircle constructor
+				// --- Animation Sequence ---
+				animatedSquare
+					// 1. Short initial move (simulates entering channel)
+					.animate({ top: initialMoveTargetY + 'px' }, initialMoveTime, 'linear')
+					// 2. Main travel across the channel
+					.animate({ top: finalTargetY + 'px' }, endToEndDelay, 'linear', function () {
+						// Animation Complete Callback:
+						$(this).remove(); // Remove the animated clone
+						self.packetsAliveDec(seqnum); // Decrement counter and check 'alive' status
+					});
 
-} // End of Display constructor
+				// --- Click to Simulate Loss ---
+				animatedSquare.on('mousedown', function (e) {
+					e.preventDefault(); // Prevent potential text selection/drag behavior
+
+					if (typeof pkg.kill === 'function') {
+						pkg.kill(); // Call the packet's kill method if it exists
+					} else {
+						console.warn("Packet object does not have a kill() method.");
+					}
+
+					self.packetsAliveDec(seqnum); // Decrement counter, packet is "lost"
+
+					$(this).stop(true) // Stop animation immediately
+						.css({ background: '#ff0000', opacity: 0.7 }) // Visual feedback (red flash)
+						.delay(150) // Wait briefly
+						.fadeOut(100, function () { $(this).remove(); }); // Fade out and remove
+
+					console.log(`${toReceiver ? 'Data' : (isNack ? 'NACK' : 'ACK')} ${seqnum} killed (simulated loss).`);
+				});
+			};
+
+			// --- Timer Management ---
+			this.pkgTimers = {}; // Object to store individual packet TimerCircle instances
+
+			/** Starts the timeout timer visual for a specific sender packet. */
+			this.startPkgTimer = function (seqnum, time) {
+				if (!this.seqnumToPkg[seqnum] || !this.seqnumToPkg[seqnum].sender) {
+					// console.warn(`Cannot start timer for seqnum ${seqnum}, sender element not found.`);
+					return; // Packet scrolled off or doesn't exist
+				}
+
+				const canvas = this.seqnumToPkg[seqnum].sender.children('canvas');
+				if (canvas.length === 0) {
+					console.warn(`Canvas not found for seqnum ${seqnum}.`);
+					return;
+				}
+
+				let timerInstance = canvas.data('timer');
+				if (!timerInstance) {
+					// Create TimerCircle instance using constant canvas size (PKG_CANVAS_SIZE)
+					timerInstance = new TimerCircle(PKG_CANVAS_SIZE, canvas, 'pkg');
+					canvas.data('timer', timerInstance); // Store it
+				}
+
+				// Delay start slightly (e.g., based on packet spacing time) - adjust if needed
+				const startDelay = (typeof contr !== 'undefined' && contr.timeBetweenPkgs) ? contr.timeBetweenPkgs : 50;
+				setTimeout(() => {
+					if (canvas.data('timer')) { // Check if still exists before starting
+						canvas.data('timer').start(time);
+					}
+				}, startDelay);
+			};
+
+			/** Stops and clears the timeout timer visual for a specific sender packet. */
+			this.stopPkgTimer = function (seqnum) {
+				if (!this.seqnumToPkg[seqnum] || !this.seqnumToPkg[seqnum].sender) {
+					return; // Packet scrolled off or doesn't exist
+				}
+
+				const canvas = this.seqnumToPkg[seqnum].sender.children('canvas');
+				const timerInstance = canvas.data('timer');
+
+				if (timerInstance) {
+					timerInstance.stop();
+					// Optional: remove timer data to allow recreation if needed later
+					// canvas.removeData('timer'); 
+				}
+				// No need to delete from this.pkgTimers here as it wasn't added
+
+				this.alive(); // Check if simulation might be done
+			};
+
+			// --- Window Timer (Go-Back-N Style) ---
+			this.windowTimerStarted = false; // Flag for the main GBN timer
+
+			/** Starts the main window timer visual. */
+			this.startWindowTimer = function (time) {
+				if (!this.windowTimer) {
+					console.warn("Attempted to start window timer, but canvas element doesn't exist.");
+					return;
+				}
+
+				let timerInstance = this.windowTimer.data('timer');
+				if (!timerInstance) {
+					// Create TimerCircle instance for the window timer canvas using updated WINDOW_TIMER_SIZE
+					timerInstance = new TimerCircle(WINDOW_TIMER_SIZE, this.windowTimer, 'window');
+					this.windowTimer.data('timer', timerInstance);
+				}
+
+				timerInstance.start(time);
+				this.windowTimerStarted = true;
+			};
+
+			/** Restarts the main window timer. */
+			this.restartWindowTimer = function (time) {
+				if (!this.windowTimer) return;
+
+				const timerInstance = this.windowTimer.data('timer');
+				if (timerInstance) {
+					timerInstance.stop(); // Stop the current timer first
+				}
+
+				this.startWindowTimer(time); // Start a new one
+			};
+
+			/** Stops the main window timer visual. */
+			this.stopWindowTimer = function () {
+				if (!this.windowTimer) return;
+
+				const timerInstance = this.windowTimer.data('timer');
+				if (timerInstance) {
+					timerInstance.stop();
+				}
+				this.windowTimerStarted = false; // Update flag
+
+				this.alive(); // Check if simulation might be done
+			};
+
+
+			/**
+			 * Inner Helper Class: TimerCircle (Implementation uses requestAnimationFrame)
+			 * Creates and manages the animation of a circular countdown timer on a canvas.
+			 * @param {number} size - The width and height of the canvas.
+			 * @param {jQuery} canvasElement - The jQuery object representing the canvas.
+			 * @param {'window'|'pkg'} type - The style of timer ('window' = outline, 'pkg' = filled).
+			 */
+			function TimerCircle(size, canvasElement, type) {
+				const context = canvasElement[0].getContext('2d');
+				let animationFrameId = null; // Store requestAnimationFrame ID
+				let startTime = 0;
+				let duration = 0;
+				let isRunning = false;
+
+				if (type !== 'window' && type !== 'pkg') {
+					throw new Error(`TimerCircle type "${type}" is not defined`);
+				}
+
+				const draw = (percent) => {
+					context.clearRect(0, 0, size, size); // Clear canvas
+					if (percent <= 0) return;
+
+					const value = percent / 100; // Normalize percent to 0-1
+					const startAngle = -0.5 * Math.PI; // Start at 12 o'clock
+					const endAngle = startAngle + (2 * Math.PI * value);
+
+					context.save();
+					context.beginPath();
+
+					if (type === 'window') {
+						// Adjust line width relative to the (potentially larger) timer size
+						const lineWidth = Math.max(2, size * 0.15);
+						const radius = size / 2 - lineWidth / 2;
+						const centerX = size / 2;
+						const centerY = size / 2;
+						context.arc(centerX, centerY, radius, startAngle, endAngle, false);
+						context.lineWidth = lineWidth;
+						context.strokeStyle = '#ff00ff'; // Magenta
+						context.lineCap = 'round'; // Use round caps
+						context.stroke();
+					} else { // 'pkg' type (filled) - PKG_CANVAS_SIZE is used here
+						const radius = size / 2;
+						const centerX = size / 2;
+						const centerY = size / 2;
+						context.moveTo(centerX, centerY); // Start from center
+						context.arc(centerX, centerY, radius, startAngle, endAngle, false);
+						context.closePath(); // Close path back to center
+						context.fillStyle = '#ff00ff'; // Magenta
+						context.fill();
+					}
+					context.restore();
+				};
+
+				const step = (timestamp) => {
+					if (!isRunning) return; // Stop if stop() was called
+
+					if (!startTime) {
+						startTime = timestamp; // Record start time on first frame
+					}
+					const elapsed = timestamp - startTime;
+					const remaining = Math.max(0, duration - elapsed);
+					const percent = (remaining / duration) * 100;
+
+					draw(percent);
+
+					if (remaining > 0) {
+						animationFrameId = requestAnimationFrame(step); // Continue animation
+					} else {
+						// Animation finished
+						draw(0); // Ensure final state is cleared/empty
+						isRunning = false;
+						startTime = 0;
+						animationFrameId = null; // Clear ID
+					}
+				};
+
+				this.start = function (time) {
+					if (isRunning) {
+						this.stop();
+					}
+					duration = time;
+					startTime = 0;
+					isRunning = true;
+					// Ensure drawing starts immediately even if RAF has slight delay
+					draw(100);
+					animationFrameId = requestAnimationFrame(step);
+					return this;
+				};
+
+				this.stop = function () {
+					if (animationFrameId) {
+						cancelAnimationFrame(animationFrameId);
+					}
+					isRunning = false;
+					startTime = 0;
+					animationFrameId = null;
+					context.clearRect(0, 0, size, size);
+					return this;
+				};
+
+				// Basic pause/resume (might have timing drift on resume)
+				let pausedTime = 0;
+				this.pause = function () {
+					if (isRunning) {
+						cancelAnimationFrame(animationFrameId);
+						pausedTime = performance.now();
+						isRunning = false;
+						animationFrameId = null;
+					}
+					return this;
+				}
+				this.resume = function () {
+					if (!isRunning && pausedTime > 0 && duration > 0) {
+						const pauseDuration = performance.now() - pausedTime;
+						startTime += pauseDuration; // Adjust start time
+						isRunning = true;
+						pausedTime = 0;
+						animationFrameId = requestAnimationFrame(step);
+					}
+					return this;
+				}
+			} // End of TimerCircle constructor
+
+		} // End of Display constructor
 
 
 	</script>
@@ -2535,7 +2687,31 @@
 								Protocol Parameters:
 							</label>
 						</h3>
+						<div style="margin-top: 15px; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;"
+							class="nack-control-container">
+							<!-- Added class -->
 
+							<!-- Tooltip - First Item -->
+							<div class="tooltip" style="flex-shrink: 0;"> <!-- Keep tooltip style -->
+								<img src="../../info.svg" alt="Info icon" width="16" height="16">
+								<span class="tooltiptext">If checked, the receiver will send a NACK when it receives an out-of-order
+									packet. If unchecked, it will only send duplicate ACKs, relying solely on sender timeouts for
+									recovery.</span>
+							</div>
+
+							<!-- Text Label wrapped in H3 - Second Item -->
+							<h3 class="nack-label" style="margin-bottom: 2px;"> <!-- Added class to H3 -->
+								Negative Acknowledgements
+							</h3>
+
+							<!-- Toggle Switch - Third Item -->
+							<label class="toggle-switch small-switch" for="enableNacksCheckbox"> <!-- Keep small-switch class -->
+								<input type="checkbox" id="enableNacksCheckbox" checked
+									onchange="contr.setNackEnabledState(this.checked)">
+								<span class="slider round"></span>
+							</label>
+
+						</div>
 						<div class="dropdown" id="dropdownSW">
 							<h3 class="dropbtn">
 								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
@@ -2712,180 +2888,180 @@
 							</label></h3>
 
 						<h3>
-								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
 
-									<span class="tooltiptext1">The transmission time of each information unit is calculated according to the
-										IU size and the link capacity.</span>
-								</div>
-								IU Transmission Time
-							</h3>
-							<input type="number" value="500" step="any" id="TransmissionTime" disabled="disabled" /><span id="Consunit">
-								<select class="unitdisabled" disabled id="unitTT">
-									<option value="1000000">μs</option>
-									<option value="1000" selected="selected">ms</option>
-									<option value="1">s</option>
-								</select>
-							</span>
+								<span class="tooltiptext1">The transmission time of each information unit is calculated according to the
+									IU size and the link capacity.</span>
+							</div>
+							IU Transmission Time
+						</h3>
+						<input type="number" value="500" step="any" id="TransmissionTime" disabled="disabled" /><span id="Consunit">
+							<select class="unitdisabled" disabled id="unitTT">
+								<option value="1000000">μs</option>
+								<option value="1000" selected="selected">ms</option>
+								<option value="1">s</option>
+							</select>
+						</span>
 
-							<h3>
-								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+						<h3>
+							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
 
-									<span class="tooltiptext1">The transmission time of each ack is calculated according to the ack size and
-										the link capacity.</span>
-								</div>
-								ACK Transmission Time
-							</h3>
-							<input type="number" value="20" step="any" id="AckTT" disabled="disabled" /><span id="Consunit">
-								<select class="unitdisabled" disabled id="unitAT">
-									<option value="1000000">μs</option>
-									<option value="1000" selected="selected">ms</option>
-									<option value="1">s</option>
-								</select>
-							</span>
+								<span class="tooltiptext1">The transmission time of each ack is calculated according to the ack size and
+									the link capacity.</span>
+							</div>
+							ACK Transmission Time
+						</h3>
+						<input type="number" value="20" step="any" id="AckTT" disabled="disabled" /><span id="Consunit">
+							<select class="unitdisabled" disabled id="unitAT">
+								<option value="1000000">μs</option>
+								<option value="1000" selected="selected">ms</option>
+								<option value="1">s</option>
+							</select>
+						</span>
 
-							<h3>
-								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+						<h3>
+							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
 
-									<span class="tooltiptext1">The propagation delay is calculated according to the link length and the
-										propagation speed.</span>
-								</div>
-								Propagation delay
-							</h3>
-							<input type="number" value="5" id="endToEndDelay2" disabled="disabled" /><span id="Consunit">
-								<select class="unitdisabled" disabled id="unitPD">
-									<option value="1000000" selected="selected">μs</option>
-									<option value="1000">ms</option>
-									<option value="1">s</option>
-								</select>
-							</span>
-						</div>
-
-						<div class="form-item">
-							<h3><label for="Data Parameters">
-									<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
-
-										<span class="tooltiptext1">These parameters are calculated automaticly according to the inputs!</span>
-									</div>
-									Calculated Parameters:
-								</label></h3>
-
-							<h3>
-								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
-
-									<span class="tooltiptext1">The number of information units is calculated according to the IU size and
-										the total amount of data.</span>
-								</div>
-								Number of IUs
-							</h3>
-							<input type="number" value="20" min="0" step="1" id="NumberUI" disabled="disabled" />
-
-							<h3>
-								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
-
-									<span class="tooltiptext1">The minimum timeout is suggested here according to the inputs. It depends on
-										the propagation delay and the ack size.</span>
-								</div>
-								Minumun Timeout
-							</h3>
-							<input type="number" value="20.01" min="0" step="any" id="TimeoutMin" disabled="disabled" /><span
-								id="Consunit">
-								<select class="unitdisabled" disabled id="unitMT">
-									<option value="1000000">μs</option>
-									<option value="1000" selected="selected">ms</option>
-									<option value="1">s</option>
-								</select>
-							</span>
-
-							<h3>
-								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
-
-									<span class="tooltiptext1">Total time will be calculated and showed here after the end of the animation.
-										There might be a small variance in the order of microsecond because of the execution of the algorithm
-										itself.</span>
-								</div>
-								Total Time
-							</h3>
-
-							<input type="number" value="" step="any" id="TotalTime" disabled="disabled" /><span id="Consunit">
-								<select class="unitdisabled" disabled id="unitTotal">
-									<option value="1000000">μs</option>
-									<option value="1000" selected="selected">ms</option>
-									<option value="1">s</option>
-								</select>
-							</span>
-						</div>
-					</form>
-				</div>
-
-				<!-- Legend Tab -->
-				<div id="legend-tab" class="tab-content">
-					<div class="legend">
-						<h2>Legend</h2>
-						<table>
-							<tr>
-								<td>
-									<div class="dscPkg empty-legend">No data received yet</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="dscPkg"
-										style="background-color: var(--packet-default-bg); color: var(--packet-default-text); border-color: var(--packet-default-border);">
-										Buffered data</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="dscPkg"
-										style="background-color: var(--packet-ack-bg); color: var(--packet-ack-text); border-color: var(--packet-ack-border);">
-										ACK</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div id="nackleg" class="dscPkg"
-										style="background-color: var(--packet-nack-bg); color: var(--packet-nack-text); border-color: var(--packet-nack-border);">
-										NACK</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="dscPkg"
-										style="background-color: var(--packet-confirmed-bg); color: var(--packet-confirmed-text); border-color: var(--packet-confirmed-border);">
-										Transmission confirmed</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="dscPkg"
-										style="background-color: var(--packet-delivered-bg); color: var(--packet-delivered-text); border-color: var(--packet-delivered-border);">
-										Data has been delivered to upper network layer</div>
-								</td>
-							</tr>
-						</table>
+								<span class="tooltiptext1">The propagation delay is calculated according to the link length and the
+									propagation speed.</span>
+							</div>
+							Propagation delay
+						</h3>
+						<input type="number" value="5" id="endToEndDelay2" disabled="disabled" /><span id="Consunit">
+							<select class="unitdisabled" disabled id="unitPD">
+								<option value="1000000" selected="selected">μs</option>
+								<option value="1000">ms</option>
+								<option value="1">s</option>
+							</select>
+						</span>
 					</div>
+
+					<div class="form-item">
+						<h3><label for="Data Parameters">
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
+									<span class="tooltiptext1">These parameters are calculated automaticly according to the inputs!</span>
+								</div>
+								Calculated Parameters:
+							</label></h3>
+
+						<h3>
+							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
+								<span class="tooltiptext1">The number of information units is calculated according to the IU size and
+									the total amount of data.</span>
+							</div>
+							Number of IUs
+						</h3>
+						<input type="number" value="20" min="0" step="1" id="NumberUI" disabled="disabled" />
+
+						<h3>
+							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
+								<span class="tooltiptext1">The minimum timeout is suggested here according to the inputs. It depends on
+									the propagation delay and the ack size.</span>
+							</div>
+							Minumun Timeout
+						</h3>
+						<input type="number" value="20.01" min="0" step="any" id="TimeoutMin" disabled="disabled" /><span
+							id="Consunit">
+							<select class="unitdisabled" disabled id="unitMT">
+								<option value="1000000">μs</option>
+								<option value="1000" selected="selected">ms</option>
+								<option value="1">s</option>
+							</select>
+						</span>
+
+						<h3>
+							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
+								<span class="tooltiptext1">Total time will be calculated and showed here after the end of the animation.
+									There might be a small variance in the order of microsecond because of the execution of the algorithm
+									itself.</span>
+							</div>
+							Total Time
+						</h3>
+
+						<input type="number" value="" step="any" id="TotalTime" disabled="disabled" /><span id="Consunit">
+							<select class="unitdisabled" disabled id="unitTotal">
+								<option value="1000000">μs</option>
+								<option value="1000" selected="selected">ms</option>
+								<option value="1">s</option>
+							</select>
+						</span>
+					</div>
+				</form>
+			</div>
+
+			<!-- Legend Tab -->
+			<div id="legend-tab" class="tab-content">
+				<div class="legend">
+					<h2>Legend</h2>
+					<table>
+						<tr>
+							<td>
+								<div class="dscPkg empty-legend">No data received yet</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="dscPkg"
+									style="background-color: var(--packet-default-bg); color: var(--packet-default-text); border-color: var(--packet-default-border);">
+									Buffered data</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="dscPkg"
+									style="background-color: var(--packet-ack-bg); color: var(--packet-ack-text); border-color: var(--packet-ack-border);">
+									ACK</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div id="nackleg" class="dscPkg"
+									style="background-color: var(--packet-nack-bg); color: var(--packet-nack-text); border-color: var(--packet-nack-border);">
+									NACK</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="dscPkg"
+									style="background-color: var(--packet-confirmed-bg); color: var(--packet-confirmed-text); border-color: var(--packet-confirmed-border);">
+									Transmission confirmed</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="dscPkg"
+									style="background-color: var(--packet-delivered-bg); color: var(--packet-delivered-text); border-color: var(--packet-delivered-border);">
+									Data has been delivered to upper network layer</div>
+							</td>
+						</tr>
+					</table>
 				</div>
-			</aside>
+			</div>
+		</aside>
 
-			<!-- Toggle Button for Sidebar -->
-			<button id="sidebar-toggle" title="Toggle Sidebar">×</button>
+		<!-- Toggle Button for Sidebar -->
+		<button id="sidebar-toggle" title="Toggle Sidebar">×</button>
 
-			<!-- Main Content with Simulation -->
-			<main id="main-content">
-				<div id="svg" class="simulation">
-					<hr class="lineSender">
-					</hr>
-					<hr class="lineReciever">
-					</hr>
-					<div id="root"></div>
-				</div>
+		<!-- Main Content with Simulation -->
+		<main id="main-content">
+			<div id="svg" class="simulation">
+				<hr class="lineSender">
+				</hr>
+				<hr class="lineReciever">
+				</hr>
+				<div id="root"></div>
+			</div>
 
-				<div id="log"
-					style="position: relative; overflow: auto; width: 100%; height: 300px; display: block; margin-top: 10px; border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; background: white;">
-					<p id="myLog">Log: </p>
-				</div>
-			</main>
-		</div>
-	</body>
+			<div id="log"
+				style="position: relative; overflow: auto; width: 100%; height: 300px; display: block; margin-top: 10px; border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; background: white;">
+				<p id="myLog">Log: </p>
+			</div>
+		</main>
+	</div>
+</body>
 
-	</html>
+</html>
