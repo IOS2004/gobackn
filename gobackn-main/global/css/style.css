@@ -1,27 +1,30 @@
 /**
  * Generic elements
  */
- body {
+body {
   margin: 0;
   padding: 10px; /* Added padding */
   background: #f8f9fa; /* Lighter background */
-  font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; /* Modern font stack */
+  font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; /* Modern font stack */
   color: #212529; /* Darker text for better contrast */
   text-align: left;
-  position:relative;
-  width:100%;
+  position: relative;
+  width: 100%;
   min-height: 100%; /* Changed from height */
   box-sizing: border-box; /* Include padding in width/height */
 }
 html {
-    position:relative;
-    width:100%;
-    height: 100%; /* Ensure html takes full height */
-    overflow-x: hidden;
-    overflow-y: auto;
+  position: relative;
+  width: 100%;
+  height: 100%; /* Ensure html takes full height */
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   color: #343a40; /* Slightly darker input text */
   background: #ffffff; /* White background for inputs */
   border: 1px solid #ced4da; /* Standard border */
@@ -32,13 +35,16 @@ input, textarea, select {
   box-sizing: border-box; /* Consistent sizing */
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   outline: none; /* Remove default outline */
   border-color: #80bdff; /* Highlight on focus */
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Subtle glow on focus */
 }
 
-input[type="button"] { /* Style buttons */
+input[type="button"] {
+  /* Style buttons */
   background-color: #007bff; /* Primary blue */
   color: white;
   border: 1px solid #007bff;
@@ -60,8 +66,12 @@ input[type="button"]:disabled {
   opacity: 0.65;
 }
 
-
-h1,h2,h3,h4,h5,h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0 0 0.5em 0; /* Added bottom margin */
   padding: 0;
   font-weight: 500; /* Slightly bolder */
@@ -90,7 +100,7 @@ h4 {
 }
 
 h5 {
-  font-size: 1.0em; /* Made H5 base font size */
+  font-size: 1em; /* Made H5 base font size */
 }
 
 h6 {
@@ -122,7 +132,8 @@ hr {
   background: #dee2e6; /* Lighter hr */
 }
 
-ul, ol {
+ul,
+ol {
   margin: 0 0 1em; /* Consistent bottom margin */
   padding: 0 0 0 20px; /* Adjusted padding */
 }
@@ -138,7 +149,7 @@ dl dt {
 }
 
 dl dd {
-  margin: 0 0 .5em 1.5em; /* LTR */
+  margin: 0 0 0.5em 1.5em; /* LTR */
 }
 
 img,
@@ -146,32 +157,34 @@ a img {
   border: none;
 }
 
-table { /* Basic table styling */
-    width: 100%; /* Make tables responsive */
-    margin-bottom: 1rem;
-    color: #212529;
-    border-collapse: collapse;
-    border: 1px solid #dee2e6; /* Lighter borders */
+table {
+  /* Basic table styling */
+  width: 100%; /* Make tables responsive */
+  margin-bottom: 1rem;
+  color: #212529;
+  border-collapse: collapse;
+  border: 1px solid #dee2e6; /* Lighter borders */
 }
-td, th {
-    padding: .75rem; /* More padding */
-    vertical-align: top;
-    border: 1px solid #dee2e6; /* Lighter borders */
-    text-align: left; /* Align text left */
+td,
+th {
+  padding: 0.75rem; /* More padding */
+  vertical-align: top;
+  border: 1px solid #dee2e6; /* Lighter borders */
+  text-align: left; /* Align text left */
 }
 
 th {
-    background-color: #e9ecef; /* Light grey header */
-    border-bottom-width: 2px; /* Thicker bottom border on header */
-    font-weight: 600; /* Bolder header text */
+  background-color: #e9ecef; /* Light grey header */
+  border-bottom-width: 2px; /* Thicker bottom border on header */
+  font-weight: 600; /* Bolder header text */
 }
-span{
+span {
   position: relative; /* Kept as is, might be needed by JS positioning */
 }
 
 /* --- Keep existing simulation lines, tooltip, etc. for now --- */
 /* --- Will refine these in the next steps --- */
-.lineSender{
+.lineSender {
   border: 0;
   background-color: #343a40; /* Darker grey line */
   height: 1px; /* Thinner line */
@@ -182,7 +195,7 @@ span{
   left: 0; /* Ensure it starts at edge */
 }
 
-.lineReciever{
+.lineReciever {
   border: 0;
   background-color: #343a40; /* Darker grey line */
   height: 1px; /* Thinner line */
@@ -190,7 +203,7 @@ span{
   /* border-bottom: 1px solid black; */ /* Removed */
   margin-top: 360px;
   position: absolute;
-   left: 0; /* Ensure it starts at edge */
+  left: 0; /* Ensure it starts at edge */
 }
 
 .lineV {
@@ -205,7 +218,6 @@ span{
   color: #28a745; /* Theme green */
   position: absolute;
   padding-left: 3px; /* Space text from line */
-
 }
 
 .tooltip {
@@ -215,7 +227,9 @@ span{
   cursor: help; /* Indicate help available */
 }
 
- .tooltiptext, .tooltiptext1 { /* Combined rules */
+.tooltiptext,
+.tooltiptext1 {
+  /* Combined rules */
   visibility: hidden;
   width: 250px; /* Slightly narrower */
   background-color: #343a40; /* Dark background */
@@ -226,7 +240,7 @@ span{
   padding: 8px 10px; /* Adjusted padding */
   line-height: 1.4; /* Better line spacing */
   font-size: 12px; /* Slightly smaller tooltip text */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Subtle shadow */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 
   /* Position the tooltip */
   position: absolute;
@@ -234,16 +248,18 @@ span{
   opacity: 0; /* Start hidden for transition */
   transition: opacity 0.2s;
 }
-.tooltiptext { /* Specific position for standard tooltip */
+.tooltiptext {
+  /* Specific position for standard tooltip */
   top: 100%; /* Position below */
   left: 50%;
   transform: translateX(-50%); /* Center align */
   margin-top: 5px; /* Space from element */
 }
-.tooltiptext1 { /* Specific position for other tooltip */
-   top: 100%; /* Position below */
-   right: 0; /* Align right */
-   margin-top: 5px; /* Space from element */
+.tooltiptext1 {
+  /* Specific position for other tooltip */
+  top: 100%; /* Position below */
+  right: 0; /* Align right */
+  margin-top: 5px; /* Space from element */
 }
 
 .tooltip:hover .tooltiptext,
@@ -252,7 +268,7 @@ span{
   opacity: 1; /* Fade in */
 }
 
-.browser-features-missing{
+.browser-features-missing {
   background-color: #f8d7da; /* Bootstrap danger light */
   border: 1px solid #f5c6cb; /* Bootstrap danger border */
   color: #721c24; /* Bootstrap danger text */
@@ -261,18 +277,19 @@ span{
   margin-bottom: 32px;
 }
 
-
 /* config */
-.config, .legend, .def{
+.config,
+.legend,
+.def {
   background: #fffefe; /* Plain white background */
   border: 1px solid #dee2e6; /* Lighter border */
   border-radius: 6px; /* Slightly larger rounding */
   margin: 15px 10px 15px 0px; /* Increased vertical margin */
   padding: 15px 20px; /* Increased padding */
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Very subtle shadow */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Very subtle shadow */
 }
 
-.config{
+.config {
   /* Keep column layout for now, might revise later */
   -webkit-column-width: 17em;
   -webkit-column-gap: 20px; /* Increased gap */
@@ -285,8 +302,7 @@ span{
   margin-top: 1em;
 }
 
-
-.config > .form-item{
+.config > .form-item {
   margin-bottom: 1.5em; /* Increased space between items */
   margin-top: 0;
   padding-left: 0; /* Removed padding */
@@ -298,24 +314,25 @@ span{
   width: 100%; /* Let columns manage width */
 }
 
-.config .form-item.disable.disabled{
+.config .form-item.disable.disabled {
   background-color: #e9ecef; /* Lighter disabled background */
   border-radius: 4px;
   padding: 5px; /* Add padding when disabled */
   opacity: 0.7; /* Make it look faded */
 }
 
-.config > h2:first-child{ /* May not be needed if structure changes */
+.config > h2:first-child {
+  /* May not be needed if structure changes */
   /* position: absolute; */ /* Removing absolute positioning */
   margin-bottom: 1em;
 }
-.config > *:nth-child(1){ /* Keep for now */
+.config > *:nth-child(1) {
+  /* Keep for now */
   margin-top: 0em;
   /* padding-left: 2em; */ /* Removed padding */
 }
 
-
-.config > .form-item > h3{
+.config > .form-item > h3 {
   font-size: 1.1em; /* Slightly smaller H3 inside config */
   font-weight: 600; /* Bolder */
   font-family: inherit;
@@ -325,7 +342,7 @@ span{
   border-bottom: 1px solid #eee; /* Subtle separator */
 }
 
-.config > .form-item > h5{
+.config > .form-item > h5 {
   font-size: 1em;
   font-family: inherit;
   font-weight: 600; /* Bolder labels */
@@ -333,19 +350,19 @@ span{
   margin-bottom: 0.5em; /* Space below label */
 }
 
-.config label{
+.config label {
   display: block;
   margin-bottom: 0.3em; /* Space below labels */
   font-weight: 500; /* Slightly bolder labels */
 }
 
-.config label.option{
+.config label.option {
   display: inline-block; /* Better alignment */
   font-weight: normal;
   margin-right: 10px; /* Space options */
 }
 
-.config .description{
+.config .description {
   font-size: 0.85em; /* Smaller description text */
   color: #6c757d; /* Muted grey color */
   line-height: 1.4;
@@ -354,20 +371,20 @@ span{
 }
 
 /* Input number styling */
-.config input[type=number] {
-    width: calc(100% - 60px); /* Adjust width calculation based on unit select */
-    padding: 6px 10px;
-    margin: 0 5px 0.3em 0; /* Adjust margin */
-    display: inline-block; /* Align with select */
-    vertical-align: middle; /* Align with select */
+.config input[type="number"] {
+  width: calc(100% - 60px); /* Adjust width calculation based on unit select */
+  padding: 6px 10px;
+  margin: 0 5px 0.3em 0; /* Adjust margin */
+  display: inline-block; /* Align with select */
+  vertical-align: middle; /* Align with select */
 }
 
-.config input[type=number]:enabled {
+.config input[type="number"]:enabled {
   background-color: #fff;
   border: 1px solid #ced4da;
 }
 
-.config input[type=number]:disabled{
+.config input[type="number"]:disabled {
   background-color: #e9ecef; /* Consistent disabled background */
   color: #6c757d;
   border: 1px solid #ced4da;
@@ -375,7 +392,8 @@ span{
 }
 
 /* Unit select styling */
-.config span#unit, .config span#Consunit {
+.config span#unit,
+.config span#Consunit {
   border-style: none;
   width: 55px; /* Fixed width for units */
   padding: 0;
@@ -385,7 +403,8 @@ span{
   margin-left: -5px; /* Pull closer to input */
 }
 
-.units, .unitdisabled {
+.units,
+.unitdisabled {
   width: 100%; /* Fill the span */
   padding: 6px 5px; /* Match input padding (adjust left/right) */
   margin-bottom: 5px;
@@ -413,34 +432,36 @@ select:disabled {
   -webkit-appearance: none;
 }
 
-select::-ms-expand { /* Hide IE arrow */
+select::-ms-expand {
+  /* Hide IE arrow */
   display: none;
 }
 
-
 /* legend */
-.legend{
+.legend {
   float: none; /* Let it take block layout */
   width: auto; /* Adjust width */
   margin-bottom: 1em; /* Space below legend */
 }
 .legend h2 {
-    font-size: 1.3em;
-    margin-bottom: 0.8em;
+  font-size: 1.3em;
+  margin-bottom: 0.8em;
 }
-.legend table { /* Reset table styles within legend */
-    border: none;
-    width: auto;
-    margin-bottom: 0;
+.legend table {
+  /* Reset table styles within legend */
+  border: none;
+  width: auto;
+  margin-bottom: 0;
 }
-.legend td, .legend th{
+.legend td,
+.legend th {
   border: none;
   padding: 4px 0; /* Adjust padding */
   vertical-align: middle; /* Center vertically */
 }
 
 /* simulation */
-.simulation{
+.simulation {
   box-shadow: none; /* Remove shadow */
   padding: 10px; /* Reduced padding */
   border: 1px solid #dee2e6; /* Lighter border */
@@ -450,7 +471,6 @@ select::-ms-expand { /* Hide IE arrow */
 
 /* Remove input range fixes as we style inputs directly */
 /* input[type=range]... */
-
 
 /* Dropdown styling */
 .dropbtn {
@@ -468,8 +488,8 @@ select::-ms-expand { /* Hide IE arrow */
   text-align: left;
 }
 .dropbtn:hover {
-    color: #0056b3;
-    text-decoration: underline;
+  color: #0056b3;
+  text-decoration: underline;
 }
 
 .dropdown {
@@ -487,7 +507,7 @@ select::-ms-expand { /* Hide IE arrow */
   background-color: #fff;
   min-width: 160px; /* Increased width */
   margin-top: 2px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.15); /* Softer shadow */
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.15); /* Softer shadow */
   z-index: 100;
   border: 1px solid #dee2e6; /* Border */
   border-radius: 4px;
@@ -502,8 +522,8 @@ select::-ms-expand { /* Hide IE arrow */
 }
 
 .dropdown-content a:hover {
-    background-color: #f8f9fa; /* Light hover */
-    color: #0056b3;
+  background-color: #f8f9fa; /* Light hover */
+  color: #0056b3;
 }
 
 .dropdown:hover .dropdown-content {
@@ -513,9 +533,8 @@ select::-ms-expand { /* Hide IE arrow */
 /* Remove hover background on dropbtn */
 /* .dropdown:hover .dropbtn {...} */
 
-
 ::-webkit-scrollbar {
-  width: 8px;  /* Width of vertical scrollbar */
+  width: 8px; /* Width of vertical scrollbar */
   height: 8px; /* Height of horizontal scrollbar */
 }
 
@@ -545,11 +564,11 @@ html {
 /* --- Specific Styling for the #log element (Firefox) --- */
 /* Ensure #log gets the Firefox styling too */
 #log {
- scrollbar-width: thin;
- /* Use variables: thumb color track color */
- scrollbar-color: var(--scrollbar-thumb-bg) var(--scrollbar-track-bg);
- /* Make sure overflow is set correctly */
- overflow: auto; /* Or scroll */
+  scrollbar-width: thin;
+  /* Use variables: thumb color track color */
+  scrollbar-color: var(--scrollbar-thumb-bg) var(--scrollbar-track-bg);
+  /* Make sure overflow is set correctly */
+  overflow: auto; /* Or scroll */
 }
 
 #sidebar::-webkit-scrollbar {
@@ -581,11 +600,11 @@ html {
 
 /* --- Firefox --- */
 #sidebar {
- scrollbar-width: 8px; /* Keep thin */
- /* Thumb color , Track color */
- /* Use same logic: thumb = border-color, track = sidebar-bg */
- scrollbar-color: var(--border-color) var(--sidebar-bg);
- /* Ensure overflow settings are correct on #sidebar */
- overflow-y: auto; /* Already set in original HTML, but good to confirm */
- overflow-x: hidden; /* Prevent horizontal scrollbar */
+  scrollbar-width: 8px; /* Keep thin */
+  /* Thumb color , Track color */
+  /* Use same logic: thumb = border-color, track = sidebar-bg */
+  scrollbar-color: var(--border-color) var(--sidebar-bg);
+  /* Ensure overflow settings are correct on #sidebar */
+  overflow-y: auto; /* Already set in original HTML, but good to confirm */
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
 }

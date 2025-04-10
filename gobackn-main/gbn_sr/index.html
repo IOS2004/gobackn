@@ -182,18 +182,9 @@
 			text-align: center;
 		}
 
-		#theme-toggle {
-			position: absolute;
-			right: 1rem;
-			top: 50%;
-			transform: translateY(-50%);
-			background: none;
-			border: 1px solid var(--primary-color);
-			color: var(--primary-color);
-			padding: 5px 10px;
-			cursor: pointer;
-			border-radius: 4px;
-			font-size: 1rem;
+		#theme-toggle img {
+			width: 20px;
+			height: 20px;
 		}
 
 		body.dark-mode #theme-toggle {
@@ -225,7 +216,17 @@
 			height: 100vh;
 			box-shadow: 2px 0 5px var(--shadow-color);
 		}
-
+		#theme-toggle {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			background: var(--primary-color);
+			color: white;
+			border: none;
+			border-radius: 4px;
+			padding: 5px 10px;
+			cursor: pointer;
+		}
 		#sidebar.closed {
 			transform: translateX(calc(-1 * var(--sidebar-width)));
 		}
@@ -639,10 +640,9 @@
 			margin-left: 5px;
 			width: 16px;
 			height: 16px;
+			
 			line-height: 16px;
 			text-align: center;
-			background: var(--tooltip-info-bg);
-			color: var(--text-color);
 			border-radius: 50%;
 			font-size: 12px;
 		}
@@ -1676,9 +1676,9 @@
 			// Apply saved theme on load
 			if (currentTheme === 'dark') {
 				body.classList.add('dark-mode');
-				themeToggle.textContent = '☀️'; // Sun icon for light mode
+				themeToggle.innerHTML = '<img src= "../../sun.png" />'; // Sun icon for light mode
 			} else {
-				themeToggle.textContent = '🌙'; // Moon icon for dark mode
+				themeToggle.innerHTML = '<img src= "../../moon.png" />'; // Moon icon for dark mode
 			}
 
 			themeToggle.addEventListener('click', () => {
@@ -1686,9 +1686,9 @@
 				let theme = 'light';
 				if (body.classList.contains('dark-mode')) {
 					theme = 'dark';
-					themeToggle.textContent = '☀️';
+					themeToggle.innerHTML = '<img src= "../../sun.png" />';
 				} else {
-					themeToggle.textContent = '🌙';
+					themeToggle.innerHTML = '<img src= "../../moon.png" />';
 				}
 				localStorage.setItem('theme', theme);
 			});
@@ -2130,7 +2130,7 @@
 <body onload="init();" class="mobile">
 	<header>
 		<h1>Go-back-N ARQ Protocol</h1>
-		<button id="theme-toggle" title="Toggle Theme">🌙</button> <!-- Added Theme Toggle Button -->
+		<button id="theme-toggle" title="Toggle Theme"></button> <!-- Added Theme Toggle Button -->
 	</header>
 
 	<div class="container">
@@ -2147,7 +2147,7 @@
 				<form class="config">
 					<div class="form-item">
 						<h3><label for="protocol">
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
 									<span class="tooltiptext">This section is related to simulation control. Selecting the protocol type,
 										animation window's style, and controlling the speed of the animation.</span>
 								</div>
@@ -2156,7 +2156,8 @@
 						</h3>
 
 						<h5><label for="scroll mode">
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext">Select the scroll mode of the animation window.</span>
 								</div>
 
@@ -2167,7 +2168,8 @@
 							</label></h5>
 
 						<h5><label for="">
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext">By selecting this option the animation speed can be controled in such a way
 										that you can easily see the animation and dropping an IU or an Ack.
 									</span>
@@ -2177,7 +2179,8 @@
 							</label></h5>
 
 						<h5><label for="" id="speedwarning" hidden>
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext">The speed control option can be only used if the values of IU transmission,
 										Ack transmission and propagation delay are between
 										1 nanoseconds and 1000 seconds.</span>
@@ -2187,7 +2190,8 @@
 							</label></h5>
 
 						<h5><label for="" id="speedfault">
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext">After selecting the speed control option, it is also possible to change the
 										speed mode. </span>
 								</div>
@@ -2203,7 +2207,8 @@
 
 
 						<h5><label for="">
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext">Start, stop, reload, and log</span>
 								</div>
 
@@ -2216,7 +2221,8 @@
 
 					<div class="form-item">
 						<h3><label for="Window sizes">
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext">This section is related to window sizes of the sender and the receiver and
 										the Timeout value.</span>
 								</div>
@@ -2226,7 +2232,8 @@
 
 						<div class="dropdown" id="dropdownSW">
 							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext">Enter the window size of the sender. </span>
 								</div>
 								Sender Window
@@ -2240,7 +2247,8 @@
 
 						<div class="dropdown" id="dropdownRW">
 							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext">Enter the window size of the receiver.</span>
 								</div>
 								Receiver Window
@@ -2254,7 +2262,8 @@
 
 						<div class="dropdown" id="dropdownTO">
 							<h3 class="dropbtn">
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext">Enter the timeout value. Please pay attention to the suggested minimum
 										timeout. Otherwise there will be a lot of retransmissions.</span>
 								</div>
@@ -2274,7 +2283,8 @@
 
 					<div class="form-item">
 						<h3><label for="Link Parameters">
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext">This section is related to the parameters of the link between the sender and
 										the receiver.</span>
 								</div>
@@ -2283,7 +2293,8 @@
 						</h3>
 
 						<h3>
-							<div class="tooltip">&#10068;
+							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 								<span class="tooltiptext">Enter the capacity of the link.</span>
 							</div>
 							Capacity
@@ -2299,7 +2310,8 @@
 						</span>
 
 						<h3>
-							<div class="tooltip">&#10068;
+							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 								<span class="tooltiptext">Enter the length of the link.</span>
 							</div>
 							Length
@@ -2313,7 +2325,8 @@
 						</span>
 
 						<h3>
-							<div class="tooltip">&#10068;
+							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 								<span class="tooltiptext">Enter the propagation speed.</span>
 							</div>
 							Propagation speed
@@ -2329,7 +2342,8 @@
 
 					<div class="form-item">
 						<h3><label for="Data Parameters">
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext">This section is related to the parameters of data to be transmitted.</span>
 								</div>
 								Data Parameters:
@@ -2337,7 +2351,8 @@
 						</h3>
 
 						<h3>
-							<div class="tooltip">&#10068;
+							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 								<span class="tooltiptext">Enter the total amount of data to be transmitted.</span>
 							</div>
 							Amount of Data
@@ -2351,7 +2366,8 @@
 						</span>
 
 						<h3>
-							<div class="tooltip">&#10068;
+							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 								<span class="tooltiptext">Enter the size of each information unit.</span>
 							</div>
 							IU Size
@@ -2365,7 +2381,8 @@
 						</span>
 
 						<h3>
-							<div class="tooltip">&#10068;
+							<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 								<span class="tooltiptext">Enter the size of each ack unit.</span>
 							</div>
 							Ack Size
@@ -2381,14 +2398,16 @@
 
 					<div class="form-item">
 						<h3><label for="Data Parameters">
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext1">These parameters are calculated automaticly according to the inputs!</span>
 								</div>
 								Calculated Parameters:
 							</label></h3>
 
 						<h3>
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext1">The transmission time of each information unit is calculated according to the
 										IU size and the link capacity.</span>
 								</div>
@@ -2403,7 +2422,8 @@
 							</span>
 
 							<h3>
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext1">The transmission time of each ack is calculated according to the ack size and
 										the link capacity.</span>
 								</div>
@@ -2418,7 +2438,8 @@
 							</span>
 
 							<h3>
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext1">The propagation delay is calculated according to the link length and the
 										propagation speed.</span>
 								</div>
@@ -2435,14 +2456,16 @@
 
 						<div class="form-item">
 							<h3><label for="Data Parameters">
-									<div class="tooltip">&#10068;
+									<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 										<span class="tooltiptext1">These parameters are calculated automaticly according to the inputs!</span>
 									</div>
 									Calculated Parameters:
 								</label></h3>
 
 							<h3>
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext1">The number of information units is calculated according to the IU size and
 										the total amount of data.</span>
 								</div>
@@ -2451,7 +2474,8 @@
 							<input type="number" value="20" min="0" step="1" id="NumberUI" disabled="disabled" />
 
 							<h3>
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext1">The minimum timeout is suggested here according to the inputs. It depends on
 										the propagation delay and the ack size.</span>
 								</div>
@@ -2467,7 +2491,8 @@
 							</span>
 
 							<h3>
-								<div class="tooltip">&#10068;
+								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
+
 									<span class="tooltiptext1">Total time will be calculated and showed here after the end of the animation.
 										There might be a small variance in the order of microsecond because of the execution of the algorithm
 										itself.</span>
@@ -2532,10 +2557,6 @@
 								</td>
 							</tr>
 						</table>
-
-						<p>Coded by Johannes Kessler 2012</p>
-						<p>Developed by Reza Mohajer</p>
-						<p>Politecnico di Milano 2020-2021</p>
 					</div>
 				</div>
 			</aside>
