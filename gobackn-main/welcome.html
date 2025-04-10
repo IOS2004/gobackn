@@ -365,12 +365,12 @@
 
       .sender {
         top: 40%; /* Adjusted position */
-        left: 15%; /* Moved slightly right */
+        left: 10%; /* Moved further left */
       }
 
       .receiver {
         top: 40%; /* Adjusted position */
-        right: 15%; /* Moved slightly left */
+        right: 10%; /* Moved further right */
       }
 
       .icon {
@@ -381,8 +381,8 @@
       .channel {
         position: absolute;
         top: 50%;
-        left: 15%; /* Match sender position */
-        right: 15%; /* Match receiver position */
+        left: 10%; /* Match sender position */
+        right: 10%; /* Match receiver position */
         height: 4px; /* Thicker line */
         background-color: var(--border-color);
         z-index: 4; /* Ensure above background */
@@ -424,7 +424,7 @@
       /* Keyframes adjustments - smoother animations */
       @keyframes movePacket {
         0% {
-          left: 17%; /* Match sender position */
+          left: 12%; /* Match sender position */
           top: 40%; /* Match sender position */
           transform: scale(0.8);
           opacity: 0;
@@ -434,13 +434,13 @@
           opacity: 1;
         }
         45% {
-          left: 77%; /* Match receiver position */
+          left: 82%; /* Match receiver position */
           top: 40%; /* Match receiver position */
           transform: scale(1);
           opacity: 1;
         }
         50% {
-          left: 77%; /* Match receiver position */
+          left: 82%; /* Match receiver position */
           top: 40%; /* Match receiver position */
           opacity: 1;
           transform: scale(0.8);
@@ -450,7 +450,7 @@
           transform: scale(0.8);
         }
         100% {
-          left: 17%; /* Match sender position */
+          left: 12%; /* Match sender position */
           top: 40%; /* Match sender position */
           opacity: 0;
           transform: scale(0.8);
@@ -459,7 +459,7 @@
 
       @keyframes moveAck {
         0% {
-          left: 77%; /* Match receiver position */
+          left: 82%; /* Match receiver position */
           top: 55%;
           opacity: 0;
         }
@@ -467,17 +467,17 @@
           opacity: 1;
         }
         55% {
-          left: 17%; /* Match sender position */
+          left: 12%; /* Match sender position */
           top: 55%;
           opacity: 1;
         }
         60% {
-          left: 17%; /* Match sender position */
+          left: 12%; /* Match sender position */
           top: 55%;
           opacity: 0;
         }
         100% {
-          left: 77%; /* Match receiver position */
+          left: 82%; /* Match receiver position */
           top: 55%;
           opacity: 0;
         }
@@ -485,7 +485,7 @@
 
       @keyframes lostPacket {
         0% {
-          left: 17%; /* Match sender position */
+          left: 12%; /* Match sender position */
           top: 40%; /* Match sender position */
           opacity: 1;
         }
