@@ -403,7 +403,7 @@
 		body.dark-mode input[type="number"],
 		body.dark-mode select {
 			background-color: var(--input-bg);
-			color: var(--text-color);
+			color: var (--text-color);
 			border-color: var(--input-border);
 		}
 
@@ -515,6 +515,7 @@
 			left: 0;
 			top: 0;
 			width: auto;
+			z-index: 1;
 			height: 100%;
 		}
 
@@ -530,6 +531,7 @@
 			height: 1px;
 			background-color: var(--border-color);
 			position: absolute;
+			z-index: 1;
 			width: 100%;
 		}
 
@@ -545,7 +547,10 @@
 		div.dscPkg {
 			border: 1px solid var(--border-color);
 			width: 100%;
-			height: auto;
+			height: 37.6px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 			text-align: center;
 			font-size: 12px;
 			padding: 5px 8px;
@@ -875,7 +880,46 @@
 			color: #6e7681;
 			border-color: #30363d;
 			opacity: 0.8;
+			cursor: not-allowed;
 		}
+
+		/* Starry Background */
+		.stars-container {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			z-index: 0; /* Behind simulation elements but above the background */
+			pointer-events: none; /* Ensure clicks pass through to simulation elements */
+		}
+
+		.star {
+			position: absolute;
+			background-color: rgba(100, 100, 180, 0.7); /* Bluish color for light mode */
+			border-radius: 50%;
+			opacity: 0;
+			animation: twinkle 5s infinite ease-in-out;
+		}
+
+		body.dark-mode .star {
+			background-color: rgba(255, 255, 255, 0.8); /* Whiter color for dark mode */
+		}
+
+		@keyframes twinkle {
+			0% {
+				opacity: 0;
+			}
+			50% {
+				opacity: 1;
+			}
+			100% {
+				opacity: 0;
+			}
+		}
+
+
 	</style>
 	<script type="text/javascript" src="../global/js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="../global/js/jquery.pause.min.js"></script>
@@ -913,6 +957,44 @@
 		var autoscale = false;
 		var overall_time;
 		var unlock = false;
+
+		// Add function to create starry background
+		function createStarryBackground() {
+			const starsContainer = document.createElement('div');
+			starsContainer.className = 'stars-container';
+			
+			// Create stars with random positions, sizes and animation delays
+			const numStars = 100; // Number of stars to create
+			for (let i = 0; i < numStars; i++) {
+				const star = document.createElement('div');
+				star.className = 'star';
+				
+				// Random position
+				const left = Math.random() * 100;
+				const top = Math.random() * 100;
+				
+				// Random size (0.5px to 3px)
+				const size = 0.5 + Math.random() * 2.5;
+				
+				// Random animation delay and duration
+				const delay = Math.random() * 5;
+				const duration = 3 + Math.random() * 4;
+				
+				// Set star styles
+				star.style.left = `${left}%`;
+				star.style.top = `${top}%`;
+				star.style.width = `${size}px`;
+				star.style.height = `${size}px`;
+				star.style.animationDelay = `${delay}s`;
+				star.style.animationDuration = `${duration}s`;
+				
+				starsContainer.appendChild(star);
+			}
+			
+			// Add to simulation area (prepend to make it the background)
+			const simulationArea = document.getElementById('svg');
+			simulationArea.prepend(starsContainer);
+		}
 
 		const reloadtButton = document.querySelector("#reload");
 		// Reload everything:
@@ -1650,6 +1732,9 @@
 			PDspeedFactor = 0;
 			document.getElementById('unitTimeout').value = 1;
 			initAnimation(contr.getMethod());
+            
+            // Create starry background
+            createStarryBackground();
 
 			// Setup sidebar toggle functionality
 			const sidebarToggle = document.getElementById('sidebar-toggle');
@@ -2387,18 +2472,6 @@
 								Simulation settings:
 							</label>
 						</h3>
-
-						<h5><label for="scroll mode">
-								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">
-
-									<span class="tooltiptext">Select the scroll mode of the animation window.</span>
-								</div>
-
-								<select onchange="typewriter = (this.selectedIndex == 0);">
-									<option>Typewriter style</option>
-									<option>Fixed Window</option>
-								</select>
-							</label></h5>
 
 						<h5><label for="">
 								<div class="tooltip"><img src="../../info.svg" alt="Info icon" width="16" height="16">

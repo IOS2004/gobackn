@@ -1,329 +1,1274 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="dark">
-    <title>Go-back-N ARQ Protocol Simulation</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Go-Back-N Protocol Simulator</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        :root {
-            --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.5);
-            --secondary: #10b981;
-            --tertiary: #0ea5e9;
-            --bg-dark: #0f172a;
-            --bg-darker: #0a0f1c;
-            --text-light: #f1f5f9;
-            --text-muted: #94a3b8;
+      :root {
+        /* Light Mode Colors - Minimalist */
+        --primary-color: #2563eb;
+        --primary-light: #f0f6ff;
+        --primary-hover: #1e40af;
+        --text-color: #1f2937;
+        --subtle-text: #6b7280;
+        --body-bg: #ffffff;
+        --card-bg: #ffffff;
+        --border-color: #e5e7eb;
+        --accent-color: #059669;
+        --shadow-color: rgba(0, 0, 0, 0.08);
+        --header-bg: #ffffff;
+        --hero-gradient: linear-gradient(135deg, #f0f6ff 0%, #e0eafc 100%);
+        --packet-color: #93c5fd;
+        --ack-color: #86efac;
+        --nack-color: #fca5a5;
+      }
+
+      body.dark-mode {
+        /* Dark Mode Colors - Minimalist */
+        --primary-color: #60a5fa;
+        --primary-light: #1e293b;
+        --primary-hover: #3b82f6;
+        --text-color: #f3f4f6;
+        --subtle-text: #9ca3af;
+        --body-bg: #0f172a;
+        --card-bg: #1e293b;
+        --border-color: #334155;
+        --accent-color: #10b981;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --header-bg: #0f172a;
+        --hero-gradient: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        --packet-color: #3b82f6;
+        --ack-color: #10b981;
+        --nack-color: #ef4444;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--body-bg);
+        color: var(--text-color);
+        line-height: 1.6;
+        overflow-x: hidden;
+        font-weight: 400;
+        background-image: radial-gradient(
+            circle at 25% 25%,
+            rgba(37, 99, 235, 0.02) 1%,
+            transparent 5%
+          ),
+          radial-gradient(
+            circle at 75% 75%,
+            rgba(37, 99, 235, 0.02) 1%,
+            transparent 5%
+          );
+        background-size: 60px 60px;
+        animation: subtle-shift 120s linear infinite;
+      }
+
+      body.dark-mode {
+        background-image: radial-gradient(
+            circle at 25% 25%,
+            rgba(96, 165, 250, 0.03) 1%,
+            transparent 5%
+          ),
+          radial-gradient(
+            circle at 75% 75%,
+            rgba(96, 165, 250, 0.03) 1%,
+            transparent 5%
+          );
+      }
+
+      @keyframes subtle-shift {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: 100px 100px;
+        }
+      }
+
+      /* Header Styles */
+      header {
+        background-color: var(--header-bg);
+        border-bottom: 1px solid var(--border-color);
+        padding: 1rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(
+          to right,
+          var(--header-bg),
+          var(--header-bg),
+          var(--primary-light)
+        );
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      }
+
+      body.dark-mode header {
+        background: linear-gradient(
+          to right,
+          var(--header-bg),
+          var(--header-bg),
+          rgba(30, 41, 59, 0.8)
+        );
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        font-size: 1.25rem;
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: transform 0.3s ease;
+        position: relative;
+        padding: 5px 10px;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .logo:hover {
+        transform: scale(1.05);
+      }
+
+      .logo::after {
+        content: "";
+        position: absolute;
+        left: -100%;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.8s;
+      }
+
+      .logo:hover::after {
+        left: 100%;
+      }
+
+      .logo i {
+        margin-right: 10px;
+        font-size: 1.5rem;
+      }
+
+      .theme-toggle {
+        background: transparent;
+        border: none;
+        color: var(--primary-color);
+        font-size: 1.25rem;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Hero Section */
+      .hero {
+        background: var(--hero-gradient);
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(
+          135deg,
+          var(--primary-light) 0%,
+          #e0eafc 50%,
+          var(--primary-light) 100%
+        );
+        background-size: 400% 400%;
+        animation: gradient-shift 15s ease infinite;
+      }
+
+      body.dark-mode .hero {
+        background: linear-gradient(
+          135deg,
+          var(--primary-light) 0%,
+          #0f172a 50%,
+          var(--primary-light) 100%
+        );
+        background-size: 400% 400%;
+      }
+
+      @keyframes gradient-shift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* Animation Container - Now as background */
+      .animation-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0.5; /* Slightly increased opacity for better visibility */
+        overflow: hidden;
+        border: none;
+        margin: 0;
+        background: transparent;
+      }
+
+      .hero-content {
+        max-width: 800px; /* Reduced from 1100px */
+        width: 90%; /* Instead of 100% to create space on sides */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+        background-color: rgba(255, 255, 255, 0.12); /* More transparent */
+        backdrop-filter: blur(3px); /* Less blur */
+        padding: 2.5rem; /* Reduced padding */
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      body.dark-mode .hero-content {
+        background-color: rgba(15, 23, 42, 0.35); /* Dark mode adjustment */
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+        font-weight: 600;
+        text-shadow: 0 2px 10px rgba(37, 99, 235, 0.2);
+        letter-spacing: -0.5px;
+      }
+
+      .hero p {
+        font-size: 1.125rem;
+        max-width: 700px;
+        margin-bottom: 2.5rem;
+        color: var(--subtle-text);
+      }
+
+      .cta-button {
+        padding: 0.85rem 2.5rem;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-button::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.8s;
+      }
+
+      .cta-button:hover::after {
+        left: 100%;
+      }
+
+      .cta-button i {
+        transition: transform 0.3s ease;
+      }
+
+      .cta-button:hover i {
+        transform: translateX(4px);
+      }
+
+      .cta-button:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+      }
+
+      /* Animation elements positioning */
+      .sender,
+      .receiver {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border-color);
+        z-index: 5;
+        background-color: var(--card-bg);
+      }
+
+      .sender {
+        top: 45%;
+        left: 10%;
+      }
+
+      .receiver {
+        top: 45%;
+        right: 10%;
+      }
+
+      .icon {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+      }
+
+      .channel {
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        right: 10%;
+        height: 2px;
+        background-color: var(--border-color);
+      }
+
+      .packet {
+        position: absolute;
+        width: 45px;
+        height: 45px;
+        border-radius: 5px;
+        background-color: var(--packet-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 18px;
+        z-index: 3;
+        box-shadow: 0 0 15px rgba(147, 197, 253, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .ack {
+        background-color: var(--ack-color);
+        width: 35px;
+        height: 35px;
+        box-shadow: 0 0 15px rgba(134, 239, 172, 0.3);
+      }
+
+      .nack {
+        background-color: var(--nack-color);
+        box-shadow: 0 0 15px rgba(252, 165, 165, 0.3);
+      }
+
+      .window {
+        display: none; /* Hide the window element instead of removing it from HTML */
+      }
+
+      /* Keyframes adjustments */
+      @keyframes movePacket {
+        0% {
+          left: 12%;
+          top: 45%;
+          transform: scale(0.8);
+        }
+        5% {
+          transform: scale(1);
+        }
+        45% {
+          left: 82%;
+          top: 45%;
+          transform: scale(1);
+        }
+        50% {
+          left: 82%;
+          top: 45%;
+          opacity: 1;
+          transform: scale(0.8);
+        }
+        51% {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        100% {
+          left: 12%;
+          top: 45%;
+          opacity: 0;
+          transform: scale(0.8);
+        }
+      }
+
+      @keyframes moveAck {
+        0% {
+          left: 82%;
+          top: 55%;
+          opacity: 0;
+        }
+        1% {
+          opacity: 1;
+        }
+        55% {
+          left: 12%;
+          top: 55%;
+          opacity: 1;
+        }
+        60% {
+          left: 12%;
+          top: 55%;
+          opacity: 0;
+        }
+        100% {
+          left: 82%;
+          top: 55%;
+          opacity: 0;
+        }
+      }
+
+      @keyframes lostPacket {
+        0% {
+          left: 12%;
+          top: 45%;
+        }
+        40% {
+          left: 50%;
+          top: 45%;
+        }
+        50% {
+          left: 50%;
+          top: 70%;
+          opacity: 0;
+        }
+        100% {
+          left: 50%;
+          top: 70%;
+          opacity: 0;
+        }
+      }
+
+      @keyframes window {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* Set up animation delays and durations */
+      #packet1 {
+        animation: movePacket 5s infinite;
+        animation-delay: 0s;
+      }
+
+      #packet2 {
+        animation: movePacket 5s infinite;
+        animation-delay: 0.8s;
+      }
+
+      #packet3 {
+        animation: lostPacket 5s infinite;
+        animation-delay: 1.6s;
+      }
+
+      #packet4 {
+        animation: movePacket 5s infinite;
+        animation-delay: 3.2s;
+      }
+
+      #ack1 {
+        animation: moveAck 5s infinite;
+        animation-delay: 1.2s;
+      }
+
+      #ack2 {
+        animation: moveAck 5s infinite;
+        animation-delay: 2s;
+      }
+
+      #ack4 {
+        animation: moveAck 5s infinite;
+        animation-delay: 3.6s;
+      }
+
+      /* Features Section */
+      .features {
+        padding: 5rem 2rem;
+        background-color: var(--body-bg);
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 3rem;
+        color: var(--text-color);
+        font-weight: 500;
+        background: linear-gradient(
+          90deg,
+          var(--primary-hover),
+          var(--primary-color)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        display: inline-block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 4px;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(
+          90deg,
+          var(--primary-hover),
+          var(--primary-color)
+        );
+        border-radius: 2px;
+      }
+
+      .features-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .feature-card {
+        background-color: var(--card-bg);
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+        padding: 1.5rem;
+        flex: 1 1 300px;
+        max-width: 320px;
+        transition: transform 0.2s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05),
+          0 5px 10px rgba(0, 0, 0, 0.02);
+        border-top: 4px solid var(--primary-color);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: -4px;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-hover),
+          var(--primary-color)
+        );
+        background-size: 200% 100%;
+        animation: gradient-flow 3s linear infinite;
+      }
+
+      @keyframes gradient-flow {
+        0% {
+          background-position: 100% 0;
+        }
+        100% {
+          background-position: -100% 0;
+        }
+      }
+
+      .feature-icon {
+        color: var(--primary-color);
+        font-size: 1.75rem;
+        margin-bottom: 1.25rem;
+        background-color: var(--primary-light);
+        height: 60px;
+        width: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+      }
+
+      body.dark-mode .feature-icon {
+        background-color: rgba(96, 165, 250, 0.1);
+      }
+
+      .feature-icon::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.2) 0%,
+          transparent 70%
+        );
+        opacity: 0;
+        transform: scale(0.1);
+        transition: transform 0.8s, opacity 0.8s;
+        z-index: -1;
+      }
+
+      .feature-card:hover .feature-icon::after {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .feature-title {
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+        color: var(--text-color);
+        font-weight: 500;
+      }
+
+      .feature-card p {
+        color: var(--subtle-text);
+        font-size: 0.95rem;
+      }
+
+      /* About Section */
+      .about {
+        padding: 5rem 2rem;
+        background-color: var(--primary-light);
+      }
+
+      .about-container {
+        max-width: 900px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .about-box {
+        background-color: var(
+          --card-bg
+        ); /* Fixed: Removed space between var and parenthesis */
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+        padding: 1.5rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        border-radius: 16px;
+        position: relative;
+      }
+
+      .about-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .about-box::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(
+          45deg,
+          var(--primary-color),
+          transparent,
+          var(--primary-color),
+          transparent
+        );
+        background-size: 400% 400%;
+        animation: border-shift 5s ease infinite;
+        z-index: -1;
+        border-radius: 18px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .about-box:hover::before {
+        opacity: 1;
+      }
+
+      @keyframes border-shift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .about-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--text-color);
+        font-weight: 500;
+        border-bottom: 2px solid var(--primary-light);
+        padding-bottom: 0.75rem;
+      }
+
+      .about-box p,
+      .about-box li {
+        color: var(--subtle-text);
+        font-size: 0.95rem;
+      }
+
+      .about-box ul {
+        padding-left: 1.5rem;
+        margin-top: 0.75rem;
+      }
+
+      .about-box li {
+        margin-bottom: 0.5rem;
+      }
+
+      .step {
+        display: flex;
+        margin-bottom: 1rem;
+        align-items: flex-start;
+      }
+
+      .step-number {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-right: 0.75rem;
+        line-height: 1.4;
+        background-color: var(--primary-light);
+        color: var(--primary-color);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        animation: pulse 2s infinite;
+        position: relative;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+        }
+      }
+
+      body.dark-mode .step-number {
+        background-color: rgba(96, 165, 250, 0.2);
+      }
+
+      .step-content {
+        flex: 1;
+      }
+
+      .step-content strong {
+        color: var(
+          --text-color
+        ); /* Fixed: Removed space between var and parenthesis */
+        font-weight: 500;
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--header-bg);
+        border-top: 1px solid var(--border-color);
+        color: var(--subtle-text);
+        padding: 2rem;
+        text-align: center;
+        font-size: 0.9rem;
+        position: relative;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--primary-color),
+          transparent
+        );
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
+
+      .social-link {
+        color: var(--primary-color);
+        font-size: 1.25rem;
+        transition: transform 0.2s ease;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--primary-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+      }
+
+      .social-link:hover {
+        transform: translateY(-5px);
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      body.dark-mode .social-link {
+        background-color: rgba(96, 165, 250, 0.1);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.25rem;
         }
 
-        html {
-            color-scheme: dark;
+        .about-container {
+          grid-template-columns: 1fr;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .hero-content {
+          width: 95%;
+          padding: 1.75rem 1.25rem;
+          margin: 0 auto;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero h1 {
+          font-size: 1.75rem;
         }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, var(--bg-darker), var(--bg-dark));
-            color: var(--text-light);
-            min-height: 100vh;
-            overflow-x: hidden;
+        .hero p {
+          font-size: 1rem;
         }
 
-        .hero {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 0 5%;
-            z-index: 1;
-        }
-
-        /* Background elements */
-        .bg-gradient {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 25%),
-                        radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.1), transparent 25%);
-            z-index: -1;
-        }
-
-        .grid-lines {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: 50px 50px;
-            background-image:
-                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            z-index: -1;
-        }
-
-        .glowing-orb {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
-            filter: blur(60px);
-            opacity: 0.4;
-            z-index: -1;
-            animation: float 8s ease-in-out infinite;
-        }
-
-        .orb-1 {
-            top: 20%;
-            right: 15%;
-        }
-
-        .orb-2 {
-            bottom: 15%;
-            left: 10%;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, transparent 70%);
-            animation-delay: 2s;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        /* Logo */
-        .logo-container {
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100px;
-            height: 100px;
-            position: relative;
-        }
-
-        .logo-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--tertiary));
-            border-radius: 24px; /* Rounded corners for the background */
-            transform: rotate(-5deg);
-            box-shadow:
-                0 0 30px rgba(99, 102, 241, 0.3),
-                0 0 60px rgba(99, 102, 241, 0.1);
-        }
-
-        .logo svg {
-            position: relative;
-            z-index: 1; /* Ensure SVG is above the background */
-            width: 50px; /* Adjust size as needed */
-            height: 50px; /* Adjust size as needed */
-            fill: white; /* Make the icon white */
-            color-scheme: light; /* Hint for dark mode extensions */
-        }
-
-        /* Content */
-        .content {
-            text-align: center;
-            max-width: 900px;
-            width: 100%;
-            z-index: 1;
-        }
-
-        h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(90deg, var(--primary), var(--tertiary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-        }
-
-        p.description {
-            color: var(--text-muted);
-            font-size: 1.25rem;
-            line-height: 1.7;
-            margin-bottom: 3rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* CTA Button */
         .cta-button {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(90deg, var(--primary), var(--tertiary));
-            color: white;
-            font-size: 1.125rem;
-            font-weight: 600;
-            padding: 1rem 3rem;
-            border-radius: 50px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
-            z-index: 1;
+          padding: 0.7rem 1.5rem;
         }
 
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.4);
+        .section-title {
+          font-size: 1.75rem;
         }
 
-        .cta-button .icon {
-            margin-left: 10px;
-            transition: transform 0.3s ease;
+        .hero-content {
+          width: 98%;
+          padding: 1.25rem 1rem;
+          margin: 0 auto;
         }
-         .cta-button .icon svg {
-             stroke: white;
-             color-scheme: light;
-         }
+      }
 
-        .cta-button:hover .icon {
-            transform: translateX(5px);
-        }
+      /* Add custom scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
 
-        /* Particles */
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            overflow: hidden;
-            z-index: 0;
-        }
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+      }
 
-        .particle {
-            position: absolute;
-            display: block;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 0;
-            animation: fadeInOut 10s linear infinite;
-        }
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary-color);
+        border-radius: 4px;
+      }
 
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-hover);
+      }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            p.description {
-                font-size: 1rem;
-                padding: 0 20px;
-            }
-
-            .logo {
-                width: 80px;
-                height: 80px;
-            }
-
-            .logo svg {
-                width: 40px;
-                height: 40px;
-            }
-        }
+      body.dark-mode ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+      }
     </style>
-</head>
-<body>
-    <div class="hero">
-        <div class="bg-gradient"></div>
-        <div class="grid-lines"></div>
-        <div class="glowing-orb orb-1"></div>
-        <div class="glowing-orb orb-2"></div>
+  </head>
+  <body>
+    <header>
+      <a href="#" class="logo">
+        <i class="fas fa-network-wired"></i>
+        Go-Back-N Simulator
+      </a>
+      <button
+        id="theme-toggle"
+        class="theme-toggle"
+        aria-label="Toggle Dark Mode"
+      >
+        <i class="fas fa-moon"></i>
+      </button>
+    </header>
 
-        <div class="particles" id="particles"></div>
+    <section class="hero">
+      <div class="animation-container">
+        <div class="sender">
+          <i class="fas fa-laptop icon"></i>
+        </div>
+        <div class="receiver">
+          <i class="fas fa-server icon"></i>
+        </div>
+        <div class="channel"></div>
+        <!-- Window element is still in the HTML but will be hidden by CSS -->
+        <div class="window"></div>
+        <div id="packet1" class="packet">1</div>
+        <div id="packet2" class="packet">2</div>
+        <div id="packet3" class="packet">3</div>
+        <div id="packet4" class="packet">4</div>
+        <div id="ack1" class="packet ack">A</div>
+        <div id="ack2" class="packet ack">A</div>
+        <div id="ack4" class="packet ack">A</div>
+      </div>
 
-        <div class="logo-container">
-            <div class="logo">
-                <div class="logo-bg"></div>
-                <!-- CORRECTED SVG Logo for </> icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"> <!-- fill="currentColor" and CSS fill: white will work -->
-                   <!-- Path for a typical </> code icon -->
-                   <path fill-rule="evenodd" d="M10.5 4.5a.75.75 0 01.75.75V18.75a.75.75 0 01-1.5 0V5.25a.75.75 0 01.75-.75zM5.394 8.303a.75.75 0 010 1.06l-2.12 2.122 2.12 2.121a.75.75 0 11-1.06 1.06l-2.65-2.65a.75.75 0 010-1.06l2.65-2.65a.75.75 0 011.06 0zm13.212 0a.75.75 0 011.06 0l2.65 2.65a.75.75 0 010 1.06l-2.65 2.65a.75.75 0 11-1.06-1.06l2.122-2.121-2.122-2.122a.75.75 0 010-1.06z" clip-rule="evenodd" />
-                 </svg>
+      <div class="hero-content">
+        <h1>Go-Back-N Protocol Simulator</h1>
+        <p>
+          An interactive tool to visualize the Go-Back-N ARQ protocol.
+          Understand packet transmission, error recovery, and flow control
+          through hands-on simulation.
+        </p>
+        <a href="./gbn_sr/index.html" class="cta-button"
+          >Launch Simulator <i class="fas fa-arrow-right"></i
+        ></a>
+      </div>
+    </section>
+
+    <section class="features">
+      <h2 class="section-title">Key Features</h2>
+      <div class="features-container">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-eye"></i>
+          </div>
+          <h3 class="feature-title">Visual Learning</h3>
+          <p>
+            Watch packets flow between sender and receiver with clear animations
+            that demonstrate protocol mechanisms in action.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-sliders-h"></i>
+          </div>
+          <h3 class="feature-title">Interactive Controls</h3>
+          <p>
+            Adjust window sizes, transmission speeds, and packet sizes to
+            explore protocol performance under different conditions.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-bug"></i>
+          </div>
+          <h3 class="feature-title">Error Handling</h3>
+          <p>
+            Simulate packet loss scenarios and observe how the protocol
+            implements recovery mechanisms to ensure reliable delivery.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about">
+      <div class="about-container">
+        <div class="about-box">
+          <h3 class="about-title">About Go-Back-N</h3>
+          <p>
+            Go-Back-N is a sliding window protocol that provides reliable data
+            transfer over unreliable networks.
+          </p>
+          <ul>
+            <li>Sender maintains a window of unacknowledged packets</li>
+            <li>Receiver accepts only in-sequence packets</li>
+            <li>
+              Upon error, sender retransmits all packets from the failed one
+            </li>
+            <li>Uses cumulative acknowledgments for efficiency</li>
+          </ul>
+        </div>
+
+        <div class="about-box">
+          <h3 class="about-title">How To Use</h3>
+          <div class="step">
+            <div class="step-number">1.</div>
+            <div class="step-content">
+              <strong>Configure</strong> window size, transmission capacity, and
+              packet parameters
             </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2.</div>
+            <div class="step-content">
+              <strong>Start</strong> the simulation to observe packet
+              transmission
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3.</div>
+            <div class="step-content">
+              <strong>Click</strong> on packets during transmission to simulate
+              packet loss
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4.</div>
+            <div class="step-content">
+              <strong>Analyze</strong> the log output to understand protocol
+              behavior
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
 
-        <div class="content">
-            <h1>Go-back-N ARQ Protocol Simulation</h1>
-
-            <p class="description">
-                Explore the dynamics of the Go-back-N ARQ protocol. This interactive simulation allows you to configure parameters like window sizes, link capacity, and delays to observe reliable data transfer in action.
-            </p>
-
-            <a href="gbn_sr/index.html" class="cta-button">
-                Launch Simulation
-                <span class="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </span>
-            </a>
-        </div>
-    </div>
+    <footer>
+      <p>
+        Go-Back-N Protocol Simulator — A tool for network protocol education
+      </p>
+      <div class="social-links">
+        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </footer>
 
     <script>
-        // Particle script remains the same
-        document.addEventListener('DOMContentLoaded', function() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 20;
+      // Theme Toggle Functionality
+      const themeToggle = document.getElementById("theme-toggle");
+      const themeIcon = themeToggle.querySelector("i");
 
-            for (let i = 0; i < particleCount; i++) {
-                const size = Math.random() * 6 + 2;
-                const particle = document.createElement('span');
-                particle.classList.add('particle');
+      // Check for saved theme preference or use device preference
+      const prefersDarkScheme = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      );
+      const currentTheme = localStorage.getItem("theme");
 
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.top = `${Math.random() * 100}%`;
+      if (
+        currentTheme === "dark" ||
+        (!currentTheme && prefersDarkScheme.matches)
+      ) {
+        document.body.classList.add("dark-mode");
+        themeIcon.classList.replace("fa-moon", "fa-sun");
+      }
 
-                const duration = Math.random() * 10 + 10;
-                const delay = Math.random() * 10;
+      themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
 
-                particle.style.animationDuration = `${duration}s`;
-                particle.style.animationDelay = `${delay}s`;
+        if (document.body.classList.contains("dark-mode")) {
+          localStorage.setItem("theme", "dark");
+          themeIcon.classList.replace("fa-moon", "fa-sun");
+        } else {
+          localStorage.setItem("theme", "light");
+          themeIcon.classList.replace("fa-sun", "fa-moon");
+        }
+      });
 
-                particlesContainer.appendChild(particle);
-            }
+      // Animation optimization - pause when not in viewport
+      const animationContainer = document.querySelector(".animation-container");
+      const packets = document.querySelectorAll(".packet");
+      const windowElement = document.querySelector(".window"); // Still reference it but it won't be visible
+
+      function isElementInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (
+          rect.top >= 0 &&
+          rect.left >= 0 &&
+          rect.bottom <=
+            (window.innerHeight || document.documentElement.clientHeight) &&
+          rect.right <=
+            (window.innerWidth || document.documentElement.clientWidth)
+        );
+      }
+
+      function handleVisibility() {
+        const isVisible = isElementInViewport(animationContainer);
+        packets.forEach((packet) => {
+          if (isVisible) {
+            packet.style.animationPlayState = "running";
+          } else {
+            packet.style.animationPlayState = "paused";
+          }
         });
+
+        // Keep the code for window element but it won't have any visual effect
+        if (windowElement) {
+          windowElement.style.animationPlayState = isVisible
+            ? "running"
+            : "paused";
+        }
+      }
+
+      // Initial check and event listeners
+      handleVisibility();
+      window.addEventListener("scroll", handleVisibility);
+      window.addEventListener("resize", handleVisibility);
+
+      // Add this at the end of the existing script
+      document.addEventListener("DOMContentLoaded", function () {
+        // Create subtle particle effect in the hero background
+        const heroSection = document.querySelector(".hero");
+
+        // Only create particles on desktop for better performance
+        if (window.innerWidth > 768) {
+          for (let i = 0; i < 20; i++) {
+            createParticle(heroSection);
+          }
+        }
+
+        // Add entrance animations for key elements
+        const featureCards = document.querySelectorAll(".feature-card");
+        const aboutBoxes = document.querySelectorAll(".about-box");
+
+        // Use Intersection Observer for scroll-triggered animations
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry, index) => {
+              if (entry.isIntersecting) {
+                // Delayed animation based on index
+                setTimeout(() => {
+                  entry.target.style.opacity = "1";
+                  entry.target.style.transform = "translateY(0)";
+                }, index * 100);
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        // Apply initial styles and observe
+        featureCards.forEach((card) => {
+          card.style.opacity = "0";
+          card.style.transform = "translateY(20px)";
+          card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+          observer.observe(card);
+        });
+
+        aboutBoxes.forEach((box) => {
+          box.style.opacity = "0";
+          box.style.transform = "translateY(20px)";
+          box.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+          observer.observe(box);
+        });
+      });
+
+      // Function to create floating particles
+      function createParticle(parent) {
+        const particle = document.createElement("div");
+        particle.style.position = "absolute";
+        particle.style.width = Math.random() * 5 + "px";
+        particle.style.height = particle.style.width;
+        particle.style.background = "rgba(255, 255, 255, 0.5)";
+        particle.style.borderRadius = "50%";
+        particle.style.pointerEvents = "none";
+
+        // Random starting position
+        const startPositionX = Math.random() * 100 + "%";
+        const startPositionY = Math.random() * 100 + "%";
+        particle.style.left = startPositionX;
+        particle.style.top = startPositionY;
+
+        // Animate with random duration
+        const duration = Math.random() * 15 + 10; // 10-25 seconds
+        particle.style.animation = `float ${duration}s ease-in-out infinite`;
+
+        // Add to hero section
+        parent.appendChild(particle);
+
+        // Remove from DOM after some time to prevent memory issues
+        setTimeout(() => {
+          if (parent.contains(particle)) {
+            parent.removeChild(particle);
+            createParticle(parent); // Create a new one to replace it
+          }
+        }, duration * 1000);
+      }
     </script>
-</body>
+  </body>
 </html>
