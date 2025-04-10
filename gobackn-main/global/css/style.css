@@ -269,7 +269,7 @@ span{
   border-radius: 6px; /* Slightly larger rounding */
   margin: 15px 10px 15px 0px; /* Increased vertical margin */
   padding: 15px 20px; /* Increased padding */
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Very subtle shadow */
+  box-shadow: 4px -4px 10px 2px rgba(4, 2, 91, 0.2);
 }
 
 .config{
@@ -588,4 +588,13 @@ html {
  /* Ensure overflow settings are correct on #sidebar */
  overflow-y: auto; /* Already set in original HTML, but good to confirm */
  overflow-x: hidden; /* Prevent horizontal scrollbar */
+}
+
+
+
+.headingName{
+  color: rgb(17, 213, 244);
+  font-weight: bold;
+  margin-left: 400px;
+  transition: margin-left .4s ease
 }
