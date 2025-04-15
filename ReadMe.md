@@ -4,7 +4,7 @@
 
 ## Overview
 
-The Go-Back-N Protocol Simulator is an interactive web-based tool designed for educational purposes to demonstrate how the Go-Back-N sliding window protocol works in computer networking. This simulator provides a visual representation of packet transmission, acknowledgment, and error recovery mechanisms, helping students and networking enthusiasts to understand the protocol's behavior under various conditions.
+The Go-Back-N Protocol Simulator is an interactive web-based tool designed for educational purposes to demonstrate how the Go-Back-N sliding window protocol works in computer networking. This simulator provides a visual representation of packet transmission, acknowledgment, and error recovery mechanisms, helping students and networking enthusiasts understand the protocol's behavior under various conditions.
 
 ## Features
 
