@@ -120,7 +120,6 @@ The simulator features a comprehensive sidebar with controls divided into two ta
 
 - **Sender Window Size**: Control how many unacknowledged packets can be in transit at once
   - Larger values increase throughput but may cause more retransmissions on error
-  - Range: 1-10 packets
 
 - **Receiver Window Size**: Always set to 1 for standard Go-Back-N
   - This enforces in-order delivery of packets
